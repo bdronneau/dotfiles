@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+if [ -d "${HOME}/opt/bin" ]; then
+    export PATH="${PATH}:${HOME}/opt/bin/"
+fi
+
+# Use by Tmuxinator
+export EDITOR='vim'

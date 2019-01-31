@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+if [[ -d "${HOME}/homebrew" ]]; then
+  export PATH="${HOME}/homebrew/sbin:${HOME}/homebrew/bin:${PATH}"
+fi

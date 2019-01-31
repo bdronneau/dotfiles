@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# To load after z
+if [ -f "${HOME}/opt/fz/fz.sh" ]; then . "${HOME}/opt/fz/fz.sh"; fi
+

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+if [ -f "${HOME}/opt/z/z.sh" ]; then . "${HOME}/opt/z/z.sh"; fi
+

@@ -1,0 +1,96 @@
+[user]
+        name = bdronneau 
+        email = basti1.dr@gmail.com
+        signingkey = 657EE8DE5A187DD88D5F3EB36EB801B27AAB8AC9
+
+[alias]
+        co = checkout
+        st = status
+        br = branch
+        lol = log --graph --pretty=format:'%C(bold red)%h%Creset -%C(bold yellow)%d%Creset %s %C(bold green)(%cr)%Creset' --abbrev-commit --all
+        lola = log --graph --pretty=format:'%C(bold red)%h%Creset -%C(bold yellow)%d%Creset %s %C(bold green)(%ar) %C(bold ul blue)%an%Creset' --abbrev-commit --all
+        refreshremote = remote update origin --prune && git fetch --tags
+        show-merge = "!sh -c 'git show $1^1..$1' -"
+        diff-last-tag = !sh -c 'git log --merges --format=\"%Cred%h%Creset %s %C(yellow)%b%Creset\" $(git describe --abbrev=0 --tags)..HEAD'
+        diff-last-tag-short= !sh -c 'git log --merges --oneline $(git describe --abbrev=0 --tags)..HEAD'
+        sweep = "!git remote update --prune ; git branch --merged | grep -v "\\*" | grep -v master | grep -v dev | xargs -n 1 git branch -d"
+        rbi = "!sh -c \"git rebase -i --autosquash $(git merge-base $1 HEAD)\" -"
+        rebaseauto = rebase --autosquash --autostash
+        grepall = "!f() { gitgreptmp=$1; { git --no-pager grep $gitgreptmp & git submodule foreach 'git --no-pager grep '$gitgreptmp'; true'; } }; f"
+        fbr = "!git co $(git br -a | fzf)"
+
+[commit]
+       gpgsign = true
+
+[diff]
+        color = auto
+        renames = copy
+
+[color]
+        branch = auto
+        diff = auto
+        grep = auto
+        interactive = auto
+        status = auto
+
+[color.branch]
+        current = bold green
+        local = bold yellow
+        remote = bold red
+        plain = white
+
+[color.diff]
+        frag = ul bold blue
+        old = bold red
+        new = bold green
+        commit = yellow
+
+[color.grep]
+        match = bold yellow
+
+[color.interactive]
+        prompt = bold cyan
+        header = bold blue
+        help = bold green
+        error = bold red
+
+[color.status]
+        header = bold white
+        added = bold yellow
+        updated = bold green
+        changed = bold red
+        untracked = bold blue
+        nobranch = bold magenta
+        unmerged = bold cyan
+
+[pager]
+        color = true
+
+[status]
+        color = auto
+
+[push]
+        default = current
+
+[core]
+        pager = less -F -X
+        editor = vim
+        autocrlf = ""
+        excludesfile = ~/.gitignore_global
+
+[grep]
+        linenumber = true
+
+[mergetool "sourcetree"]
+        cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+        trustExitCode = true
+
+[filter "lfs"]
+        clean = git-lfs clean %f
+        smudge = git-lfs smudge %f
+        required = true
+[gpg]
+        program = gpg
+
+[url "git@github.com:"]
+        insteadOf = https://github.com/

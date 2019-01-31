@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+if [ -f "${HOME}/.bin/tmuxinator.bash" ]; then source "${HOME}/.bin/tmuxinator.bash"; fi
+
