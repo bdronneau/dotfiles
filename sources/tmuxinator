@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-if [ -f "${HOME}/.bin/tmuxinator.bash" ]; then source "${HOME}/.bin/tmuxinator.bash"; fi
+if [ -f "${HOME}/opt/bash-completion.d/tmuxinator.bash" ]; then source "${HOME}/opt/bash-completion.d/tmuxinator.bash"; fi
 
