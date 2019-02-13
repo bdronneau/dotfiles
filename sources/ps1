@@ -7,7 +7,7 @@ BLUE="\[\033[34m\]"
 PURPLE="\[\033[35m\]"
 RESET="\[\033[0m\]"
 
-PS1="${BLUE}\u${RESET}@${RED}\h${RESET} ${GREEN}\w${RESET}"
+PS1="${GREEN}\w${RESET}"
 
 GIT_PS1_SHOWDIRTYSTATE="true"
 GIT_PS1_STATESEPARATOR="|"
@@ -20,4 +20,4 @@ fi
 
 PROMPT_DIRTRIM=3
 
-export PS1="${PS1} "
+export PS1="${PS1} $ "
