@@ -24,7 +24,9 @@ main() {
       git \
       openssl \
       siege \
-      curl
+      curl \
+      jq \
+      pass
   elif command -v apt-get > /dev/null 2>&1; then
     sudo apt-get update
     sudo apt-get upgrade -y -qq
