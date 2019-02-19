@@ -4,20 +4,20 @@
         signingkey = 657EE8DE5A187DD88D5F3EB36EB801B27AAB8AC9
 
 [alias]
-        co = checkout
-        st = status
         br = branch
-        lol = log --graph --pretty=format:'%C(bold red)%h%Creset -%C(bold yellow)%d%Creset %s %C(bold green)(%cr)%Creset' --abbrev-commit --all
-        lola = log --graph --pretty=format:'%C(bold red)%h%Creset -%C(bold yellow)%d%Creset %s %C(bold green)(%ar) %C(bold ul blue)%an%Creset' --abbrev-commit --all
-        refreshremote = remote update origin --prune && git fetch --tags
-        show-merge = "!sh -c 'git show $1^1..$1' -"
+        co = checkout
         diff-last-tag = !sh -c 'git log --merges --format=\"%Cred%h%Creset %s %C(yellow)%b%Creset\" $(git describe --abbrev=0 --tags)..HEAD'
         diff-last-tag-short= !sh -c 'git log --merges --oneline $(git describe --abbrev=0 --tags)..HEAD'
-        sweep = "!git remote update --prune ; git branch --merged | grep -v "\\*" | grep -v master | grep -v dev | xargs -n 1 git branch -d"
+        fco = "!git co $(git br -a | fzf)"
+        grepall = "!f() { gitgreptmp=$1; { git --no-pager grep $gitgreptmp & git submodule foreach 'git --no-pager grep '$gitgreptmp'; true'; } }; f"
+        lol = log --graph --pretty=format:'%C(bold red)%h%Creset -%C(bold yellow)%d%Creset %s %C(bold green)(%cr)%Creset' --abbrev-commit --all
+        lola = log --graph --pretty=format:'%C(bold red)%h%Creset -%C(bold yellow)%d%Creset %s %C(bold green)(%ar) %C(bold ul blue)%an%Creset' --abbrev-commit --all
         rbi = "!sh -c \"git rebase -i --autosquash $(git merge-base $1 HEAD)\" -"
         rebaseauto = rebase --autosquash --autostash
-        grepall = "!f() { gitgreptmp=$1; { git --no-pager grep $gitgreptmp & git submodule foreach 'git --no-pager grep '$gitgreptmp'; true'; } }; f"
-        fbr = "!git co $(git br -a | fzf)"
+        refreshremote = remote update origin --prune && git fetch --tags
+        show-merge = "!sh -c 'git show $1^1..$1' -"
+        st = status
+        sweep = "!git remote update --prune ; git branch --merged | grep -v "\\*" | grep -v master | grep -v dev | xargs -n 1 git branch -d"
 
 [commit]
        gpgsign = true
@@ -80,10 +80,6 @@
 
 [grep]
         linenumber = true
-
-[mergetool "sourcetree"]
-        cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-        trustExitCode = true
 
 [filter "lfs"]
         clean = git-lfs clean %f
