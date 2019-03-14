@@ -8,7 +8,7 @@
         co = checkout
         diff-last-tag = !sh -c 'git log --merges --format=\"%Cred%h%Creset %s %C(yellow)%b%Creset\" $(git describe --abbrev=0 --tags)..HEAD'
         diff-last-tag-short= !sh -c 'git log --merges --oneline $(git describe --abbrev=0 --tags)..HEAD'
-        fco = "!git co $(git br -a | fzf)"
+        fco = "!f() { git checkout $(git branch -vv --all | fzf --ansi --reverse -1 -q ${1:-''} | awk '{print $1}' | sed 's|^remotes/origin/||'); }; f"
         grepall = "!f() { gitgreptmp=$1; { git --no-pager grep $gitgreptmp & git submodule foreach 'git --no-pager grep '$gitgreptmp'; true'; } }; f"
         lol = log --graph --pretty=format:'%C(bold red)%h%Creset -%C(bold yellow)%d%Creset %s %C(bold green)(%cr)%Creset' --abbrev-commit --all
         lola = log --graph --pretty=format:'%C(bold red)%h%Creset -%C(bold yellow)%d%Creset %s %C(bold green)(%ar) %C(bold ul blue)%an%Creset' --abbrev-commit --all
