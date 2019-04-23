@@ -17,6 +17,7 @@
         refreshremote = remote update origin --prune && git fetch --tags
         show-merge = "!sh -c 'git show $1^1..$1' -"
         st = status
+        putsch = push --force
         sweep = "!git remote update --prune ; git branch --merged | grep -v "\\*" | grep -v master | grep -v dev | xargs -n 1 git branch -d"
 
 [commit]
