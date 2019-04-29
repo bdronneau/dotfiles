@@ -5,3 +5,7 @@ alias mainfra="cd ${HOME}/code/src/github.com/MeilleursAgents/MA-Infra"
 if [[ -e "${HOME}/code/src/github.com/MeilleursAgents/MA-Infra/tools/gssh/gssh.sh" ]]; then
   source "${HOME}/code/src/github.com/MeilleursAgents/MA-Infra/tools/gssh/gssh.sh"
 fi
+
+if [[ -e "${HOME}/code/src/github.com/MeilleursAgents/MA-Infra/tools/vault/vault.sh" ]]; then
+  alias vault.sh="${HOME}/code/src/github.com/MeilleursAgents/MA-Infra/tools/vault/vault.sh"
+fi
