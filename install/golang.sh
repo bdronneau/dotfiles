@@ -6,7 +6,7 @@ set -o pipefail
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 main() {
-  local GO_VERSION=1.11.5
+  local GO_VERSION=1.12.5
   local OS=$(uname -s)
   local ARCH=$(uname -m)
 
