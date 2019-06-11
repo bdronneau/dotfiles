@@ -4,5 +4,5 @@ if [ -d "${HOME}/opt/bin" ]; then
     export PATH="${PATH}:${HOME}/opt/bin/"
 fi
 
-# Use by Tmuxinator
+# Use by TMUXG
 export EDITOR='vim'

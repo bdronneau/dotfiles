@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+export PROG=gmux
+
+if [ -f "${HOME}/go/src/github.com/davinche/gmux/autocomplete/bash_autocomplete" ]; then source "${HOME}/go/src/github.com/davinche/gmux/autocomplete/bash_autocomplete"; fi
