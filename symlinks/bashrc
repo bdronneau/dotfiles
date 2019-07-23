@@ -13,3 +13,9 @@ done
 if [[ -e "${HOME}/.localrc" ]]; then
   source "${HOME}/.localrc"
 fi
+
+# Auto cd on directories
+shopt -s autocd
+
+# The HISTCONTROL variable can prevent certain commands from being logged to the history. For example, to stop logging of repeated identical commands
+export HISTCONTROL=ignoredups
