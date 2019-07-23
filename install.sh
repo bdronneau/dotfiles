@@ -36,7 +36,7 @@ main() {
   echo '+---------+'
   echo '| cleanup |'
   echo '+---------+'
-  if [[ "${IS_MACOS}" == true ]]; then
+  if [[ "${OSTYPE}" =~ ^darwin ]]; then
     brew cleanup
   elif command -v apt-get > /dev/null 2>&1; then
     sudo apt-get autoremove -y

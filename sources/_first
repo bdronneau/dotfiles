@@ -5,14 +5,3 @@ if [[ $(locale -a | grep "en_US.UTF-8" | wc -l) -eq 1 ]]; then
   export LANG="en_US.UTF-8"
   export LANGUAGE="en_US.UTF-8"
 fi
-
-export IS_MACOS=false
-export IS_LINUX=false
-case $(uname -s) in
-  "Darwin")
-    export IS_MACOS=true
-    ;;
-  "Linux")
-    export IS_LINUX=true
-    ;;
-esac
