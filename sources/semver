@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 semver() {
   if [[ "${#}" -ne 1 ]]; then
     echo "Usage: semver [major|minor|patch]"
