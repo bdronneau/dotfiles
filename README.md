@@ -1,18 +1,12 @@
-# dotfiles-skeleton
+# dotfiles
 
-A `.dotfiles` repository skeleton
+Yet another `.dotfiles` repository
 
 ## Installation
 
 ```
-git clone --depth 1 https://github.com/ViBiOh/dotfiles-skeleton.git
-./dotfiles-skeleton/install.sh
-```
-
-## SSH
-
-```bash
-ssh-keygen -t ed25519 -a 100 -C "`whoami`@`hostname`" -f ~/.ssh/id_ed25519
+git clone --depth 1 git@github.com:bdronneau/dotfiles.git
+bash ./dotfiles/install.sh
 ```
 
 ## Bash
