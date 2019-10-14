@@ -1,21 +1,38 @@
 #!/usr/bin/env bash
 
-# If I'm not interractive get out
-[[ -z "${PS1}" ]] && return
+[[ -z "${PS1:-}" ]] && return
 
-readonly BASHRC_PATH=$(python -c 'import sys; import os.path; print(os.path.realpath(sys.argv[1]))' "${BASH_SOURCE[0]}")
-readonly DOTFILES_PATH=$(dirname ${BASHRC_PATH})
+readonly BASHRC_PATH="$(python -c 'import sys; import os.path; print(os.path.realpath(sys.argv[1]))' "${BASH_SOURCE[0]}")"
+readonly DOTFILES_PATH="$(dirname ${BASHRC_PATH})"
 
-for file in "${DOTFILES_PATH}/../sources/"*; do
-  [[ -r "${file}" ]] && [[ -f "${file}" ]] && source "${file}"
-done
+set_locale() {
+  local LOCALES=("en_US.UTF-8" "C.UTF-8" "C")
+  local ALL_LOCALES="$(locale -a)"
+
+  for locale in "${LOCALES[@]}"; do
+    if [[ "$(echo "${ALL_LOCALES}" | grep "${locale}" | wc -l)" -eq 1 ]]; then
+      export LC_ALL="${locale}"
+      export LANG="${locale}"
+      export LANGUAGE="${locale}"
+
+      return
+    fi
+  done
+
+  return 1
+}
+
+source_all() {
+  local LANG="C"
+
+  for file in "${DOTFILES_PATH}/../sources/"*; do
+    [[ -r "${file}" ]] && [[ -f "${file}" ]] && source "${file}"
+  done
+}
+
+set_locale
+source_all
 
 if [[ -e "${HOME}/.localrc" ]]; then
   source "${HOME}/.localrc"
 fi
-
-# Auto cd on directories
-shopt -s autocd
-
-# The HISTCONTROL variable can prevent certain commands from being logged to the history. For example, to stop logging of repeated identical commands
-export HISTCONTROL=ignoredups
