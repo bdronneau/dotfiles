@@ -36,6 +36,19 @@ main() {
       bash \
       bash-completion \
       git
+  elif command -v pacman > /dev/null 2>&1; then
+    sudo pacman -Syuq --noconfirm
+    sudo pacman -Sq --noconfirm --needed \
+      make \
+      binutils \
+      yay \
+      git \
+      bash-completion \
+      code \
+      firefox \
+      tmux \
+      gnupg \
+      netcat
   fi
 }
 

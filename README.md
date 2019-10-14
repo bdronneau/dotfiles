@@ -31,3 +31,17 @@ if [[ -f "${HOME}/.bashrc" ]]; then
   source ${HOME}/.bashrc
 fi
 ```
+
+## ARCH
+
+### Manal actions
+
+```bash
+$ sudo pacman -S vim python-virtualenvwrapper gcc
+```
+
+in `.localrc`
+```bash
+export WORKON_HOME=~/.virtualenvs
+source /usr/bin/virtualenvwrapper.sh
+```
