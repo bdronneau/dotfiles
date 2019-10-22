@@ -16,6 +16,10 @@ main() {
     rm "terraform_${TERRAFORM_VERSION}_${OS,,}_amd64.zip"
     mv "terraform" "${HOME}/opt/terraform/terraform_${TERRAFORM_VERSION}"
 
+    if [[ -f "${HOME}/opt/bin/terraform" ]]; then
+      rm -f "${HOME}/opt/bin/terraform"
+    fi
+
     # Activate version
     ln -Fs "${HOME}/opt/terraform/terraform_${TERRAFORM_VERSION}" "${HOME}/opt/bin/terraform"
   fi
