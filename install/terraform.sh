@@ -6,7 +6,7 @@ set -o pipefail
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 main() {
-  local TERRAFORM_VERSION=0.12.10
+  local TERRAFORM_VERSION=0.12.12
   if [[ ! -f "${HOME}/opt/terraform/terraform_${TERRAFORM_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/terraform"
     local OS=$(uname -s)
