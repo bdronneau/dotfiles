@@ -6,16 +6,21 @@ set -o pipefail
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 main() {
+  echo "start"
   local GO_VERSION=1.13.1
   local OS=$(uname -s)
   local ARCH=$(uname -m)
+  export GO111MODULE=on
 
+  echo "check"
   if [[ ! -d "${HOME}/opt/go" ]]; then
      if [[ "${ARCH}" == "x86_64" ]]; then
         ARCH="amd64"
       elif [[ "${ARCH}" =~ ^armv.l$ ]]; then
         ARCH="armv6l"
       fi
+
+      echo "curl"
 
       local GO_ARCHIVE="go${GO_VERSION}.${OS,,}-${ARCH,,}.tar.gz"
 
@@ -33,7 +38,9 @@ main() {
       go get -u github.com/derekparker/delve/cmd/dlv
     fi
 
-    go get -u github.com/golang/dep/cmd/dep
+    echo "go get"
+
+    go get golang.org/x/tools/gopls@latest
     go get -u github.com/google/pprof
     go get -u github.com/kisielk/errcheck
     go get -u golang.org/x/lint/golint
