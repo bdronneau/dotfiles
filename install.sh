@@ -22,6 +22,9 @@ main() {
   set -e
   set -u
 
+  LC_ALL="C"
+  LANG="C"
+
   local line='--------------------------------------------------------------------------------'
 
   for file in "${SCRIPT_DIR}/install"/*; do
