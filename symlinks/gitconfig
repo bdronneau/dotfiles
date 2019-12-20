@@ -17,7 +17,7 @@
         show-merge = "!sh -c 'git show $1^1..$1' -"
         st = status
         putsch = push --force-with-lease
-        sweep = "!git remote update --prune ; git branch --merged | grep -v "\\*" | grep -v master | grep -v dev | xargs -n 1 git branch -d"
+        sweep = "!f() { git prune && git remote prune origin && git gc && git branch --merged | egrep -v '(^\\*|master)' | xargs git branch -d; }; f"
 
 [commit]
        gpgsign = true
