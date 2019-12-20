@@ -8,16 +8,13 @@
         diff-last-tag = !sh -c 'git log --merges --format=\"%Cred%h%Creset %s %C(yellow)%b%Creset\" $(git describe --abbrev=0 --tags)..HEAD'
         diff-last-tag-short= !sh -c 'git log --merges --oneline $(git describe --abbrev=0 --tags)..HEAD'
         fco = "!f() { git checkout $(git branch -vv --all | fzf --ansi --reverse -1 -q ${1:-''} | awk '{print $1}' | sed 's|^remotes/origin/||'); }; f"
-        grepall = "!f() { gitgreptmp=$1; { git --no-pager grep $gitgreptmp & git submodule foreach 'git --no-pager grep '$gitgreptmp'; true'; } }; f"
-        lol = log --graph --pretty=format:'%C(bold red)%h%Creset -%C(bold yellow)%d%Creset %s %C(bold green)(%cr)%Creset' --abbrev-commit --all
         lola = log --graph --pretty=format:'%C(bold red)%h%Creset -%C(bold yellow)%d%Creset %s %C(bold green)(%ar) %C(bold ul blue)%an%Creset' --abbrev-commit --all
-        rbi = "!sh -c \"git rebase -i --autosquash $(git merge-base $1 HEAD)\" -"
-        rebaseauto = rebase --autosquash --autostash
-        refreshremote = remote update origin --prune && git fetch --tags
+        putsch = push --force-with-lease
         show-merge = "!sh -c 'git show $1^1..$1' -"
         st = status
-        putsch = push --force-with-lease
         sweep = "!f() { git prune && git remote prune origin && git gc && git branch --merged | egrep -v '(^\\*|master)' | xargs git branch -d; }; f"
+        rebaseauto = rebase --autosquash --autostash
+        refreshremote = remote update origin --prune && git fetch --tags
 
 [commit]
        gpgsign = true
