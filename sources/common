@@ -6,3 +6,7 @@ fi
 
 # Use by TMUXG
 export EDITOR='vim'
+
+meuhteo() {
+  curl -qsSL --max-time 10 "wttr.in/${1:-Paris}?m&format=v2"
+}
