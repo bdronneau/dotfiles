@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+set -o nounset -o pipefail -o errexit
+readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+install_plugin() {
+  local PLUGIN_NAME="${1}"
+
+  rm -rf "${TEXT_PKG:?}/${PLUGIN_NAME}"
+  cp -r "${SCRIPT_DIR}/plugins/${PLUGIN_NAME}" "${TEXT_PKG}/${PLUGIN_NAME}"
+}
+
+copy_settings() {
+  local USER_SETTINGS="${1}/User"
+  rm -rf "${USER_SETTINGS:?}"/*
+  mkdir -p "${USER_SETTINGS}"
+
+  if [[ -d ${SCRIPT_DIR}/${2}/settings/ ]]; then
+    cp "${SCRIPT_DIR}/${2}/settings/"* "${USER_SETTINGS}/"
+  fi
+
+  if [[ -d ${SCRIPT_DIR}/${2}/snippets/ ]]; then
+    cp "${SCRIPT_DIR}/${2}/snippets/"* "${USER_SETTINGS}/"
+  fi
+}
+
+main() {
+  if [[ ${OSTYPE} =~ ^darwin ]]; then
+    local TEXT_PKG="${HOME}/Library/Application Support/Sublime Text 3/Packages"
+    local MERGE_PKG="${HOME}/Library/Application Support/Sublime Merge/Packages"
+  else
+    local TEXT_PKG="${HOME}/.config/sublime-text-3/Packages"
+    local MERGE_PKG="${HOME}/.config/sublime-merge/Packages"
+  fi
+
+  copy_settings "${TEXT_PKG}" "text"
+  copy_settings "${MERGE_PKG}" "merge"
+
+  install_plugin SublimeGo
+  install_plugin SublimeTerraform
+
+  if command -v go > /dev/null 2>&1; then
+    GO111MODULE=on go get golang.org/x/tools/gopls@latest
+    go get -u golang.org/x/tools/cmd/gotype
+  fi
+
+  if command -v npm > /dev/null 2>&1; then
+    npm install -g prettier javascript-typescript-langserver
+  fi
+
+  if command -v python > /dev/null 2>&1; then
+    pip install --user python-language-server pycodestyle
+  fi
+}
+
+main "${@:-}"

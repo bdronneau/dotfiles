@@ -1,0 +1,57 @@
+[
+  {
+    "keys": ["super+left"],
+    "command": "jump_back"
+  },
+  {
+    "keys": ["super+right"],
+    "command": "goto_definition"
+  },
+  {
+    "keys": ["super+right"],
+    "command": "lsp_symbol_definition",
+    "context": [
+      {
+        "key": "selector",
+        "operator": "equal",
+        "operand": "(source.go, source.js, source.python)"
+      }
+    ]
+  },
+  {
+    "keys": ["super+option+f"],
+    "command": "js_prettier",
+    "context": [
+      {
+        "key": "selector",
+        "operator": "equal",
+        "operand": "(source.js, source.jsx)"
+      }
+    ]
+  },
+  {
+    "keys": ["super+option+f"],
+    "command": "terraform_fmt",
+    "context": [
+      {
+        "key": "selector",
+        "operator": "equal",
+        "operand": "source.terraform"
+      }
+    ]
+  },
+  {
+    "keys": ["super+:"],
+    "command": "focus_group",
+    "args": {
+      "group": 0
+    }
+  },
+  {
+    "keys": ["super+="],
+    "command": "move_to_group",
+    "args": {
+      "group": 1
+    }
+  }
+]

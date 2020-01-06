@@ -1,0 +1,30 @@
+{
+  "prefer_label_over_filter_text": true,
+  "clients": {
+    "gopls": {
+      "enabled": true,
+    },
+    "pyls": {
+      "enabled": true
+    },
+    "lsp-js": {
+      "command": [
+        "javascript-typescript-stdio"
+      ],
+      "enabled": true,
+      "languages": [
+        {
+          "languageId": "javascript",
+          "scopes": [
+            "source.js",
+            "source.jsx"
+          ],
+          "syntaxes": [
+            "Javascript",
+            "Packages/Naomi/syntaxes/naomi.fjsx15.sublime-syntax"
+          ]
+        }
+      ]
+    }
+  }
+}

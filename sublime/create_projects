@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+set -o nounset -o pipefail -o errexit
+
+main() {
+  readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  local PROJECT_FOLDER="${SCRIPT_DIR}/projects"
+
+  rm -rf "${PROJECT_FOLDER}"
+  mkdir -p "${PROJECT_FOLDER}"
+
+  local indexingProjects="${HOME}/code"
+
+  for folderProjects in ${indexingProjects}/bdronneau ${indexingProjects}/MeilleursAgents; do
+    echo "${folderProjects}"
+    for project in "${folderProjects}/"*; do
+      echo "${project}"
+      projectName="$(basename "${project}")"
+      fileName="${PROJECT_FOLDER}/${projectName}.sublime-project"
+
+      echo "{
+    \"folders\": [{
+        \"path\": \"${project}\"
+    }]
+  }" > "${fileName}"
+
+      subl --project "${fileName}"
+    done
+  done
+}
+
+main "${@:-}"
