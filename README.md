@@ -45,3 +45,7 @@ in `.localrc`
 export WORKON_HOME=~/.virtualenvs
 source /usr/bin/virtualenvwrapper.sh
 ```
+
+## Links
+
+  - Based on work done by [@ViBiOh](https://github.com/ViBiOh/dotfiles)
