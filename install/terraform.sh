@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
-set -o errexit
-set -o nounset
-set -o pipefail
-readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+set -o nounset -o pipefail -o errexit
 
-main() {
+clean() {
+  rm -rf "${HOME}/opt/terraform"
+}
+
+install() {
   local TERRAFORM_VERSION=0.12.18
   if [[ ! -f "${HOME}/opt/terraform/terraform_${TERRAFORM_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/terraform"
@@ -24,5 +25,3 @@ main() {
     ln -Fs "${HOME}/opt/terraform/terraform_${TERRAFORM_VERSION}" "${HOME}/opt/bin/terraform"
   fi
 }
-
-main

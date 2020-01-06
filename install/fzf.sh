@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
-set -o errexit
-set -o nounset
-set -o pipefail
-readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+set -o nounset -o pipefail -o errexit
 
-main() {
+clean() {
+  rm -rf "${HOME}/.fzf.bash"
+  rm -rf "${HOME}/opt/fzf"
+}
+
+install() {
   if ! command -v git > /dev/null 2>&1; then
     echo "git not found"
     exit
@@ -19,5 +21,3 @@ main() {
 
   "${HOME}/opt/fzf/install" --key-bindings --completion --no-zsh --no-fish --no-update-rc
 }
-
-main

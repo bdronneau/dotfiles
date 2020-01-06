@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
 
-set -o errexit
-set -o nounset
-set -o pipefail
-readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+set -o nounset -o pipefail -o errexit
 
-main() {
+install() {
   if [[ "${OSTYPE}" =~ ^darwin ]]; then
     brew install gnupg
   elif command -v apt-get > /dev/null 2>&1; then
@@ -38,5 +35,3 @@ require-cross-certification
 use-agent' > "${HOME}/.gnupg/gpg.conf"
   fi
 }
-
-main

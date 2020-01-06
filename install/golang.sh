@@ -1,53 +1,53 @@
 #!/usr/bin/env bash
 
-set -o errexit
-set -o nounset
-set -o pipefail
-readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+set -o nounset -o pipefail -o errexit
 
-main() {
-  echo "start"
-  local GO_VERSION=1.13.1
-  local OS=$(uname -s)
-  local ARCH=$(uname -m)
-  export GO111MODULE=on
-
-  echo "check"
-  if [[ ! -d "${HOME}/opt/go" ]]; then
-     if [[ "${ARCH}" == "x86_64" ]]; then
-        ARCH="amd64"
-      elif [[ "${ARCH}" =~ ^armv.l$ ]]; then
-        ARCH="armv6l"
-      fi
-
-      echo "curl"
-
-      local GO_ARCHIVE="go${GO_VERSION}.${OS,,}-${ARCH,,}.tar.gz"
-
-      curl -O "https://dl.google.com/go/${GO_ARCHIVE}"
-      rm -rf "${HOME}/opt/go"
-      tar -C "${HOME}/opt" -xzf "${GO_ARCHIVE}"
-      rm -rf "${GO_ARCHIVE}"
-
+clean() {
+  if [[ -n ${GOPATH:-} ]]; then
+    sudo rm -rf "${GOPATH}"
+    mkdir -p "${GOPATH}"
   fi
 
+  rm -rf "${HOME}/opt/go"
+  rm -rf "${HOME}/.dlv"
+}
+
+install() {
+  local GO_VERSION="1.13.5"
+
+  local OS
+  OS="$(uname -s | tr "[:upper:]" "[:lower:]")"
+  local ARCH
+  ARCH="$(uname -m | tr "[:upper:]" "[:lower:]")"
+
+  if [[ ${ARCH} = "x86_64" ]]; then
+    ARCH="amd64"
+  elif [[ ${ARCH} =~ ^armv.l$ ]]; then
+    ARCH="armv6l"
+  fi
+
+  if [[ ! -d ${HOME}/opt/go ]]; then
+    local GO_ARCHIVE="go${GO_VERSION}.${OS}-${ARCH}.tar.gz"
+
+    curl -q -sSL --max-time 300 -O "https://dl.google.com/go/${GO_ARCHIVE}"
+    tar -C "${HOME}/opt" -xzf "${GO_ARCHIVE}"
+    rm -rf "${GO_ARCHIVE}"
+  fi
+
+  local SCRIPT_DIR
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
   source "${SCRIPT_DIR}/../sources/golang"
+  mkdir -p "${GOPATH}"
 
   if command -v go > /dev/null 2>&1; then
-    if [[ "${ARCH}" == "amd64" ]]; then
+    if [[ ${ARCH} = "amd64" ]]; then
       go get -u github.com/derekparker/delve/cmd/dlv
     fi
 
-    echo "go get"
-
-    go get golang.org/x/tools/gopls@latest
-    go get -u github.com/google/pprof
+    go get -u golang.org/x/tools/gopls
     go get -u github.com/kisielk/errcheck
     go get -u golang.org/x/lint/golint
     go get -u golang.org/x/tools/cmd/goimports
     go get -u github.com/davinche/gmux
-    go get -u github.com/godoctor/godoctor
   fi
 }
-
-main
