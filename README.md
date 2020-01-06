@@ -9,6 +9,11 @@ git clone --depth 1 git@github.com:bdronneau/dotfiles.git
 bash ./dotfiles/install.sh
 ```
 
+## Configuration
+
+See https://github.com/ViBiOh/dotfiles#configuration for custom installation
+
+
 ## Bash
 
 Then change default bash for root
