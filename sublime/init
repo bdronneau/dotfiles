@@ -16,11 +16,19 @@ copy_settings() {
   mkdir -p "${USER_SETTINGS}"
 
   if [[ -d ${SCRIPT_DIR}/${2}/settings/ ]]; then
-    cp "${SCRIPT_DIR}/${2}/settings/"* "${USER_SETTINGS}/"
+    for file in "${SCRIPT_DIR}/${2}/settings"/*; do
+      local BASENAME_FILE
+      BASENAME_FILE="$(basename "${file}")"
+      rm -f "${USER_SETTINGS}/${BASENAME_FILE}" && ln -s "${file}" "${USER_SETTINGS}/${BASENAME_FILE}"
+    done
   fi
 
   if [[ -d ${SCRIPT_DIR}/${2}/snippets/ ]]; then
-    cp "${SCRIPT_DIR}/${2}/snippets/"* "${USER_SETTINGS}/"
+    for file in "${SCRIPT_DIR}/${2}/snippets"/*; do
+      local BASENAME_FILE
+      BASENAME_FILE="$(basename "${file}")"
+      rm -f "${USER_SETTINGS}/${BASENAME_FILE}" && ln -s "${file}" "${USER_SETTINGS}/${BASENAME_FILE}"
+    done
   fi
 }
 
