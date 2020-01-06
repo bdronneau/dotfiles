@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
-set -o errexit
-set -o nounset
-set -o pipefail
-readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+set -o nounset -o pipefail -o errexit
 
-main() {
+clean() {
+  rm -rf "${HOME}/opt/bash-completion.d/kubectl"
+  rm -rf "${HOME}/opt/bin/kubectl"
+  rm -rf "${HOME}/opt/kubectl"
+}
+
+install() {
   local KUBECTL_VERSION=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
   if [[ ! -f "${HOME}/opt/kubectl/kubectl_${KUBECTL_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/kubectl"
@@ -25,5 +28,3 @@ main() {
     "${HOME}/opt/bin/kubectl" completion bash > "${HOME}/opt/bash-completion.d/kubectl"
   fi
 }
-
-main

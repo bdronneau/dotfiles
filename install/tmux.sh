@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
 
-set -o errexit
-set -o nounset
-set -o pipefail
-readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+set -o nounset -o pipefail -o errexit
 
-main() {
+install() {
   if [[ "${OSTYPE}" =~ ^darwin ]]; then
     brew install \
       tmux \
@@ -14,5 +11,3 @@ main() {
     sudo apt-get install -y -qq tmux
   fi
 }
-
-main

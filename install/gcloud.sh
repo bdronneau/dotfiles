@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
-set -o errexit
-set -o nounset
-set -o pipefail
-readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+set -o nounset -o pipefail -o errexit
 
-main() {
+clean() {
+  rm -rf "${HOME}/.gsutil"
+  rm -rf "${HOME}/.config/gcloud"
+}
+
+install() {
   if [[ ! -d "${HOME}/opt/google-cloud-sdk" ]]; then
     local GCLOUD_VERSION=225.0.0
     local OS=$(uname -s)
@@ -21,5 +23,3 @@ main() {
     rm -rf "${GO_ARCHIVE}"
   fi
 }
-
-main

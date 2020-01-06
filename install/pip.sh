@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
 
-set -o errexit
-set -o nounset
-set -o pipefail
-readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+set -o nounset -o pipefail -o errexit
 
-main() {
+install() {
   if ! [ -f "${HOME}/Library/Python/2.7/bin/pip" ]; then
     easy_install --user pip
     export PATH="${HOME}/Library/Python/2.7/bin/:${PATH}"
@@ -15,5 +12,3 @@ main() {
     pip install --user virtualenvwrapper
   fi
 }
-
-main

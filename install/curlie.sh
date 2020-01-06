@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
-set -o errexit
-set -o nounset
-set -o pipefail
-readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+set -o nounset -o pipefail -o errexit
 
-main() {
+clean() {
+  rm -rf "${HOME}/opt/bin/curlie"
+  rm -rf "${HOME}/opt/curlie"
+}
+
+install() {
   local CURLIE_VERSION=1.2.0
   if [[ ! -f "${HOME}/opt/curlie/curlie_${CURLIE_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/curlie"
@@ -23,5 +25,3 @@ main() {
     ln -Fs "${HOME}/opt/curlie/curlie_${CURLIE_VERSION}" "${HOME}/opt/bin/curlie"
   fi
 }
-
-main
