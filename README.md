@@ -34,7 +34,7 @@ fi
 
 ## ARCH
 
-### Manal actions
+### Manual actions
 
 ```bash
 $ sudo pacman -S vim python-virtualenvwrapper gcc
