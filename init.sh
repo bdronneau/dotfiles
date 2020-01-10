@@ -120,7 +120,7 @@ main() {
   set -e
   set -u
 
-  if [[ -z ${ARGS} ]] || [[ ${ARGS} =~ clean ]]; then
+  if [[ ${ARGS} =~ clean ]]; then
     browse_install clean
     clean_packages
   fi
