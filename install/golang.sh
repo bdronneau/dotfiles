@@ -44,7 +44,7 @@ install() {
       go get -u github.com/derekparker/delve/cmd/dlv
     fi
 
-    go get -u golang.org/x/tools/gopls
+    GO111MODULE=on go get golang.org/x/tools/gopls@latest
     go get -u github.com/kisielk/errcheck
     go get -u golang.org/x/lint/golint
     go get -u golang.org/x/tools/cmd/goimports
