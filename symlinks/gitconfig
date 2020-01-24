@@ -19,52 +19,13 @@
 [commit]
        gpgsign = true
 
-[diff]
-        color = auto
-        renames = copy
-
 [color]
         branch = auto
         diff = auto
         grep = auto
         interactive = auto
         status = auto
-
-[color.branch]
-        current = bold green
-        local = bold yellow
-        remote = bold red
-        plain = white
-
-[color.diff]
-        frag = ul bold blue
-        old = bold red
-        new = bold green
-        commit = yellow
-
-[color.grep]
-        match = bold yellow
-
-[color.interactive]
-        prompt = bold cyan
-        header = bold blue
-        help = bold green
-        error = bold red
-
-[color.status]
-        header = bold white
-        added = bold yellow
-        updated = bold green
-        changed = bold red
-        untracked = bold blue
-        nobranch = bold magenta
-        unmerged = bold cyan
-
-[pager]
-        color = true
-
-[status]
-        color = auto
+        ui = true
 
 [push]
         default = current
@@ -78,12 +39,5 @@
 [grep]
         linenumber = true
 
-[filter "lfs"]
-        clean = git-lfs clean %f
-        smudge = git-lfs smudge %f
-        required = true
 [gpg]
         program = gpg
-
-[url "git@github.com:"]
-        insteadOf = https://github.com/
