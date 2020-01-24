@@ -1,14 +1,14 @@
 [
   {
-    "keys": ["super+left"],
+    "keys": ["alt+left"],
     "command": "jump_back"
   },
   {
-    "keys": ["super+right"],
+    "keys": ["alt+right"],
     "command": "goto_definition"
   },
   {
-    "keys": ["super+right"],
+    "keys": ["alt+right"],
     "command": "lsp_symbol_definition",
     "context": [
       {
@@ -19,7 +19,7 @@
     ]
   },
   {
-    "keys": ["super+option+f"],
+    "keys": ["alt+option+f"],
     "command": "js_prettier",
     "context": [
       {
@@ -30,7 +30,7 @@
     ]
   },
   {
-    "keys": ["super+option+f"],
+    "keys": ["alt+option+f"],
     "command": "terraform_fmt",
     "context": [
       {
@@ -41,14 +41,14 @@
     ]
   },
   {
-    "keys": ["super+:"],
+    "keys": ["alt+:"],
     "command": "focus_group",
     "args": {
       "group": 0
     }
   },
   {
-    "keys": ["super+="],
+    "keys": ["alt+="],
     "command": "move_to_group",
     "args": {
       "group": 1
