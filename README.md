@@ -16,7 +16,25 @@ See https://github.com/ViBiOh/dotfiles#configuration for custom installation
 
 ## Bash
 
-Then change default bash for root
+### Compatibility
+
+Since a using an os with old bash version, backward is implement
+
+```bash
+local OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+```
+
+instead of
+
+```bash
+local ARCH=$(uname -m)
+echo "${ARCH,,}"
+```
+
+### Mac
+
+### Default shells
+Changing the default shell (done by `install/_packages.sh`)
 
 ```bash
 sudo -s
