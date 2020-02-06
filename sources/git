@@ -3,3 +3,7 @@
 if [[ -f ${HOME}/opt/bin/delta ]]; then
   export GIT_PAGER="delta --dark --highlight-removed"
 fi
+
+if [[ -f "${HOME}/opt/bash-completion.d/git" ]]; then
+    source "${HOME}/opt/bash-completion.d/git";
+fi

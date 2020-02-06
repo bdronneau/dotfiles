@@ -7,6 +7,8 @@ install() {
     local SCRIPT_DIR
     SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     curl -q -sS -o "${SCRIPT_DIR}/../sources/git-prompt" "https://raw.githubusercontent.com/git/git/v$(git --version | awk '{print $3}')/contrib/completion/git-prompt.sh"
+    mkdir -p "${HOME}/opt/bash-completion.d"
+    curl -q -sS -o "${HOME}/opt/bash-completion.d/git" "https://raw.githubusercontent.com/git/git/v$(git --version | awk '{print $3}')/contrib/completion/git-completion.bash"
   fi
 
   local DELTA_VERSION="0.0.15"
