@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-if [ -f "${HOME}/opt/bash-completion.d/kubetcl" ]; then source "${HOME}/opt/bash-completion.d/kubetcl"; fi
+if [[ -f "${HOME}/opt/bash-completion.d/kubectl" ]]; then
+    source "${HOME}/opt/bash-completion.d/kubectl";
+fi

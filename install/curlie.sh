@@ -2,6 +2,8 @@
 
 set -o nounset -o pipefail -o errexit
 
+CURLIE_BIN="${HOME}/opt/bin/curlie"
+
 clean() {
   rm -rf "${HOME}/opt/bin/curlie"
   rm -rf "${HOME}/opt/curlie"
@@ -11,17 +13,18 @@ install() {
   local CURLIE_VERSION=1.2.0
   if [[ ! -f "${HOME}/opt/curlie/curlie_${CURLIE_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/curlie"
-    local OS=$(uname -s)
+    local OS
+    OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
-    local CURLIE_ARCHIVE="curlie_${CURLIE_VERSION}_${OS,,}_amd64.tar.gz"
-    curl -O "https://github.com/rs/curlie/releases/download/v${CURLIE_VERSION}/${CURLIE_ARCHIVE}"
+    local CURLIE_ARCHIVE="curlie_${CURLIE_VERSION}_${OS}_amd64.tar.gz"
+    curl -q -sSL --max-time 300 -O "https://github.com/rs/curlie/releases/download/v${CURLIE_VERSION}/${CURLIE_ARCHIVE}"
 
     tar -C "/tmp" -xzf "${CURLIE_ARCHIVE}"
     rm "${CURLIE_ARCHIVE}"
     mv "/tmp/curlie" "${HOME}/opt/curlie/curlie_${CURLIE_VERSION}"
 
     # Activate version
-    rm "${HOME}/opt/bin/curlie" || true
-    ln -Fs "${HOME}/opt/curlie/curlie_${CURLIE_VERSION}" "${HOME}/opt/bin/curlie"
+    [ -f "${CURLIE_BIN}" ] && rm -f "${CURLIE_BIN}"
+    ln -Fs "${HOME}/opt/curlie/curlie_${CURLIE_VERSION}" "${CURLIE_BIN}"
   fi
 }
