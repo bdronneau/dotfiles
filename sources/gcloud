@@ -22,5 +22,5 @@ findhostname () {
     PROJECT=$(getProjectByEnv $1)
     ZONE_NAME=$(PYENV_VERSION=2.7.9 gcloud --project $PROJECT dns managed-zones list | tail -n +2 | fzf | cut -d ' ' -f 1)
     HOSTNAME=$(PYENV_VERSION=2.7.9 gcloud --project $PROJECT dns record-sets list -z $ZONE_NAME | tail -n +2 | fzf | cut -d ' ' -f 1 | rev | cut -d '.' -f 2- | rev)
-    echo "https://$HOSTNAME"
+    echo "$HOSTNAME"
 }
