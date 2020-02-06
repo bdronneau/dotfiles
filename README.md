@@ -48,13 +48,6 @@ And also for current user
 chsh -s $(brew --prefix)/bin/bash
 ```
 
-Under OS X you need to create `.bash_profile` with
-```bash
-if [[ -f "${HOME}/.bashrc" ]]; then
-  source ${HOME}/.bashrc
-fi
-```
-
 ## ARCH
 
 ### Manual actions
