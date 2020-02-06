@@ -65,6 +65,7 @@ browse_install() {
         unset -f "${action}"
       done
 
+      # shellcheck source=/dev/null
       source "${file}"
 
       for action in "${@}"; do
@@ -116,6 +117,7 @@ main() {
   set +u
   set +e
   mkdir -p "${HOME}/opt/bin"
+  # shellcheck source=/dev/null
   PS1="$" source "${HOME}/.bashrc"
   set -e
   set -u
