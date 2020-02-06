@@ -35,6 +35,7 @@ install() {
   rm -rf "${HOME}/n-install"
 
   mkdir -p "${HOME}/opt/node"
+  # shellcheck source=/dev/null
   source "${SCRIPT_DIR}/../sources/node"
   n "${NODE_VERSION}"
 

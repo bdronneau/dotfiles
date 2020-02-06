@@ -36,6 +36,7 @@ install() {
 
   local SCRIPT_DIR
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  # shellcheck source=/dev/null
   source "${SCRIPT_DIR}/../sources/golang"
   mkdir -p "${GOPATH}"
 

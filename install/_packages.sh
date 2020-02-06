@@ -21,6 +21,7 @@ END_OF_BASH_PROFILE
 
     if ! command -v brew > /dev/null 2>&1; then
       mkdir "${HOME}/homebrew" && curl -q -sSL --max-time 300 "https://github.com/Homebrew/brew/tarball/master" | tar xz --strip 1 -C "${HOME}/homebrew"
+      # shellcheck source=/dev/null
       source "${SCRIPT_DIR}/../sources/_homebrew"
     fi
 
