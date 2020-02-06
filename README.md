@@ -62,6 +62,10 @@ export WORKON_HOME=~/.virtualenvs
 source /usr/bin/virtualenvwrapper.sh
 ```
 
+## Testing
+
+Using [shellcheck](https://www.shellcheck.net/).
+
 ## Links
 
   - Based on work done by [@ViBiOh](https://github.com/ViBiOh/dotfiles)
