@@ -30,7 +30,7 @@ install() {
   local NODE_VERSION="latest"
 
   rm -rf "${HOME}/n-install"
-  git clone --depth 1 https://github.com/tj/n.git "${HOME}/n-install"
+  git clone -q --depth 1 https://github.com/tj/n.git "${HOME}/n-install"
   (cd "${HOME}/n-install" && PREFIX="${HOME}/opt" make install)
   rm -rf "${HOME}/n-install"
 

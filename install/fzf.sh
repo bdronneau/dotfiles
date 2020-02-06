@@ -14,7 +14,7 @@ install() {
   fi
 
   if [[ ! -d "${HOME}/opt/fzf" ]]; then
-    git clone --depth 1 https://github.com/junegunn/fzf.git "${HOME}/opt/fzf"
+    git clone -q --depth 1 https://github.com/junegunn/fzf.git "${HOME}/opt/fzf"
   else
     pushd "${HOME}/opt/fzf" && git pull && popd
   fi
