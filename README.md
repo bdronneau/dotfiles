@@ -1,6 +1,6 @@
 # dotfiles
 
-![](https://github.com/bdronneau/dotfiles/workflows/shellcheck/badge.svg)
+[![](https://github.com/bdronneau/dotfiles/workflows/shellcheck/badge.svg)](https://github.com/bdronneau/dotfiles/actions?query=branch%3Amaster)
 
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=bdronneau_dotfiles&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=bdronneau_dotfiles) [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=bdronneau_dotfiles&metric=code_smells)](https://sonarcloud.io/dashboard?id=bdronneau_dotfiles) [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=bdronneau_dotfiles&metric=security_rating)](https://sonarcloud.io/dashboard?id=bdronneau_dotfiles) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bdronneau_dotfiles&metric=alert_status)](https://sonarcloud.io/dashboard?id=bdronneau_dotfiles)
 
