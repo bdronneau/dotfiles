@@ -18,6 +18,8 @@
 		"SublimeLinter-gotype",
 		"SublimeLinter-shellcheck",
 		"Terraform",
-		"TOML"
+		"TOML",
+		"Vue Syntax Highlight",
+		"VueFormatter"
 	]
 }

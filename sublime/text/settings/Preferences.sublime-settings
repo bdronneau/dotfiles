@@ -49,6 +49,10 @@
 	"draw_white_space": "all",
 	"enable_tab_scrolling": false,
 	"fold_buttons": false,
+	"folder_exclude_patterns":
+	[
+		".terraform/"
+	],
 	"font_size": 8,
 	"highlight_line": true,
 	"highlight_modified_tabs": true,
