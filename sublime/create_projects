@@ -11,7 +11,7 @@ main() {
 
   local indexingProjects="${HOME}/code"
 
-  for folderProjects in ${indexingProjects}/bdronneau ${indexingProjects}/MeilleursAgents; do
+  for folderProjects in ${indexingProjects}/bdronneau ${indexingProjects}/MeilleursAgents ${indexingProjects}/versailles; do
     echo "${folderProjects}"
     for project in "${folderProjects}/"*; do
       echo "${project}"
