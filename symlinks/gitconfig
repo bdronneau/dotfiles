@@ -12,7 +12,7 @@
         putsch = push --force-with-lease
         show-merge = "!sh -c 'git show $1^1..$1' -"
         st = status
-        sweep = "!f() { git prune && git remote prune origin && git gc && git branch --merged | egrep -v '(^\\*|master)' | xargs git branch -d; }; f"
+        sweep = "! git prune && git remote prune origin && git branch --list --format '%(if:equals=[gone])%(upstream:track)%(then)%(refname:short)%(end)' | grep -E -v '^$' | xargs git branch -D && git gc"
         rebaseauto = rebase --autosquash --autostash
         refreshremote = remote update origin --prune && git fetch --tags
 
