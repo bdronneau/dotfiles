@@ -4,8 +4,10 @@ set -o nounset -o pipefail -o errexit
 
 install() {
   if command -v brew > /dev/null 2>&1; then
-    brew cask reinstall sublime-text sublime-merge
-    ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" "${HOME}/opt/bin/subl"
+    brew cask install sublime-text sublime-merge
+    if [[ ! -f "${HOME}/opt/bin/subl" ]]; then
+      ln -s "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" "${HOME}/opt/bin/subl"
+    fi
   elif command -v pacman > /dev/null 2>&1; then
     if [[ $(grep -c "sublime-text" "/etc/pacman.conf") -eq 0 ]]; then
       local SUBLIME_TEXT_SIGN_KEY="8A8F901A"
