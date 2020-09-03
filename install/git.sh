@@ -11,7 +11,7 @@ install() {
     curl -q -sS -o "${HOME}/opt/bash-completion.d/git" "https://raw.githubusercontent.com/git/git/v$(git --version | awk '{print $3}')/contrib/completion/git-completion.bash"
   fi
 
-  local DELTA_VERSION="0.0.15"
+  local DELTA_VERSION="0.4.1"
   local DELTA_ARCHIVE="delta-${DELTA_VERSION}-x86_64"
 
   if [[ ${OSTYPE} =~ ^darwin ]]; then
