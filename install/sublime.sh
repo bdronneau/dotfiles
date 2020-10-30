@@ -2,6 +2,9 @@
 
 set -o nounset -o pipefail -o errexit
 
+cd "$(dirname "${BASH_SOURCE[0]}")" \
+    && . "../bin/utils.sh"
+
 install() {
   if command -v brew > /dev/null 2>&1; then
     brew cask install sublime-text sublime-merge
@@ -13,7 +16,7 @@ install() {
       local SUBLIME_TEXT_SIGN_KEY="8A8F901A"
       local SUBLIME_TEXT_KEY_FILE="sublimehq-pub.gpg"
 
-      curl -q -sSL --max-time 30 -O "https://download.sublimetext.com/${SUBLIME_TEXT_KEY_FILE}"
+      download "https://download.sublimetext.com/${SUBLIME_TEXT_KEY_FILE}" "${SUBLIME_TEXT_KEY_FILE}"
       sudo pacman-key --add "${SUBLIME_TEXT_KEY_FILE}"
       sudo pacman-key --lsign-key "${SUBLIME_TEXT_SIGN_KEY}"
       rm "${SUBLIME_TEXT_KEY_FILE}"

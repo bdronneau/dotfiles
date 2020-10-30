@@ -2,6 +2,9 @@
 
 set -o nounset -o pipefail -o errexit
 
+cd "$(dirname "${BASH_SOURCE[0]}")" \
+    && . "../bin/utils.sh"
+
 clean() {
   if command -v npm > /dev/null 2>&1; then
     npm cache clean --force
@@ -20,7 +23,7 @@ install() {
   if [[ ! -f "${HOME}/opt/n/n_${N_VERSION}.sh" ]]; then
     mkdir -p "${HOME}/opt/n"
 
-    curl -q -sSL --max-time 300 "https://raw.githubusercontent.com/tj/n/v${N_VERSION}/bin/n" -o "${HOME}/opt/n/n_${N_VERSION}.sh"
+    download "https://raw.githubusercontent.com/tj/n/v${N_VERSION}/bin/n" "${HOME}/opt/n/n_${N_VERSION}.sh"
 
     # Activate version
     ln -sfn "${HOME}/opt/n/n_${N_VERSION}.sh" "${HOME}/opt/bin/n"

@@ -2,6 +2,9 @@
 
 set -o nounset -o pipefail -o errexit
 
+cd "$(dirname "${BASH_SOURCE[0]}")" \
+    && . "../bin/utils.sh"
+
 KUBECTL_BIN="${HOME}/opt/bin/kubectl"
 
 clean() {
@@ -22,7 +25,7 @@ install() {
     local OS
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
-    curl -q -sSL --max-time 300 -o "${HOME}/opt/kubectl/kubectl_${KUBECTL_VERSION}" "https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/${OS}/amd64/kubectl"
+    download "https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/${OS}/amd64/kubectl" "${HOME}/opt/kubectl/kubectl_${KUBECTL_VERSION}"
     chmod u+x "${HOME}/opt/kubectl/kubectl_${KUBECTL_VERSION}"
 
     [[ -f "${KUBECTL_BIN}" ]] && rm -f "${KUBECTL_BIN}"

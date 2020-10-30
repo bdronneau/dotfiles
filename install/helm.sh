@@ -2,6 +2,9 @@
 
 set -o nounset -o pipefail -o errexit
 
+cd "$(dirname "${BASH_SOURCE[0]}")" \
+    && . "../bin/utils.sh"
+
 clean() {
   rm -rf "${HOME}/opt/helm*"
 }
@@ -14,7 +17,7 @@ install() {
     local OS
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
-    curl -q -sSL --max-time 300 -O "https://get.helm.sh/helm-${HELM_VERSION}-${OS}-amd64.tar.gz"
+    download "https://get.helm.sh/helm-${HELM_VERSION}-${OS}-amd64.tar.gz" "helm-${HELM_VERSION}-${OS}-amd64.tar.gz"
 
     # Temp directory for extraction
     if [[ ! -d "helm-${HELM_VERSION}" ]]; then

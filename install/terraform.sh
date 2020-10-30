@@ -2,6 +2,9 @@
 
 set -o nounset -o pipefail -o errexit
 
+cd "$(dirname "${BASH_SOURCE[0]}")" \
+    && . "../bin/utils.sh"
+
 clean() {
   rm -rf "${HOME}/opt/terraform*"
 }
@@ -14,7 +17,7 @@ install() {
     local OS
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
-    curl -q -sSL --max-time 300 -O "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_${OS}_amd64.zip"
+    download "https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_${OS}_amd64.zip" "terraform_${TERRAFORM_VERSION}_${OS}_amd64.zip"
     unzip "terraform_${TERRAFORM_VERSION}_${OS}_amd64.zip"
     rm "terraform_${TERRAFORM_VERSION}_${OS}_amd64.zip"
     mv "terraform" "${HOME}/opt/terraform/terraform_${TERRAFORM_VERSION}"

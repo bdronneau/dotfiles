@@ -2,6 +2,9 @@
 
 set -o nounset -o pipefail -o errexit
 
+cd "$(dirname "${BASH_SOURCE[0]}")" \
+    && . "../bin/utils.sh"
+
 clean() {
   rm -rf "${HOME}/opt/bin/yq*"
   rm -rf "${HOME}/opt/yq*"
@@ -15,7 +18,7 @@ install() {
     local OS
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
-    curl -sSL -q --max-time 300 -O "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_${OS}_amd64"
+    download "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_${OS}_amd64" "yq_${OS}_amd64"
     mv "yq_${OS}_amd64" "${HOME}/opt/yq/yq_${YQ_VERSION}"
 
     if [[ -f "${HOME}/opt/bin/yq" ]]; then

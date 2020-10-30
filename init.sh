@@ -3,13 +3,7 @@
 set -o nounset -o pipefail -o errexit
 readonly CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-print_title() {
-  local line="--------------------------------------------------------------------------------"
-
-  printf "%s%s%s\n" "+-" "${line:0:${#1}}" "-+"
-  printf "%s%s%s\n" "| " "${1}" " |"
-  printf "%s%s%s\n" "+-" "${line:0:${#1}}" "-+"
-}
+source "./bin/utils.sh"
 
 usage() {
     printf "Usage of %s\n" "${0}"

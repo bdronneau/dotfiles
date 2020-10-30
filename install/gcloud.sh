@@ -2,6 +2,9 @@
 
 set -o nounset -o pipefail -o errexit
 
+cd "$(dirname "${BASH_SOURCE[0]}")" \
+    && . "../bin/utils.sh"
+
 clean() {
   rm -rf "${HOME}/.gsutil"
   rm -rf "${HOME}/.config/gcloud"
@@ -19,7 +22,7 @@ install() {
 
     rm -rf "${HOME}/.config/gcloud"
 
-    curl -q -sSL --max-time 300 -O "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/${GO_ARCHIVE}"
+    download "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/${GO_ARCHIVE}" "${GO_ARCHIVE}"
     rm -rf "${HOME}/opt/google-cloud-sdk"
     tar -C "${HOME}/opt" -xzf "${GO_ARCHIVE}"
     rm -rf "${GO_ARCHIVE}"

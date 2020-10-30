@@ -2,6 +2,9 @@
 
 set -o nounset -o pipefail -o errexit
 
+cd "$(dirname "${BASH_SOURCE[0]}")" \
+    && . "../bin/utils.sh"
+
 CURLIE_BIN="${HOME}/opt/bin/curlie"
 
 clean() {
@@ -17,7 +20,7 @@ install() {
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
     local CURLIE_ARCHIVE="curlie_${CURLIE_VERSION}_${OS}_amd64.tar.gz"
-    curl -q -sSL --max-time 300 -O "https://github.com/rs/curlie/releases/download/v${CURLIE_VERSION}/${CURLIE_ARCHIVE}"
+    download "https://github.com/rs/curlie/releases/download/v${CURLIE_VERSION}/${CURLIE_ARCHIVE}" "${CURLIE_ARCHIVE}"
 
     tar -C "/tmp" -xzf "${CURLIE_ARCHIVE}"
     rm "${CURLIE_ARCHIVE}"
