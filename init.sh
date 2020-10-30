@@ -89,14 +89,15 @@ clean_packages() {
 
 main() {
   local FILE_LIMIT=""
-  while getopts "l:" options; do
+  while getopts ":l:" options; do
     case "${options}" in
       l)
         FILE_LIMIT="${OPTARG}"
         printf "Limiting to %s\n" "${FILE_LIMIT}"
         ;;
       \?)
-        printf "unknown option %s\n" "${options}"
+        echo "Unknow option -$OPTARG"
+        exit 1
         ;;
     esac
   done
