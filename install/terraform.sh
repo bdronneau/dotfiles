@@ -3,11 +3,11 @@
 set -o nounset -o pipefail -o errexit
 
 clean() {
-  rm -rf "${HOME}/opt/terraform"
+  rm -rf "${HOME}/opt/terraform*"
 }
 
 install() {
-  local TERRAFORM_VERSION=0.13.2
+  local TERRAFORM_VERSION=0.13.4
   if [[ ! -f "${HOME}/opt/terraform/terraform_${TERRAFORM_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/terraform"
 
