@@ -3,21 +3,28 @@
 set -o nounset -o pipefail -o errexit
 
 clean() {
-  rm -rf "${HOME}/.fzf.bash"
+  rm -rf "${HOME}/opt/bin/fzf"
   rm -rf "${HOME}/opt/fzf"
 }
 
 install() {
-  if ! command -v git > /dev/null 2>&1; then
-    echo "git not found"
-    exit
-  fi
+  local FZF_VERSION=0.24.1
+  if [[ ! -f "${HOME}/opt/fzf/fzf_${FZF_VERSION}" ]]; then
+    mkdir -p "${HOME}/opt/fzf"
 
-  if [[ ! -d "${HOME}/opt/fzf" ]]; then
-    git clone -q --depth 1 https://github.com/junegunn/fzf.git "${HOME}/opt/fzf"
-  else
-    pushd "${HOME}/opt/fzf" && git pull && popd
-  fi
+    local OS
+    OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
-  "${HOME}/opt/fzf/install" --key-bindings --completion --no-zsh --no-fish --no-update-rc
+    curl -q -sSL --max-time 300 -O "https://github.com/junegunn/fzf/releases/download/${FZF_VERSION}/fzf-${FZF_VERSION}-${OS}_amd64.tar.gz"
+    tar xf "fzf-${FZF_VERSION}-${OS}_amd64.tar.gz"
+    rm "fzf-${FZF_VERSION}-${OS}_amd64.tar.gz"
+    mv "fzf" "${HOME}/opt/fzf/fzf_${FZF_VERSION}"
+
+    if [[ -f "${HOME}/opt/bin/fzf" ]]; then
+      rm -f "${HOME}/opt/bin/fzf"
+    fi
+
+    # Activate version
+    ln -Fs "${HOME}/opt/fzf/fzf_${FZF_VERSION}" "${HOME}/opt/bin/fzf"
+  fi
 }
