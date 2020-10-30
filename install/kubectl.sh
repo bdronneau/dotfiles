@@ -8,6 +8,7 @@ clean() {
   rm -rf "${HOME}/opt/bash-completion.d/kubectl"
   rm -rf "${KUBECTL_BIN}"
   rm -rf "${HOME}/opt/kubectl"
+  rm -rf "${HOME}/.kube"
 }
 
 install() {
