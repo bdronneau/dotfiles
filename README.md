@@ -70,6 +70,13 @@ source /usr/bin/virtualenvwrapper.sh
 
 Using [shellcheck](https://www.shellcheck.net/).
 
+### Run
+
+```bash
+shellcheck -P bin/ -x bin/utils.sh init.sh
+shellcheck -P bin/ -x bin/utils.sh install/*.sh
+```
+
 ## Links
 
   - Based on work done by [@ViBiOh](https://github.com/ViBiOh/dotfiles)
