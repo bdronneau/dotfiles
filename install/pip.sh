@@ -8,7 +8,7 @@ install() {
     export PATH="${HOME}/Library/Python/2.7/bin/:${PATH}"
   fi
 
-  if command -v pip > /dev/null 2>&1; then
-    pip install --user virtualenvwrapper
+  if command -v pip3 > /dev/null 2>&1; then
+    pip3 install --user virtualenvwrapper virtualenv==20.0.23
   fi
 }
