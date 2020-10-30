@@ -24,6 +24,9 @@ install() {
       rm -f "${HOME}/opt/bin/fzf"
     fi
 
+    curl -q -sSL --max-time 300 "https://raw.githubusercontent.com/junegunn/fzf/${FZF_VERSION}/shell/completion.bash" -o "${HOME}/opt/bash-completion.d/fzf.completion.bash"
+    curl -q -sSL --max-time 300 "https://raw.githubusercontent.com/junegunn/fzf/${FZF_VERSION}/shell/key-bindings.bash" -o "${HOME}/opt/bash-completion.d/fzf.key-bindings.bash"
+
     # Activate version
     ln -Fs "${HOME}/opt/fzf/fzf_${FZF_VERSION}" "${HOME}/opt/bin/fzf"
   fi

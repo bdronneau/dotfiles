@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
-if [[ -e "${HOME}/.fzf.bash" ]]; then
-  source "${HOME}/.fzf.bash"
+if [[ -e "${HOME}/opt/bash-completion.d/fzf.completion.bash" ]]; then
+  source "${HOME}/opt/bash-completion.d/fzf.completion.bash"
+fi
+
+if [[ -e "${HOME}/opt/bash-completion.d/fzf.key-bindings.bash" ]]; then
+  source "${HOME}/opt/bash-completion.d/fzf.key-bindings.bash"
 fi
