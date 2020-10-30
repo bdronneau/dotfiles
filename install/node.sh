@@ -12,36 +12,18 @@ clean() {
   rm -rf "${HOME}/.node_repl_history"
   rm -rf "${HOME}/.npm"
   rm -rf "${HOME}/.v8flags."*
+  rm -rf "${HOME}/opt/n"
 }
 
 install() {
-  if ! command -v git > /dev/null 2>&1; then
-    printf "git is required\n"
-    exit
+  local N_VERSION=6.7.0
+  if [[ ! -f "${HOME}/opt/n/n_${N_VERSION}.sh" ]]; then
+    mkdir -p "${HOME}/opt/n"
+
+    curl -q -sSL --max-time 300 "https://raw.githubusercontent.com/tj/n/v${N_VERSION}/bin/n" -o "${HOME}/opt/n/n_${N_VERSION}.sh"
+
+    # Activate version
+    ln -sfn "${HOME}/opt/n/n_${N_VERSION}.sh" "${HOME}/opt/bin/n"
+    chmod u+x "${HOME}/opt/bin/n"
   fi
-
-  if ! command -v make > /dev/null 2>&1; then
-    printf "make is required\n"
-    exit
-  fi
-
-  local SCRIPT_DIR
-  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-  local NODE_VERSION="latest"
-
-  rm -rf "${HOME}/n-install"
-  git clone -q --depth 1 https://github.com/tj/n.git "${HOME}/n-install"
-  (cd "${HOME}/n-install" && PREFIX="${HOME}/opt" make install)
-  rm -rf "${HOME}/n-install"
-
-  mkdir -p "${HOME}/opt/node"
-  # shellcheck source=/dev/null
-  source "${SCRIPT_DIR}/../sources/node"
-  n "${NODE_VERSION}"
-
-  if ! command -v npm > /dev/null 2>&1; then
-    return
-  fi
-
-  npm install --ignore-scripts -g npm npm-check-updates node-gyp
 }
