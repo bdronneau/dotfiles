@@ -8,7 +8,9 @@ Yet another `.dotfiles` repository
 
 ## Installation
 
-```
+_debug_: `DOTFILES_DEBUG=true`
+
+```bash
 git clone --depth 1 git@github.com:bdronneau/dotfiles.git
 bash ./dotfiles/install.sh
 ```
