@@ -129,6 +129,7 @@ main() {
   set +u
   set +e
   mkdir -p "${HOME}/opt/bin"
+  mkdir -p "${HOME}/opt/tmp"
   # shellcheck source=/dev/null
   PS1="$" source "${HOME}/.bashrc"
   set -e
