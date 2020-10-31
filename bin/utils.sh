@@ -38,7 +38,7 @@ download() {
 
 # Logging stuff.
 function print_debug()    {
-    if [[ -n "${DOTFILES_DEBUG}" ]] && [[ "${DOTFILES_DEBUG}" == "true" ]]; then
+    if [[ "${DOTFILES_DEBUG:-}" == "true" ]]; then
     echo -e " \033[1;37m🔍\033[0m  $*";
     fi
 }
