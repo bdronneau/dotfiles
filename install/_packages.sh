@@ -41,7 +41,6 @@ END_OF_BASH_PROFILE
     export DEBIAN_FRONTEND=noninteractive
 
     sudo apt-get update
-    sudo apt-get dist-upgrade -y -qq
     sudo apt-get upgrade -y -qq
     sudo apt-get install -y -qq apt-transport-https
 
@@ -53,11 +52,6 @@ END_OF_BASH_PROFILE
       binutils \
       yay \
       git \
-      bash-completion \
-      code \
-      firefox \
-      tmux \
-      gnupg \
       netcat \
       dnsutils
   fi
