@@ -17,9 +17,9 @@ bash ./dotfiles/install.sh
 
 ## Configuration
 
-Script search for `DOTFILES_filenamefrominstalldir` environment variable.
-If `export DOTFILES_NODE=true` so install/node.sh will be take care in consideration
-Check `config` directory for example.
+On start if `DOTFILES_CONFIG` is not defined, script will ask to load one of configuration file available in `config/`.
+
+Script search for `DOTFILES_filenamefrominstalldir` environment variable. For example, if `export DOTFILES_NODE=true` so install/node.sh will be take care in consideration.
 
 This is reverse from https://github.com/ViBiOh/dotfiles#configuration
 

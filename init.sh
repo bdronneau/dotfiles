@@ -81,6 +81,23 @@ clean_packages() {
   fi
 }
 
+load_config() {
+  if [[ -n "${DOTFILES_CONFIG-}" ]]; then
+    print_debug "Load configuration ${DOTFILES_CONFIG}"
+    source "${DOTFILES_CONFIG}"
+  else
+    configs=( $( ls "${CURRENT_DIR}/config" ) )
+
+    PS3="Select configuration: "
+
+    select opt in "${configs[@]}"; do
+      print_debug "Load configuration ${CURRENT_DIR}/config/${opt}"
+      source "${CURRENT_DIR}/config/${opt}"
+      break
+    done
+  fi
+}
+
 main() {
   local FILE_LIMIT=""
   while getopts ":l:" options; do
@@ -118,16 +135,19 @@ main() {
   set -u
 
   if [[ ${ARGS} =~ clean ]]; then
+    load_config
     browse_install clean
     clean_packages
   fi
 
   if [[ -z ${ARGS} ]] || [[ ${ARGS} =~ install ]]; then
+    load_config
     browse_install install
     clean_packages
   fi
 
   if [[ -z ${ARGS} ]] || [[ ${ARGS} =~ credentials ]]; then
+    load_config
     browse_install credentials
   fi
 }
