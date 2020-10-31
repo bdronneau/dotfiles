@@ -84,5 +84,6 @@ shellcheck -P bin/ -x bin/utils.sh install/*.sh
 ```
 
 ## Links
-
   - Based on work done by [@ViBiOh](https://github.com/ViBiOh/dotfiles)
+  - https://github.com/alrra/dotfiles
+  - https://github.com/cowboy/dotfiles
