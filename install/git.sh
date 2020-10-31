@@ -14,7 +14,7 @@ install() {
     download "https://raw.githubusercontent.com/git/git/v$(git --version | awk '{print $3}')/contrib/completion/git-completion.bash" "${HOME}/opt/bash-completion.d/git"
   fi
 
-  local DELTA_VERSION="0.4.1"
+  local DELTA_VERSION="0.4.4"
   local DELTA_ARCHIVE="delta-${DELTA_VERSION}-x86_64"
 
   if [[ ${OSTYPE} =~ ^darwin ]]; then
