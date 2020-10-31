@@ -17,7 +17,11 @@ bash ./dotfiles/install.sh
 
 ## Configuration
 
-See https://github.com/ViBiOh/dotfiles#configuration for custom installation
+Script search for `DOTFILES_filenamefrominstalldir` environment variable.
+If `export DOTFILES_NODE=true` so install/node.sh will be take care in consideration
+Check `config` directory for example.
+
+This is reverse from https://github.com/ViBiOh/dotfiles#configuration
 
 
 ## Bash
