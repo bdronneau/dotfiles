@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export DOTFILES__PACKAGES=true
+export DOTFILES__FIRST=true
 export DOTFILES_CURLIE=true
 export DOTFILES_FZ=true
 export DOTFILES_FZF=true

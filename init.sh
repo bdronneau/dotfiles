@@ -134,20 +134,19 @@ main() {
   set -e
   set -u
 
+  load_config
+
   if [[ ${ARGS} =~ clean ]]; then
-    load_config
     browse_install clean
     clean_packages
   fi
 
   if [[ -z ${ARGS} ]] || [[ ${ARGS} =~ install ]]; then
-    load_config
     browse_install install
     clean_packages
   fi
 
   if [[ -z ${ARGS} ]] || [[ ${ARGS} =~ credentials ]]; then
-    load_config
     browse_install credentials
   fi
 }
