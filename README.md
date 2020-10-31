@@ -59,7 +59,7 @@ chsh -s $(brew --prefix)/bin/bash
 ### Manual actions
 
 ```bash
-$ sudo pacman -S vim python-virtualenvwrapper gcc
+$ sudo pacman -S vim python-virtualenvwrapper gcc python-virtualenv
 ```
 
 in `.localrc`
