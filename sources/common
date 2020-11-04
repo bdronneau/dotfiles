@@ -10,3 +10,11 @@ export EDITOR='vim'
 meuhteo() {
   curl -qsSL --max-time 10 "wttr.in/${1:-Paris}?m&format=v2"
 }
+
+__prompt_kube_display_enable () {
+  export DOTFILES_PROMPT_KUBE=true
+}
+
+__prompt_kube_display_disable () {
+  export DOTFILES_PROMPT_KUBE=false
+}
