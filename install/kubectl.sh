@@ -20,6 +20,7 @@ install() {
 
   local KUBECTL_VIEW_SECRET_VERSION=0.6.0
   local KUBECTL_KAIL_VERSION=0.15.0
+  local KUBECTL_STATUS_VERSION=0.4.1
   local OS
   OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
@@ -61,6 +62,17 @@ install() {
       ln -snF "${HOME}/opt/kubectl/kubectl-kail-${KUBECTL_KAIL_VERSION}" "${HOME}/opt/bin/kubectl-kail"
       popd
       rm -Rf "${HOME}/opt/tmp/kubectl-kail_${KUBECTL_KAIL_VERSION}"
+    fi
+
+    if [[ ! -f "${HOME}/opt/kubectl/kubectl-status-${KUBECTL_STATUS_VERSION}" ]]; then
+      mkdir "${HOME}/opt/tmp/kubectl-status_${KUBECTL_STATUS_VERSION}"
+      download "https://github.com/bergerx/kubectl-status/releases/download/v${KUBECTL_STATUS_VERSION}/status_${OS}_amd64.tar.gz" "${HOME}/opt/tmp/kubectl-status_${KUBECTL_STATUS_VERSION}/status.tar.gz"
+      pushd "${HOME}/opt/tmp/kubectl-status_${KUBECTL_STATUS_VERSION}"
+      tar xf "status.tar.gz"
+      mv "status" "${HOME}/opt/kubectl/kubectl-status-${KUBECTL_STATUS_VERSION}"
+      ln -snF "${HOME}/opt/kubectl/kubectl-status-${KUBECTL_STATUS_VERSION}" "${HOME}/opt/bin/kubectl-status"
+      popd
+      rm -Rf "${HOME}/opt/tmp/kubectl-status_${KUBECTL_STATUS_VERSION}"
     fi
   fi
 }
