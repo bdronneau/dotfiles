@@ -12,5 +12,5 @@ jobs:
 
       - name: Run shellcheck
         run: |
-          shellcheck install/*.sh
-          shellcheck init.sh
+          shellcheck -P bin/ -x bin/utils.sh init.sh
+          shellcheck -P bin/ -x bin/utils.sh install/*.sh
