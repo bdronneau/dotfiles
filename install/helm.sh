@@ -35,5 +35,8 @@ install() {
 
     # Activate version
     ln -Fs "${HOME}/opt/helm/helm_${HELM_VERSION}" "${HOME}/opt/bin/helm"
+
+    # Generate bash completion
+    "${HOME}/opt/bin/helm" completion bash > "${HOME}/opt/bash-completion.d/helm"
   fi
 }
