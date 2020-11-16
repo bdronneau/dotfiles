@@ -27,4 +27,8 @@ install() {
     tar -C "${HOME}/opt" -xzf "${GO_ARCHIVE}"
     rm -rf "${GO_ARCHIVE}"
   fi
+
+  if command -v gcloud > /dev/null 2>&1; then
+    gcloud components update --quiet
+  fi
 }
