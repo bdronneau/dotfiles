@@ -75,5 +75,16 @@ install() {
       popd
       rm -Rf "${HOME}/opt/tmp/kubectl-status_${KUBECTL_STATUS_VERSION}"
     fi
+
+    if [[ ! -f "${HOME}/opt/kubectl/kubectl-tree-${KUBECTL_TREE_VERSION}" ]]; then
+      mkdir "${HOME}/opt/tmp/kubectl-tree_${KUBECTL_TREE_VERSION}"
+      download "https://github.com/ahmetb/kubectl-tree/releases/download/v${KUBECTL_TREE_VERSION}/kubectl-tree_v${KUBECTL_TREE_VERSION}_${OS}_amd64.tar.gz" "${HOME}/opt/tmp/kubectl-tree_${KUBECTL_TREE_VERSION}/tree.tar.gz"
+      pushd "${HOME}/opt/tmp/kubectl-tree_${KUBECTL_TREE_VERSION}"
+      tar xf "tree.tar.gz"
+      mv "kubectl-tree" "${HOME}/opt/kubectl/kubectl-tree-${KUBECTL_TREE_VERSION}"
+      ln -snF "${HOME}/opt/kubectl/kubectl-tree-${KUBECTL_TREE_VERSION}" "${HOME}/opt/bin/kubectl-tree"
+      popd
+      rm -Rf "${HOME}/opt/tmp/kubectl-tree_${KUBECTL_TREE_VERSION}"
+    fi
   fi
 }
