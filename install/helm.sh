@@ -10,7 +10,7 @@ clean() {
 }
 
 install() {
-  local HELM_VERSION=v3.4.0
+  local HELM_VERSION=v3.4.1
   if [[ ! -f "${HOME}/opt/helm/helm_${HELM_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/helm"
 

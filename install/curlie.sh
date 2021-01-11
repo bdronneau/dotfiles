@@ -13,7 +13,7 @@ clean() {
 }
 
 install() {
-  local CURLIE_VERSION=1.5.4
+  local CURLIE_VERSION=1.6.0
   if [[ ! -f "${HOME}/opt/curlie/curlie_${CURLIE_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/curlie"
     local OS

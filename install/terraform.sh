@@ -10,7 +10,7 @@ clean() {
 }
 
 install() {
-  local TERRAFORM_VERSION=0.13.5
+  local TERRAFORM_VERSION=0.14.2
   if [[ ! -f "${HOME}/opt/terraform/terraform_${TERRAFORM_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/terraform"
 

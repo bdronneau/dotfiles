@@ -21,6 +21,7 @@ install() {
   local KUBECTL_VIEW_SECRET_VERSION=0.6.0
   local KUBECTL_KAIL_VERSION=0.15.0
   local KUBECTL_STATUS_VERSION=0.4.1
+  local KUBECTL_TREE_VERSION=0.4.0
   local OS
   OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
