@@ -130,6 +130,7 @@ main() {
   set +e
   mkdir -p "${HOME}/opt/bin"
   mkdir -p "${HOME}/opt/tmp"
+  mkdir -p "${HOME}/opt/bash-completion.d"
   # shellcheck source=/dev/null
   PS1="$" source "${HOME}/.bashrc"
   set -e
