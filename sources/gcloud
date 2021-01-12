@@ -13,6 +13,8 @@ gcloud_auth() {
   gcloud config unset compute/region
   gcloud config set project "$(gcloud projects list | grep dev | awk '{print $1}')"
 
+  gcloud config set disable_usage_reporting false
+
   if command -v docker > /dev/null 2>&1; then
     gcloud --quiet auth configure-docker
   fi
