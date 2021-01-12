@@ -11,8 +11,8 @@ class GoTestDebug(sublime_plugin.WindowCommand):
         return True
 
     def run(self, kill=False):
-        vars = self.window.extract_variables()
-        working_dir = vars['file_path']
+        windows_vars = self.window.extract_variables()
+        working_dir = windows_vars['file_path']
 
         with self.panel_lock:
             self.panel = self.window.create_output_panel('gotestdebug')

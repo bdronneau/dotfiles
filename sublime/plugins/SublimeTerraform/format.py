@@ -12,8 +12,8 @@ class TerraformFmt(sublime_plugin.TextCommand):
         region = sublime.Region(0, view.size())
         src = view.substr(region)
 
-        vars = view.window().extract_variables()
-        working_dir = vars['file_path']
+        windows_vars = view.window().extract_variables()
+        working_dir = windows_vars['file_path']
 
         terraform_format = subprocess.Popen(['terraform', 'fmt', '-'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=working_dir)
         terraform_format_out, terraform_format_err = terraform_format.communicate(src.encode())

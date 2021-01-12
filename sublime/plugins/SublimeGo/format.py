@@ -12,8 +12,8 @@ class GoFormat(sublime_plugin.TextCommand):
         region = sublime.Region(0, view.size())
         src = view.substr(region)
 
-        vars = view.window().extract_variables()
-        working_dir = vars['file_path']
+        windows_vars = view.window().extract_variables()
+        working_dir = windows_vars['file_path']
 
         goimports = subprocess.Popen(['goimports'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=working_dir)
         goimports_out, goimports_err = goimports.communicate(src.encode())
