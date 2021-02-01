@@ -45,9 +45,9 @@ install() {
   if command -v kubectl > /dev/null 2>&1; then
     if [[ ! -f "${HOME}/opt/kubectl/kubectl-view_secret-${KUBECTL_VIEW_SECRET_VERSION}" ]]; then
       mkdir "${HOME}/opt/tmp/kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}"
-      download "https://github.com/elsesiy/kubectl-view-secret/releases/download/v${KUBECTL_VIEW_SECRET_VERSION}/kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}_${OS}_x86_64.tar.gz" "${HOME}/opt/tmp/kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}/kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}_x86_64.tar.gz"
+      download "https://github.com/elsesiy/kubectl-view-secret/releases/download/${KUBECTL_VIEW_SECRET_VERSION}/kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}_${OS}_amd64.tar.gz" "${HOME}/opt/tmp/kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}/kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}_amd64.tar.gz"
       pushd "${HOME}/opt/tmp/kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}"
-      tar xf "kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}_x86_64.tar.gz"
+      tar xf "kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}_amd64.tar.gz"
       mv "kubectl-view-secret" "${HOME}/opt/kubectl/kubectl-view_secret-${KUBECTL_VIEW_SECRET_VERSION}"
       ln -snF "${HOME}/opt/kubectl/kubectl-view_secret-${KUBECTL_VIEW_SECRET_VERSION}" "${HOME}/opt/bin/kubectl-view_secret"
       popd
