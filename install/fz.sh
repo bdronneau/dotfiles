@@ -9,6 +9,6 @@ install() {
   if [[ ! -f "${HOME}/opt/fz/fz.sh" ]]; then
     mkdir -p "${HOME}/opt/fz"
 
-    download "https://raw.githubusercontent.com/changyuheng/fz/master/fz.sh" -o "${HOME}/opt/fz/fz.sh"
+    download "https://raw.githubusercontent.com/changyuheng/fz/master/fz.sh" "${HOME}/opt/fz/fz.sh"
   fi
 }
