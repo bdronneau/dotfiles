@@ -11,7 +11,7 @@ clean() {
 }
 
 install() {
-  local FZF_VERSION=0.25.0
+  local FZF_VERSION=0.25.1
   if [[ ! -f "${HOME}/opt/fzf/fzf_${FZF_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/fzf"
 
