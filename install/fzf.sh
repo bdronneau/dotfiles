@@ -11,17 +11,30 @@ clean() {
 }
 
 install() {
-  local FZF_VERSION=0.25.1
+  local FZF_VERSION=0.27.1
   if [[ ! -f "${HOME}/opt/fzf/fzf_${FZF_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/fzf"
 
     local OS
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
-    download "https://github.com/junegunn/fzf/releases/download/${FZF_VERSION}/fzf-${FZF_VERSION}-${OS}_amd64.tar.gz" "fzf-${FZF_VERSION}-${OS}_amd64.tar.gz"
-    tar xf "fzf-${FZF_VERSION}-${OS}_amd64.tar.gz"
-    rm "fzf-${FZF_VERSION}-${OS}_amd64.tar.gz"
+    local EXT
+    EXT="tar.gz"
+
+    if [ "${OS}" = "darwin" ]; then
+        EXT="zip"
+    fi
+
+    download "https://github.com/junegunn/fzf/releases/download/${FZF_VERSION}/fzf-${FZF_VERSION}-${OS}_amd64.${EXT}" "fzf-${FZF_VERSION}-${OS}_amd64.${EXT}"
+
+    if [ "${EXT}" = "tar.gz" ]; then
+      tar xf "fzf-${FZF_VERSION}-${OS}_amd64.${EXT}"
+    else
+      unzip "fzf-${FZF_VERSION}-${OS}_amd64.${EXT}"
+    fi
+
     mv "fzf" "${HOME}/opt/fzf/fzf_${FZF_VERSION}"
+    rm "fzf-${FZF_VERSION}-${OS}_amd64.${EXT}"
 
     if [[ -f "${HOME}/opt/bin/fzf" ]]; then
       rm -f "${HOME}/opt/bin/fzf"
