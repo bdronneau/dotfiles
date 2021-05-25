@@ -11,7 +11,7 @@ clean() {
 }
 
 install() {
-  local YQ_VERSION=v4.6.3
+  local YQ_VERSION=v4.9.3
   if [[ ! -f "${HOME}/opt/yq/yq_${YQ_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/yq"
 

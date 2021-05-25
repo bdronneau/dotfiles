@@ -19,7 +19,7 @@ clean() {
 }
 
 install() {
-  local N_VERSION=7.1.0
+  local N_VERSION=7.2.1
   if [[ ! -f "${HOME}/opt/n/n_${N_VERSION}.sh" ]]; then
     mkdir -p "${HOME}/opt/n"
 

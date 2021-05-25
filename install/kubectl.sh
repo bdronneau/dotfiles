@@ -18,7 +18,7 @@ install() {
   local KUBECTL_VERSION
   KUBECTL_VERSION=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
 
-  local KUBECTL_VIEW_SECRET_VERSION=v0.7.0
+  local KUBECTL_VIEW_SECRET_VERSION=v0.8.1
   local KUBECTL_KAIL_VERSION=0.15.0
   local KUBECTL_STATUS_VERSION=0.4.1
   local KUBECTL_TREE_VERSION=0.4.0
