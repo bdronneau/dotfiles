@@ -2,10 +2,10 @@
 
 export DOTFILES__PACKAGES=true
 export DOTFILES__FIRST=true
-export DOTFILES_AWS=true
+export DOTFILES_AWS=false
 export DOTFILES_CURLIE=true
 export DOTFILES_FZ=true
-export DOTFILES_FZF=false
+export DOTFILES_FZF=true
 export DOTFILES_GIT=true
 export DOTFILES_GITOPS=true
 export DOTFILES_GCLOUD=true

@@ -50,7 +50,7 @@ browse_install() {
     UPPERCASE_FILENAME="$(echo "${BASENAME_FILE}" | tr "[:lower:]" "[:upper:]")"
     local DISABLE_VARIABLE_NAME="DOTFILES_${UPPERCASE_FILENAME}"
 
-    if [[ -z "${!DISABLE_VARIABLE_NAME:-}" ]]; then
+    if [[ ${!DISABLE_VARIABLE_NAME:-} == "false" ]]; then
       continue
     fi
 
