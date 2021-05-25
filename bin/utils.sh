@@ -36,6 +36,29 @@ download() {
     return 1
 }
 
+url_tar() {
+    local url="$1"
+    local name=$(basename $1)
+    local archive_bin="$2"
+    local output="$3"
+    local tmp_dir="${HOME}/opt/tmp/${name}"
+
+    if [[ -d "${tmp_dir}" ]]; then
+        rm -rdi "${tmp_dir}"
+    fi
+
+    mkdir "${tmp_dir}"
+    pushd "${tmp_dir}"
+
+    download "$url" "${tmp_dir}/archive.tar.gz"
+    tar -xzf "${tmp_dir}/archive.tar.gz"
+    mv "${archive_bin}" "${output}"
+
+    popd
+
+    rm -Rf "${tmp_dir}"
+}
+
 # Logging stuff.
 function print_debug() {
     if [[ "${DOTFILES_DEBUG:-}" == "true" ]]; then
