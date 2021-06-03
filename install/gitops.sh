@@ -18,7 +18,7 @@ install() {
   local OS
   OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
-  local FLUX_VERSION="0.13.4"
+  local FLUX_VERSION="0.14.2"
   if [[ ! -f "${HOME}/opt/flux/flux_${FLUX_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/flux"
     url_tar "https://github.com/fluxcd/flux2/releases/download/v${FLUX_VERSION}/flux_${FLUX_VERSION}_${OS}_amd64.tar.gz" "flux" "${HOME}/opt/flux/flux_${FLUX_VERSION}"
