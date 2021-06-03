@@ -38,7 +38,8 @@ download() {
 
 url_tar() {
     local url="$1"
-    local name=$(basename $1)
+    local name
+    name=$(basename "$1")
     local archive_bin="$2"
     local output="$3"
     local tmp_dir="${HOME}/opt/tmp/${name}"
@@ -48,13 +49,13 @@ url_tar() {
     fi
 
     mkdir "${tmp_dir}"
-    pushd "${tmp_dir}"
+    pushd "${tmp_dir}" || exit
 
     download "$url" "${tmp_dir}/archive.tar.gz"
     tar -xzf "${tmp_dir}/archive.tar.gz"
     mv "${archive_bin}" "${output}"
 
-    popd
+    popd || exit
 
     rm -Rf "${tmp_dir}"
 }
