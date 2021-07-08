@@ -5,4 +5,9 @@ if ! command -v terraform > /dev/null 2>&1; then
 fi
 
 complete -C ${HOME}/opt/bin/terraform terraform
+
 export TF_PLUGIN_CACHE_DIR="$HOME/.terraform.d/plugin-cache"
+
+if [[ ! -d "${TF_PLUGIN_CACHE_DIR}" ]]; then
+  mkdir -p "${TF_PLUGIN_CACHE_DIR}"
+fi
