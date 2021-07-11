@@ -14,9 +14,6 @@ install() {
   if [[ ! -d "${HOME}/opt/tfenv/tfenv-${TFENV_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/tfenv"
 
-    local OS
-    OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-
     mkdir "${HOME}/opt/tmp/tfenv_${TFENV_VERSION}"
     download "https://github.com/tfutils/tfenv/archive/refs/tags/v${TFENV_VERSION}.zip" "${HOME}/opt/tmp/tfenv_${TFENV_VERSION}/tfenv_${TFENV_VERSION}.zip"
 
