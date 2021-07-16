@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
-if command -v pyenv > /dev/null 2>&1; then
+if [[ -d "${HOME}/opt/pyenv/" ]]; then
   export PYENV_VIRTUALENV_DISABLE_PROMPT=1
   export PYENV_ROOT="$HOME/opt/pyenv/"
+  export PATH="${HOME}/opt/pyenv/shims:${PATH}"
   eval "$(pyenv init -)"
   eval "$(pyenv virtualenv-init -)"
 fi
