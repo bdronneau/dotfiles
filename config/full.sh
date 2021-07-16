@@ -16,6 +16,7 @@ export DOTFILES_JQ=true
 export DOTFILES_KUBECTL=true
 export DOTFILES_NODE=true
 export DOTFILES_PIP=true
+export DOTFILES_PYENV=true
 export DOTFILES_SHELLCHECK=true
 export DOTFILES_SOFTWARES=true
 export DOTFILES_SUBLIME=false
