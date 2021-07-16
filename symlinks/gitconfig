@@ -15,6 +15,7 @@
         sweep = "! git prune && git remote prune origin && git branch --list --format '%(if:equals=[gone])%(upstream:track)%(then)%(refname:short)%(end)' | grep -E -v '^$' | xargs git branch -D && git gc"
         rebaseauto = rebase --autosquash --autostash
         refreshremote = remote update origin --prune && git fetch --tags
+        root = rev-parse --show-toplevel
 
 [commit]
        gpgsign = true
