@@ -3,6 +3,9 @@
         email = basti1.dr@gmail.com
         signingkey = 657EE8DE5A187DD88D5F3EB36EB801B27AAB8AC9
 
+[includeIf "gitdir:~/code/ManoMano/"]
+        path = ~/.gitconfig_work
+
 [alias]
         co = checkout
         diff-last-tag = !sh -c 'git log --merges --format=\"%Cred%h%Creset %s %C(yellow)%b%Creset\" $(git describe --abbrev=0 --tags)..HEAD'
