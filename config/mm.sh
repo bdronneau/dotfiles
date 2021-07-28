@@ -9,6 +9,7 @@ export DOTFILES_FZF=true
 export DOTFILES_GIT=true
 export DOTFILES_GITOPS=true
 export DOTFILES_GOLANG=true
+export DOTFILES_GOPASS=true
 export DOTFILES_GPG=true
 export DOTFILES_HELM=true
 export DOTFILES_JQ=true
