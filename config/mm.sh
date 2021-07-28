@@ -19,4 +19,5 @@ export DOTFILES_SOFTWARES=true
 export DOTFILES_TFENV=true
 export DOTFILES_TGENV=true
 export DOTFILES_TMUX=true
+export DOTFILES_VAULT=true
 export DOTFILES_YQ=true
