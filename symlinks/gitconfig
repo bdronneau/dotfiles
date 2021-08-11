@@ -7,18 +7,24 @@
         path = ~/.gitconfig_work
 
 [alias]
+        br = branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate
         co = checkout
+        commit = commit --signoff
+        del = branch -D
         diff-last-tag = !sh -c 'git log --merges --format=\"%Cred%h%Creset %s %C(yellow)%b%Creset\" $(git describe --abbrev=0 --tags)..HEAD'
         diff-last-tag-short= !sh -c 'git log --merges --oneline $(git describe --abbrev=0 --tags)..HEAD'
         fco = "!f() { git checkout $(git branch -vv --all | fzf --ansi --reverse -1 -q ${1:-''} | awk '{print $1}' | sed 's|^remotes/origin/||'); }; f"
+        last = log -1 HEAD --stat
         lola = log --graph --pretty=format:'%C(bold red)%h%Creset -%C(bold yellow)%d%Creset %s %C(bold green)(%ar) %C(bold ul blue)%an%Creset' --abbrev-commit --all
         putsch = push --force-with-lease
-        show-merge = "!sh -c 'git show $1^1..$1' -"
-        st = status
-        sweep = "! git prune && git remote prune origin && git branch --list --format '%(if:equals=[gone])%(upstream:track)%(then)%(refname:short)%(end)' | grep -E -v '^$' | xargs git branch -D && git gc"
         rebaseauto = rebase --autosquash --autostash
         refreshremote = remote update origin --prune && git fetch --tags
         root = rev-parse --show-toplevel
+        save = !git add -A && git commit -m 'chore: savepoint'
+        show-merge = "!sh -c 'git show $1^1..$1' -"
+        st = status
+        sweep = "! git prune && git remote prune origin && git branch --list --format '%(if:equals=[gone])%(upstream:track)%(then)%(refname:short)%(end)' | grep -E -v '^$' | xargs git branch -D && git gc"
+        undo = reset HEAD~1 --mixed
 
 [commit]
        gpgsign = true
