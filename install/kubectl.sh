@@ -22,6 +22,7 @@ install() {
   local KUBECTL_KAIL_VERSION=0.15.0
   local KUBECTL_STATUS_VERSION=0.4.1
   local KUBECTL_TREE_VERSION=0.4.0
+  local KUBECTL_ALLOCATIONS_VERSION=0.14.5
   local OS
   OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
@@ -85,6 +86,24 @@ install() {
       ln -snF "${HOME}/opt/kubectl/kubectl-tree-${KUBECTL_TREE_VERSION}" "${HOME}/opt/bin/kubectl-tree"
       popd
       rm -Rf "${HOME}/opt/tmp/kubectl-tree_${KUBECTL_TREE_VERSION}"
+    fi
+
+    if [[ ! -f "${HOME}/opt/kubectl/kubectl-view-allocations-${KUBECTL_ALLOCATIONS_VERSION}" ]]; then
+      KUBECTL_ALLOCATIONS_URL="https://github.com/davidB/kubectl-view-allocations/releases/download/${KUBECTL_ALLOCATIONS_VERSION}/kubectl-view-allocations_${KUBECTL_ALLOCATIONS_VERSION}"
+      if [[ ${OS} =~ ^darwin ]]; then
+        KUBECTL_ALLOCATIONS_URL+="-x86_64-apple-${OS}.tar.gz"
+      else
+        KUBECTL_ALLOCATIONS_URL+="-x86_64-unknown-${OS}-gnu.tar.gz"
+      fi
+
+      mkdir "${HOME}/opt/tmp/kubectl-view-allocations_${KUBECTL_ALLOCATIONS_VERSION}"
+      download "${KUBECTL_ALLOCATIONS_URL}" "${HOME}/opt/tmp/kubectl-view-allocations_${KUBECTL_ALLOCATIONS_VERSION}/view-allocations.tar.gz"
+      pushd "${HOME}/opt/tmp/kubectl-view-allocations_${KUBECTL_ALLOCATIONS_VERSION}"
+      tar xf "view-allocations.tar.gz"
+      mv "kubectl-view-allocations" "${HOME}/opt/kubectl/kubectl-view-allocations-${KUBECTL_ALLOCATIONS_VERSION}"
+      ln -snF "${HOME}/opt/kubectl/kubectl-view-allocations-${KUBECTL_ALLOCATIONS_VERSION}" "${HOME}/opt/bin/kubectl-view-allocations"
+      popd
+      rm -Rf "${HOME}/opt/tmp/kubectl-view-allocations_${KUBECTL_ALLOCATIONS_VERSION}"
     fi
   fi
 }
