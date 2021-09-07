@@ -13,7 +13,7 @@ clean() {
 }
 
 install() {
-  local GOPASS_VERSION=1.12.7
+  local GOPASS_VERSION=1.12.8
   if [[ ! -f "${HOME}/opt/gopass/gopass_${GOPASS_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/gopass"
     local OS

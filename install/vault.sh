@@ -10,7 +10,7 @@ clean() {
 }
 
 install() {
-  local VAULT_VERSION=1.7.3
+  local VAULT_VERSION=1.8.2
   if [[ ! -f "${HOME}/opt/vault/vault_${VAULT_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/vault"
 

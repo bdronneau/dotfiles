@@ -10,7 +10,7 @@ clean() {
 }
 
 install() {
-  local TERRAGRUNT_VERSION=0.31.0
+  local TERRAGRUNT_VERSION=0.31.8
   if [[ ! -f "${HOME}/opt/terragrunt/terragrunt_${TERRAGRUNT_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/terragrunt"
 
