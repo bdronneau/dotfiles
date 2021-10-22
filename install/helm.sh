@@ -40,5 +40,8 @@ install() {
 
     # Generate bash completion
     "${HOME}/opt/bin/helm" completion bash > "${HOME}/opt/bash-completion.d/helm"
+
+    # Helm plugins
+    helm plugin install https://github.com/hayorov/helm-gcs.git --version ${HELM_PLUGIN_GCS_VERSION}
   fi
 }
