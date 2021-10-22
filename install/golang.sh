@@ -45,12 +45,12 @@ install() {
 
   if command -v go > /dev/null 2>&1; then
     if [[ ${ARCH} = "amd64" ]]; then
-      go get -u github.com/go-delve/delve/cmd/dlv
+      go install github.com/go-delve/delve/cmd/dlv@latest
     fi
 
-    GO111MODULE=on go get golang.org/x/tools/gopls@latest
-    go get -u github.com/kisielk/errcheck
-    go get -u golang.org/x/lint/golint
-    go get -u golang.org/x/tools/cmd/goimports
+    GO111MODULE=on go install golang.org/x/tools/gopls@latest
+    go install github.com/kisielk/errcheck@latest
+    go install golang.org/x/lint/golint@latest
+    go install golang.org/x/tools/cmd/goimports@latest
   fi
 }
