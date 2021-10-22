@@ -58,12 +58,18 @@ And also for current user
 chsh -s $(brew --prefix)/bin/bash
 ```
 
-## ARCH
+## Manual actions
 
-### Manual actions
+### Global
 
 ```bash
-$ sudo pacman -S vim python-virtualenvwrapper gcc python-virtualenv
+pyenv install 3.10.0
+```
+
+### Manjaro
+
+```bash
+$ sudo pacman -S vim gcc
 ```
 
 in `.localrc`
