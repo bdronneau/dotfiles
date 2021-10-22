@@ -10,7 +10,9 @@ clean() {
 }
 
 install() {
-  local HELM_VERSION=v3.6.2
+  local HELM_VERSION=v3.7.1
+  local HELM_PLUGIN_GCS_VERSION=0.3.18
+
   if [[ ! -f "${HOME}/opt/helm/helm_${HELM_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/helm"
 
