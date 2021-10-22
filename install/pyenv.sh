@@ -60,5 +60,8 @@ install() {
 
   if [[ ! -d "${HOME}/opt/pyenv/${PYENV_VERSION}/plugins/pyenv-virtualenv" ]]; then
     git clone -q --depth 1 https://github.com/pyenv/pyenv-virtualenv.git "${HOME}/opt/pyenv/${PYENV_VERSION}/plugins/pyenv-virtualenv"
+
+    # Activate version
+    ln -Fs "${HOME}/opt/pyenv/${PYENV_VERSION}/bin/*" "${HOME}/opt/bin/"
   fi
 }
