@@ -56,3 +56,5 @@
         rebase = true
 [help]
         autocorrect = 20
+[init]
+	defaultBranch = main
