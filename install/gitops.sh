@@ -6,6 +6,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
     && . "../bin/utils.sh"
 
 FLUX_BIN="${HOME}/opt/bin/flux"
+KUBESEAL_BIN="${HOME}/opt/bin/kubeseal"
 FLUX_COMPLETION="${HOME}/opt/bash-completion.d/flux"
 
 clean() {
@@ -31,5 +32,20 @@ install() {
     ln -Fs "${HOME}/opt/flux/flux_${FLUX_VERSION}" "${FLUX_BIN}"
 
     flux completion bash > "${FLUX_COMPLETION}"
+  fi
+
+  local KUBESEAL_VERSION="0.16.0"
+  if [[ ! -f "${HOME}/opt/kubeseal/kubeseal_${KUBESEAL_VERSION}" ]]; then
+    mkdir -p "${HOME}/opt/kubeseal"
+    download "https://github.com/bitnami-labs/sealed-secrets/releases/download/v${KUBESEAL_VERSION}/kubeseal-${OS}-amd64" "${HOME}/opt/kubeseal/kubeseal_${KUBESEAL_VERSION}"
+
+    if [[ -f "${KUBESEAL_BIN}" ]]; then
+      rm -f "${KUBESEAL_BIN}"
+    fi
+
+    # Activate version
+    ln -Fs "${HOME}/opt/kubeseal/kubeseal_${KUBESEAL_VERSION}" "${KUBESEAL_BIN}"
+
+    chmod 0700  "${KUBESEAL_BIN}"
   fi
 }
