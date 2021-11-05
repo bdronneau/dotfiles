@@ -35,7 +35,7 @@ requirements() {
 }
 
 install() {
-  local PYENV_VERSION="2.1.0"
+  local PYENV_VERSION="2.2.0"
 
   if [[ ! -d "${HOME}/opt/pyenv/${PYENV_VERSION}" ]]; then
     requirements
