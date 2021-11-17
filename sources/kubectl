@@ -2,4 +2,5 @@
 
 if [[ -f "${HOME}/opt/bash-completion.d/kubectl" ]]; then
     source "${HOME}/opt/bash-completion.d/kubectl";
+    alias __kubectl_last_events="kubectl get event --sort-by=’.lastTimestamp"
 fi

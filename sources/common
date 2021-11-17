@@ -22,3 +22,17 @@ __prompt_kube_display_enable () {
 __prompt_kube_display_disable () {
   export DOTFILES_PROMPT_KUBE=false
 }
+
+ccd() {
+  if [[ ! -f $1 && ! -d $1 ]]
+  then
+    echo "Can not go to '$1' => Not found"
+  fi
+
+  if [[ -f $1 ]]
+  then
+    cd $(dirname $1)
+  else
+    cd $1
+  fi
+}
