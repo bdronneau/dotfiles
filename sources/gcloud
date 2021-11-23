@@ -9,7 +9,7 @@ if [ -f "${HOME}/opt/google-cloud-sdk/completion.bash.inc" ]; then . "${HOME}/op
 gcloud_auth() {
   rm -rf "/tmp/${USER}*"
   gcloud auth login --no-launch-browser
-  
+
   gcloud config unset compute/region
   gcloud config set project "$(gcloud projects list | grep dev | awk '{print $1}')"
 
@@ -19,6 +19,10 @@ gcloud_auth() {
     gcloud --quiet auth configure-docker
   fi
 }
+
+if command -v gcloud > /dev/null 2>&1; then
+  alias __gcloud_projects_list="gcloud projects list"
+fi
 
 findhostname () {
     PROJECT=$(getProjectByEnv $1)
