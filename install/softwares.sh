@@ -21,7 +21,7 @@ install() {
   fi
 
   if command -v flatpak > /dev/null 2>&1; then
-    flatpak install us.zoom.Zoom --or-update
-    flatpak install com.slack.Slack --or-update
+    flatpak install us.zoom.Zoom --or-update --noninteractive
+    flatpak install com.slack.Slack --or-update --noninteractive
   fi
 }
