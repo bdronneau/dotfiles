@@ -50,7 +50,7 @@ install() {
       pushd "${HOME}/opt/tmp/kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}"
       tar xf "kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}_amd64.tar.gz"
       mv "kubectl-view-secret" "${HOME}/opt/kubectl/kubectl-view_secret-${KUBECTL_VIEW_SECRET_VERSION}"
-      ln -snF "${HOME}/opt/kubectl/kubectl-view_secret-${KUBECTL_VIEW_SECRET_VERSION}" "${HOME}/opt/bin/kubectl-view_secret"
+      ln -snf "${HOME}/opt/kubectl/kubectl-view_secret-${KUBECTL_VIEW_SECRET_VERSION}" "${HOME}/opt/bin/kubectl-view_secret"
       popd
       rm -Rf "${HOME}/opt/tmp/kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}"
     fi
@@ -61,7 +61,7 @@ install() {
       pushd "${HOME}/opt/tmp/kubectl-kail_${KUBECTL_KAIL_VERSION}"
       tar xf "kail.tar.gz"
       mv "kail" "${HOME}/opt/kubectl/kubectl-kail-${KUBECTL_KAIL_VERSION}"
-      ln -snF "${HOME}/opt/kubectl/kubectl-kail-${KUBECTL_KAIL_VERSION}" "${HOME}/opt/bin/kubectl-kail"
+      ln -snf "${HOME}/opt/kubectl/kubectl-kail-${KUBECTL_KAIL_VERSION}" "${HOME}/opt/bin/kubectl-kail"
       popd
       rm -Rf "${HOME}/opt/tmp/kubectl-kail_${KUBECTL_KAIL_VERSION}"
     fi
@@ -72,7 +72,7 @@ install() {
       pushd "${HOME}/opt/tmp/kubectl-status_${KUBECTL_STATUS_VERSION}"
       tar xf "status.tar.gz"
       mv "status" "${HOME}/opt/kubectl/kubectl-status-${KUBECTL_STATUS_VERSION}"
-      ln -snF "${HOME}/opt/kubectl/kubectl-status-${KUBECTL_STATUS_VERSION}" "${HOME}/opt/bin/kubectl-status"
+      ln -snf "${HOME}/opt/kubectl/kubectl-status-${KUBECTL_STATUS_VERSION}" "${HOME}/opt/bin/kubectl-status"
       popd
       rm -Rf "${HOME}/opt/tmp/kubectl-status_${KUBECTL_STATUS_VERSION}"
     fi
@@ -83,7 +83,7 @@ install() {
       pushd "${HOME}/opt/tmp/kubectl-tree_${KUBECTL_TREE_VERSION}"
       tar xf "tree.tar.gz"
       mv "kubectl-tree" "${HOME}/opt/kubectl/kubectl-tree-${KUBECTL_TREE_VERSION}"
-      ln -snF "${HOME}/opt/kubectl/kubectl-tree-${KUBECTL_TREE_VERSION}" "${HOME}/opt/bin/kubectl-tree"
+      ln -snf "${HOME}/opt/kubectl/kubectl-tree-${KUBECTL_TREE_VERSION}" "${HOME}/opt/bin/kubectl-tree"
       popd
       rm -Rf "${HOME}/opt/tmp/kubectl-tree_${KUBECTL_TREE_VERSION}"
     fi
@@ -101,7 +101,7 @@ install() {
       pushd "${HOME}/opt/tmp/kubectl-view-allocations_${KUBECTL_ALLOCATIONS_VERSION}"
       tar xf "view-allocations.tar.gz"
       mv "kubectl-view-allocations" "${HOME}/opt/kubectl/kubectl-view-allocations-${KUBECTL_ALLOCATIONS_VERSION}"
-      ln -snF "${HOME}/opt/kubectl/kubectl-view-allocations-${KUBECTL_ALLOCATIONS_VERSION}" "${HOME}/opt/bin/kubectl-view-allocations"
+      ln -snf "${HOME}/opt/kubectl/kubectl-view-allocations-${KUBECTL_ALLOCATIONS_VERSION}" "${HOME}/opt/bin/kubectl-view-allocations"
       popd
       rm -Rf "${HOME}/opt/tmp/kubectl-view-allocations_${KUBECTL_ALLOCATIONS_VERSION}"
     fi
