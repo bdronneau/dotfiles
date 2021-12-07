@@ -36,3 +36,7 @@ ccd() {
     cd $1
   fi
 }
+
+ssh_pass() {
+  ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no $1
+}
