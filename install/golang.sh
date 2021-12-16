@@ -16,7 +16,8 @@ clean() {
 }
 
 install() {
-  local GO_VERSION="1.17.4"
+  # renovate: datasource=github-tags depName=golang/go versioning=regex:^go(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)
+  local GO_VERSION="go1.17.4"
 
   local OS
   OS="$(uname -s | tr "[:upper:]" "[:lower:]")"
@@ -30,7 +31,7 @@ install() {
   fi
 
   if [[ ! -d ${HOME}/opt/go ]]; then
-    local GO_ARCHIVE="go${GO_VERSION}.${OS}-${ARCH}.tar.gz"
+    local GO_ARCHIVE="${GO_VERSION}.${OS}-${ARCH}.tar.gz"
 
     download "https://dl.google.com/go/${GO_ARCHIVE}" "${GO_ARCHIVE}"
     tar -C "${HOME}/opt" -xzf "${GO_ARCHIVE}"

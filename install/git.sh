@@ -14,6 +14,7 @@ install() {
     download "https://raw.githubusercontent.com/git/git/v$(git --version | awk '{print $3}')/contrib/completion/git-completion.bash" "${HOME}/opt/bash-completion.d/git"
   fi
 
+  # renovate: datasource=github-tags depName=dandavison/delta
   local DELTA_VERSION="0.11.0"
   local DELTA_ARCHIVE="delta-${DELTA_VERSION}-x86_64"
 
