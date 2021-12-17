@@ -13,14 +13,15 @@ clean() {
 }
 
 install() {
-  local CURLIE_VERSION=1.6.7
+  # renovate: datasource=github-tags depName=rs/curlie
+  local CURLIE_VERSION="v1.6.7"
   if [[ ! -f "${HOME}/opt/curlie/curlie_${CURLIE_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/curlie"
     local OS
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
     local CURLIE_ARCHIVE="curlie_${CURLIE_VERSION}_${OS}_amd64.tar.gz"
-    download "https://github.com/rs/curlie/releases/download/v${CURLIE_VERSION}/${CURLIE_ARCHIVE}" "${CURLIE_ARCHIVE}"
+    download "https://github.com/rs/curlie/releases/download/${CURLIE_VERSION}/${CURLIE_ARCHIVE}" "${CURLIE_ARCHIVE}"
 
     tar -C "/tmp" -xzf "${CURLIE_ARCHIVE}"
     rm "${CURLIE_ARCHIVE}"
