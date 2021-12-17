@@ -20,7 +20,7 @@ install() {
   OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
   # renovate: datasource=github-tags depName=fluxcd/flux2
-  local FLUX_VERSION="0.24.0"
+  local FLUX_VERSION="v0.24.1"
   local FLUX_VERSION_TAG="v${FLUX_VERSION}"
   if [[ ! -f "${HOME}/opt/flux/flux_${FLUX_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/flux"
