@@ -11,7 +11,7 @@ meuhteo() {
   curl -qsSL --max-time 10 "wttr.in/${1:-Paris}?m&format=v2"
 }
 
-gg_root() {
+gcd() {
   cd $(git root)
 }
 

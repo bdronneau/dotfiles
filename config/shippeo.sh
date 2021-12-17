@@ -22,3 +22,4 @@ export DOTFILES_TGSWITCH=true
 export DOTFILES_TMUX=true
 export DOTFILES_VAULT=true
 export DOTFILES_YQ=true
+export DOTFILES_Z=true
