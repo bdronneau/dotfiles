@@ -16,7 +16,7 @@ clean() {
 }
 
 install() {
-  # renovate: datasource=github-tags depName=golang/go versioning=regex:^go(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)
+  # renovate: datasource=github-tags depName=golang/go versioning=regex:^go(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)
   local GO_VERSION="go1.17.4"
 
   local OS
