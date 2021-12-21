@@ -40,7 +40,7 @@ install() {
   local KUBESEAL_VERSION="v0.17.1"
   if [[ ! -f "${HOME}/opt/kubeseal/kubeseal_${KUBESEAL_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/kubeseal"
-    download "https://github.com/bitnami-labs/sealed-secrets/releases/download/v${KUBESEAL_VERSION}/kubeseal-${OS}-amd64" "${HOME}/opt/kubeseal/kubeseal_${KUBESEAL_VERSION}"
+    download "https://github.com/bitnami-labs/sealed-secrets/releases/download/${KUBESEAL_VERSION}/kubeseal-${KUBESEAL_VERSION/v/}-${OS}-amd64.tar.gz" "${HOME}/opt/kubeseal/kubeseal_${KUBESEAL_VERSION}"
 
     if [[ -f "${KUBESEAL_BIN}" ]]; then
       rm -f "${KUBESEAL_BIN}"
