@@ -20,11 +20,11 @@ install() {
   OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
   # renovate: datasource=github-tags depName=fluxcd/flux2
-  local FLUX_VERSION="0.24.0"
-  local FLUX_VERSION_TAG="v${FLUX_VERSION}"
+  local FLUX_VERSION_TAG="v0.24.0"
+  local FLUX_VERSION="${FLUX_VERSION_TAG/v/}"
   if [[ ! -f "${HOME}/opt/flux/flux_${FLUX_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/flux"
-    url_tar "https://github.com/fluxcd/flux2/releases/download/${FLUX_VERSION}/flux_${FLUX_VERSION_TAG}_${OS}_amd64.tar.gz" "flux" "${HOME}/opt/flux/flux_${FLUX_VERSION}"
+    url_tar "https://github.com/fluxcd/flux2/releases/download/${FLUX_VERSION_TAG}/flux_${FLUX_VERSION}_${OS}_amd64.tar.gz" "flux" "${HOME}/opt/flux/flux_${FLUX_VERSION}"
 
     if [[ -f "${FLUX_BIN}" ]]; then
       rm -f "${FLUX_BIN}"
