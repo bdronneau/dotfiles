@@ -11,6 +11,7 @@ clean() {
 }
 
 install() {
+  # renovate: datasource=github-tags depName=mikefarah/yq
   local YQ_VERSION=v4.16.1
   if [[ ! -f "${HOME}/opt/yq/yq_${YQ_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/yq"

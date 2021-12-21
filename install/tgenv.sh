@@ -10,12 +10,13 @@ clean() {
 }
 
 install() {
-  local TGENV_VERSION=0.0.3
+  # renovate: datasource=github-tags depName=cunymatthieu/tgenv
+  local TGENV_VERSION="v0.0.3"
   if [[ ! -d "${HOME}/opt/tgenv/tgenv-${TGENV_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/tgenv"
 
     mkdir "${HOME}/opt/tmp/tgenv_${TGENV_VERSION}"
-    download "https://github.com/cunymatthieu/tgenv/archive/refs/tags/v${TGENV_VERSION}.zip" "${HOME}/opt/tmp/tgenv_${TGENV_VERSION}/tgenv_${TGENV_VERSION}.zip"
+    download "https://github.com/cunymatthieu/tgenv/archive/refs/tags/${TGENV_VERSION}.zip" "${HOME}/opt/tmp/tgenv_${TGENV_VERSION}/tgenv_${TGENV_VERSION}.zip"
 
     pushd "${HOME}/opt/tmp/tgenv_${TGENV_VERSION}"
     unzip "tgenv_${TGENV_VERSION}.zip"

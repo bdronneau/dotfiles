@@ -19,11 +19,12 @@ clean() {
 }
 
 install() {
-  local N_VERSION=8.0.1
+  # renovate: datasource=github-tags depName=tj/n
+  local N_VERSION="v8.0.1"
   if [[ ! -f "${HOME}/opt/n/n_${N_VERSION}.sh" ]]; then
     mkdir -p "${HOME}/opt/n"
 
-    download "https://raw.githubusercontent.com/tj/n/v${N_VERSION}/bin/n" "${HOME}/opt/n/n_${N_VERSION}.sh"
+    download "https://raw.githubusercontent.com/tj/n/${N_VERSION}/bin/n" "${HOME}/opt/n/n_${N_VERSION}.sh"
 
     # Activate version
     ln -sfn "${HOME}/opt/n/n_${N_VERSION}.sh" "${HOME}/opt/bin/n"

@@ -10,7 +10,10 @@ clean() {
 }
 
 install() {
-  local VAULT_VERSION=1.8.2
+  # renovate: datasource=github-tags depName=hashicorp/vault
+  local VAULT_VERSION_TAG="v1.8.2"
+  local VAULT_VERSION="${VAULT_VERSION_TAG/v/}"
+
   if [[ ! -f "${HOME}/opt/vault/vault_${VAULT_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/vault"
 

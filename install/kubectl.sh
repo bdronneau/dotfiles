@@ -18,11 +18,18 @@ install() {
   local KUBECTL_VERSION
   KUBECTL_VERSION=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
 
+  # renovate: datasource=github-tags depName=elsesiy/kubectl-view-secret
   local KUBECTL_VIEW_SECRET_VERSION=v0.9.0
-  local KUBECTL_KAIL_VERSION=0.15.0
-  local KUBECTL_STATUS_VERSION=0.6.7
-  local KUBECTL_TREE_VERSION=0.4.1
+  # renovate: datasource=github-tags depName=boz/kail
+  local KUBECTL_KAIL_VERSION_TAG=0.15.0
+  local KUBECTL_KAIL_VERSION="${KUBECTL_KAIL_VERSION_TAG/v/}"
+  # renovate: datasource=github-tags depName=bergerx/kubectl-status
+  local KUBECTL_STATUS_VERSION="v0.6.7"
+  # renovate: datasource=github-tags depName=ahmetb/kubectl-tree
+  local KUBECTL_TREE_VERSION="v0.4.1"
+  # renovate: datasource=github-tags depName=davidB/kubectl-view-allocations
   local KUBECTL_ALLOCATIONS_VERSION=0.14.5
+
   local OS
   OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
@@ -57,7 +64,7 @@ install() {
 
     if [[ ! -f "${HOME}/opt/kubectl/kubectl-kail-${KUBECTL_KAIL_VERSION}" ]]; then
       mkdir "${HOME}/opt/tmp/kubectl-kail_${KUBECTL_KAIL_VERSION}"
-      download "https://github.com/boz/kail/releases/download/v${KUBECTL_KAIL_VERSION}/kail_${KUBECTL_KAIL_VERSION}_${OS}_amd64.tar.gz" "${HOME}/opt/tmp/kubectl-kail_${KUBECTL_KAIL_VERSION}/kail.tar.gz"
+      download "https://github.com/boz/kail/releases/download/${KUBECTL_KAIL_VERSION_TAG}/kail_${KUBECTL_KAIL_VERSION}_${OS}_amd64.tar.gz" "${HOME}/opt/tmp/kubectl-kail_${KUBECTL_KAIL_VERSION}/kail.tar.gz"
       pushd "${HOME}/opt/tmp/kubectl-kail_${KUBECTL_KAIL_VERSION}"
       tar xf "kail.tar.gz"
       mv "kail" "${HOME}/opt/kubectl/kubectl-kail-${KUBECTL_KAIL_VERSION}"
@@ -68,7 +75,7 @@ install() {
 
     if [[ ! -f "${HOME}/opt/kubectl/kubectl-status-${KUBECTL_STATUS_VERSION}" ]]; then
       mkdir "${HOME}/opt/tmp/kubectl-status_${KUBECTL_STATUS_VERSION}"
-      download "https://github.com/bergerx/kubectl-status/releases/download/v${KUBECTL_STATUS_VERSION}/status_${OS}_amd64.tar.gz" "${HOME}/opt/tmp/kubectl-status_${KUBECTL_STATUS_VERSION}/status.tar.gz"
+      download "https://github.com/bergerx/kubectl-status/releases/download/${KUBECTL_STATUS_VERSION}/status_${OS}_amd64.tar.gz" "${HOME}/opt/tmp/kubectl-status_${KUBECTL_STATUS_VERSION}/status.tar.gz"
       pushd "${HOME}/opt/tmp/kubectl-status_${KUBECTL_STATUS_VERSION}"
       tar xf "status.tar.gz"
       mv "status" "${HOME}/opt/kubectl/kubectl-status-${KUBECTL_STATUS_VERSION}"
@@ -79,7 +86,7 @@ install() {
 
     if [[ ! -f "${HOME}/opt/kubectl/kubectl-tree-${KUBECTL_TREE_VERSION}" ]]; then
       mkdir "${HOME}/opt/tmp/kubectl-tree_${KUBECTL_TREE_VERSION}"
-      download "https://github.com/ahmetb/kubectl-tree/releases/download/v${KUBECTL_TREE_VERSION}/kubectl-tree_v${KUBECTL_TREE_VERSION}_${OS}_amd64.tar.gz" "${HOME}/opt/tmp/kubectl-tree_${KUBECTL_TREE_VERSION}/tree.tar.gz"
+      download "https://github.com/ahmetb/kubectl-tree/releases/download/${KUBECTL_TREE_VERSION}/kubectl-tree_${KUBECTL_TREE_VERSION}_${OS}_amd64.tar.gz" "${HOME}/opt/tmp/kubectl-tree_${KUBECTL_TREE_VERSION}/tree.tar.gz"
       pushd "${HOME}/opt/tmp/kubectl-tree_${KUBECTL_TREE_VERSION}"
       tar xf "tree.tar.gz"
       mv "kubectl-tree" "${HOME}/opt/kubectl/kubectl-tree-${KUBECTL_TREE_VERSION}"

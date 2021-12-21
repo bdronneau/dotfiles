@@ -16,6 +16,7 @@ install() {
   local OS
   OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
+  # renovate: datasource=github-tags depName=warrensbox/tgswitch
   local TGSWITCH_VERSION="0.4.326"
   if [[ ! -f "${HOME}/opt/tgswitch/tgswitch_${TGSWITCH_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/tgswitch"

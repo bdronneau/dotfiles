@@ -10,12 +10,13 @@ clean() {
 }
 
 install() {
-  local TFENV_VERSION=2.2.2
+  # renovate: datasource=github-tags depName=tfutils/tfenv
+  local TFENV_VERSION="v2.2.2"
   if [[ ! -d "${HOME}/opt/tfenv/tfenv-${TFENV_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/tfenv"
 
     mkdir "${HOME}/opt/tmp/tfenv_${TFENV_VERSION}"
-    download "https://github.com/tfutils/tfenv/archive/refs/tags/v${TFENV_VERSION}.zip" "${HOME}/opt/tmp/tfenv_${TFENV_VERSION}/tfenv_${TFENV_VERSION}.zip"
+    download "https://github.com/tfutils/tfenv/archive/refs/tags/${TFENV_VERSION}.zip" "${HOME}/opt/tmp/tfenv_${TFENV_VERSION}/tfenv_${TFENV_VERSION}.zip"
 
     pushd "${HOME}/opt/tmp/tfenv_${TFENV_VERSION}"
     unzip "tfenv_${TFENV_VERSION}.zip"

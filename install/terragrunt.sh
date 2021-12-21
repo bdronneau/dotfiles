@@ -10,14 +10,15 @@ clean() {
 }
 
 install() {
-  local TERRAGRUNT_VERSION=0.35.13
+  # renovate: datasource=github-tags depName=gruntwork-io/terragrunt
+  local TERRAGRUNT_VERSION="v0.35.13"
   if [[ ! -f "${HOME}/opt/terragrunt/terragrunt_${TERRAGRUNT_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/terragrunt"
 
     local OS
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
-    download "https://github.com/gruntwork-io/terragrunt/releases/download/v${TERRAGRUNT_VERSION}//terragrunt_${OS}_amd64" "${HOME}/opt/terragrunt/terragrunt_${TERRAGRUNT_VERSION}"
+    download "https://github.com/gruntwork-io/terragrunt/releases/download/${TERRAGRUNT_VERSION}//terragrunt_${OS}_amd64" "${HOME}/opt/terragrunt/terragrunt_${TERRAGRUNT_VERSION}"
 
     chmod u+x "${HOME}/opt/terragrunt/terragrunt_${TERRAGRUNT_VERSION}"
 
