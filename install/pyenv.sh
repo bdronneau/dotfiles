@@ -43,7 +43,7 @@ install() {
 
     mkdir -p "${HOME}/opt/pyenv/"
 
-    git clone -q --depth 1 --branch v${PYENV_VERSION} https://github.com/pyenv/pyenv "${HOME}/opt/pyenv/${PYENV_VERSION}"
+    git clone -q --depth 1 --branch ${PYENV_VERSION} https://github.com/pyenv/pyenv "${HOME}/opt/pyenv/${PYENV_VERSION}"
 
     if [[ -h "${HOME}/opt/bin/pyenv" ]]; then
       rm -f "${HOME}/opt/bin/pyenv"
