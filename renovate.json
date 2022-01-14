@@ -11,6 +11,5 @@
       ],
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     }
-  ],
-  "kubernetes": {"fileMatch": ["^flux/*"]}
+  ]
 }
