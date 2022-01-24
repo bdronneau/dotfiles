@@ -40,3 +40,7 @@ ccd() {
 ssh_pass() {
   ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no $1
 }
+
+_ff_search_g() {
+  firefox --new-tab "https://www.google.com/search?q=$1"
+}
