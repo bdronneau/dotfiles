@@ -15,6 +15,10 @@ gcd() {
   cd $(git root)
 }
 
+fcd() {
+  ccd $(fzf)
+}
+
 __prompt_kube_display_enable () {
   export DOTFILES_PROMPT_KUBE=true
 }
