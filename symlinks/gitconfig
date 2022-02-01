@@ -23,7 +23,7 @@
         save = !git add -A && git commit -m 'chore: savepoint'
         show-merge = "!sh -c 'git show $1^1..$1' -"
         st = status
-        sweep = "! git prune && git remote prune origin && git branch --list --format '%(if:equals=[gone])%(upstream:track)%(then)%(refname:short)%(end)' | grep -E -v '^$' | xargs git branch -D && git gc"
+        sweep = ! git prune && git remote prune origin && git branch --list --format '%(if:equals=[gone])%(upstream:track)%(then)%(refname:short)%(end)' | grep --extended-regexp --invert-match '^$' | xargs git branch --delete --force && git gc
         undo = reset HEAD~1 --mixed
 
 [commit]
