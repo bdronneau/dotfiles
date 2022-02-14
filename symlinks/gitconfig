@@ -15,7 +15,7 @@
         diff-last-tag-short= !sh -c 'git log --merges --oneline $(git describe --abbrev=0 --tags)..HEAD'
         fco = "!f() { git checkout $(git branch -vv --all | fzf --ansi --reverse -1 -q ${1:-''} | awk '{print $1}' | sed 's|^remotes/origin/||'); }; f"
         fcommit = ! git log --oneline | fzf --reverse -1 -q ${1:-''} | awk '{print $1}' | xargs -i{} git commit --fixup={}
-        frebase = ! git log --oneline | fzf --reverse -1 -q ${1:-''} | awk '{print $1}' | xargs -i{} git rebase -i {}^ --autosquash --autostash
+        frebase = ! git log --oneline | fzf --reverse -1 -q ${1:-''} | awk '{print $1}' | xargs -o -i{} git rebase -i {}^ --autosquash --autostash
         last = log -1 HEAD --stat
         lola = log --graph --pretty=format:'%C(bold red)%h%Creset -%C(bold yellow)%d%Creset %s %C(bold green)(%ar) %C(bold ul blue)%an%Creset' --abbrev-commit --all
         putsch = push --force-with-lease
