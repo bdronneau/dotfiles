@@ -11,7 +11,7 @@ clean() {
 
 install() {
   # renovate: datasource=github-tags depName=gruntwork-io/terragrunt
-  local TERRAGRUNT_VERSION="v0.36.1"
+  local TERRAGRUNT_VERSION="v0.36.2"
   if [[ ! -f "${HOME}/opt/terragrunt/terragrunt_${TERRAGRUNT_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/terragrunt"
 
