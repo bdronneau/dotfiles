@@ -11,3 +11,22 @@ if command -v kubectl > /dev/null 2>&1; then
   alias __k_logs_deploy="kubectl get deploy --output=custom-columns=:.metadata.name --no-headers | fzf | xargs kubectl kail --deploy"
   alias __k_logs_pods="kubectl get pods --output=custom-columns=:.metadata.name --no-headers | fzf | xargs kubectl kail"
 fi
+
+__k8s_prompt_display_enable () {
+  export DOTFILES_PROMPT_KUBE=true
+}
+
+__k8s_prompt_display_disable () {
+  export DOTFILES_PROMPT_KUBE=false
+}
+
+__k8s_mktemp_kubeconfig() {
+  KUBECONFIG=$(mktemp)
+  cat "${HOME}/.kube/config" >>"${KUBECONFIG}"
+  export KUBECONFIG="${KUBECONFIG}"
+
+  printf "Run kubectl for %s\n" $KUBECONFIG
+
+  __prompt_kube_display_enable
+  kubectx
+}
