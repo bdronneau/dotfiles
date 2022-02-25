@@ -19,14 +19,6 @@ fcd() {
   ccd $(fzf)
 }
 
-__prompt_kube_display_enable () {
-  export DOTFILES_PROMPT_KUBE=true
-}
-
-__prompt_kube_display_disable () {
-  export DOTFILES_PROMPT_KUBE=false
-}
-
 ccd() {
   if [[ ! -f $1 && ! -d $1 ]]
   then
