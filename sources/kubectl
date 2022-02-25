@@ -21,12 +21,12 @@ __k8s_prompt_display_disable () {
 }
 
 __k8s_mktemp_kubeconfig() {
-  KUBECONFIG=$(mktemp)
-  cat "${HOME}/.kube/config" >>"${KUBECONFIG}"
-  export KUBECONFIG="${KUBECONFIG}"
+  KUBECONFIG_TMP=$(mktemp)
+  cp "${KUBECONFIG:-${HOME}/.kube/config}" "${KUBECONFIG_TMP}"
+  export KUBECONFIG="${KUBECONFIG_TMP}"
 
   printf "Run kubectl for %s\n" $KUBECONFIG
 
-  __prompt_kube_display_enable
+  __k8s_prompt_display_enable
   kubectx
 }
