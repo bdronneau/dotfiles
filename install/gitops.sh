@@ -37,7 +37,7 @@ install() {
   fi
 
   # renovate: datasource=github-tags depName=bitnami-labs/sealed-secrets
-  local KUBESEAL_VERSION="v0.17.3"
+  local KUBESEAL_VERSION="v0.17.4"
   if [[ ! -f "${HOME}/opt/kubeseal/kubeseal_${KUBESEAL_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/kubeseal"
     download "https://github.com/bitnami-labs/sealed-secrets/releases/download/${KUBESEAL_VERSION}/kubeseal-${KUBESEAL_VERSION/v/}-${OS}-amd64.tar.gz" "${HOME}/opt/kubeseal/kubeseal_${KUBESEAL_VERSION}"
