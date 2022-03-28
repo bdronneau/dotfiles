@@ -45,8 +45,8 @@ install() {
   mkdir -p "${GOPATH}"
 
   if command -v go > /dev/null 2>&1; then
-    if [[ ${ARCH} = "amd64" ]]; then
-      go install github.com/go-delve/delve/cmd/dlv@latest
+    if [[ ${ARCH} == "amd64" ]]; then
+      go get -u github.com/go-delve/delve/cmd/dlv
     fi
 
     GO111MODULE=on go install golang.org/x/tools/gopls@latest
