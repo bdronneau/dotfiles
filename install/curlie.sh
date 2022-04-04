@@ -14,7 +14,7 @@ clean() {
 
 install() {
   # renovate: datasource=github-tags depName=rs/curlie
-  local CURLIE_VERSION="v1.6.7"
+  local CURLIE_VERSION="v1.6.9"
   if [[ ! -f "${HOME}/opt/curlie/curlie_${CURLIE_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/curlie"
     local OS
