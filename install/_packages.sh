@@ -42,7 +42,7 @@ END_OF_BASH_PROFILE
 
     sudo apt-get update
     sudo apt-get upgrade -y -qq
-    sudo apt-get install -y -qq apt-transport-https
+    sudo apt-get install -y -qq apt-transport-https curl wget nmap netcat net-tools
 
     sudo apt-get install -y -qq "${PACKAGES[@]}" dnsutils
   elif command -v pacman > /dev/null 2>&1; then
