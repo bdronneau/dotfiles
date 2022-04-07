@@ -3,7 +3,7 @@
         email = basti1.dr@gmail.com
         signingkey = 657EE8DE5A187DD88D5F3EB36EB801B27AAB8AC9
 
-[includeIf "gitdir:~/code/ManoMano/"]
+[includeIf "gitdir:~/code/panel-solutions/"]
         path = ~/.gitconfig_work
 
 [alias]
@@ -62,3 +62,8 @@
         defaultBranch = main
 [delta]
       line-numbers = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
