@@ -4,11 +4,11 @@ if ! command -v n > /dev/null 2>&1; then
   return
 fi
 
-export N_PREFIX="${HOME}/opt"
+export N_PREFIX="${HOME}/opt/n/node"
 
 if ! command -v node > /dev/null 2>&1; then
   return
 fi
 
-export PATH="${HOME}/opt/node/bin:${PATH}"
+export PATH="${HOME}/opt/n/node/bin:${PATH}"
 alias npmi="npm install --ignore-scripts"
