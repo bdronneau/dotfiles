@@ -20,7 +20,7 @@ install() {
     local OS
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
-    local GOPASS_ARCHIVE="gopass-${GOPASS_VERSION}-${OS}-amd64.tar.gz"
+    local GOPASS_ARCHIVE="gopass-${GOPASS_VERSION/v/}-${OS}-amd64.tar.gz"
     url_tar "https://github.com/gopasspw/gopass/releases/download/${GOPASS_VERSION}/${GOPASS_ARCHIVE}" "gopass" "${HOME}/opt/gopass/gopass_${GOPASS_VERSION}"
 
     # Activate version
