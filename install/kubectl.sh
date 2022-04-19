@@ -29,6 +29,8 @@ install() {
   local KUBECTL_TREE_VERSION="v0.4.1"
   # renovate: datasource=github-tags depName=davidB/kubectl-view-allocations
   local KUBECTL_ALLOCATIONS_VERSION=0.14.5
+  # renovate: datasource=github-releases depName=ahmetb/kubectx
+  local KUBETOOLS_VERSION="v0.9.4"
 
   local OS
   OS=$(uname -s | tr '[:upper:]' '[:lower:]')
@@ -48,6 +50,36 @@ install() {
 
     # Generate bash completion
     "${KUBECTL_BIN}" completion bash > "${HOME}/opt/bash-completion.d/kubectl"
+  fi
+
+  local KUBECTX_BIN="${HOME}/opt/bin/kubectx"
+
+  if [[ ! -f "${HOME}/opt/kubectl/kubectx_${KUBETOOLS_VERSION}" ]]; then
+    mkdir -p "${HOME}/opt/kubectl"
+    local OS
+    OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+
+    local kubectx_ARCHIVE="kubectx_${KUBETOOLS_VERSION}_${OS}_x86_64.tar.gz"
+    url_tar "https://github.com/ahmetb/kubectx/releases/download/${KUBETOOLS_VERSION}/${kubectx_ARCHIVE}" "kubectx" "${HOME}/opt/kubectl/kubectx_${KUBETOOLS_VERSION}"
+
+    # Activate version
+    [ -f "${KUBECTX_BIN}" ] && rm -f "${KUBECTX_BIN}"
+    ln -Fs "${HOME}/opt/kubectl/kubectx_${KUBETOOLS_VERSION}" "${KUBECTX_BIN}"
+  fi
+
+  local KUBENS_BIN="${HOME}/opt/bin/kubens"
+
+  if [[ ! -f "${HOME}/opt/kubectl/kubens_${KUBETOOLS_VERSION}" ]]; then
+    mkdir -p "${HOME}/opt/kubectl"
+    local OS
+    OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+
+    local KUBENS_ARCHIVE="kubens_${KUBETOOLS_VERSION}_${OS}_x86_64.tar.gz"
+    url_tar "https://github.com/ahmetb/kubectx/releases/download/${KUBETOOLS_VERSION}/${KUBENS_ARCHIVE}" "kubens" "${HOME}/opt/kubectl/kubens_${KUBETOOLS_VERSION}"
+
+    # Activate version
+    [ -f "${KUBENS_BIN}" ] && rm -f "${KUBENS_BIN}"
+    ln -Fs "${HOME}/opt/kubectl/kubens_${KUBETOOLS_VERSION}" "${KUBENS_BIN}"
   fi
 
   if command -v kubectl > /dev/null 2>&1; then
