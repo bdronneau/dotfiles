@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+if [[ -f "${HOME}/opt/bash-completion.d/scaleway" ]]; then
+    source "${HOME}/opt/bash-completion.d/scaleway";
+fi

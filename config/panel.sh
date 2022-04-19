@@ -14,6 +14,7 @@ export DOTFILES_NODE=true
 export DOTFILES_PYENV=true
 export DOTFILES_SHELLCHECK=true
 export DOTFILES_SOFTWARES=true
+export DOTFILES_SCALEWAY=true
 export DOTFILES_TFSWITCH=true
 export DOTFILES_TMUX=true
 export DOTFILES_YQ=true
