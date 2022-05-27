@@ -17,7 +17,7 @@ install() {
   OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
   # renovate: datasource=github-tags depName=warrensbox/terraform-switcher
-  local TFSWITCH_VERSION="0.13.1221"
+  local TFSWITCH_VERSION="0.13.1250"
   if [[ ! -f "${HOME}/opt/tfswitch/tfswitch_${TFSWITCH_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/tfswitch"
 
