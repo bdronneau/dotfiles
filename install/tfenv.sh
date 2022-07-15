@@ -11,7 +11,7 @@ clean() {
 
 install() {
   # renovate: datasource=github-tags depName=tfutils/tfenv
-  local TFENV_VERSION="v2.2.3"
+  local TFENV_VERSION="v3.0.0"
   if [[ ! -d "${HOME}/opt/tfenv/tfenv-${TFENV_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/tfenv"
 
