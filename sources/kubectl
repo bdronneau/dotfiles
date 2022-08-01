@@ -10,6 +10,7 @@ fi
 if command -v kubectl > /dev/null 2>&1; then
   alias __k_logs_deploy="kubectl get deploy --output=custom-columns=:.metadata.name --no-headers | fzf | xargs kubectl kail --deploy"
   alias __k_logs_pods="kubectl get pods --output=custom-columns=:.metadata.name --no-headers | fzf | xargs kubectl kail"
+  alias __k_pods_delete_fast="kubectl delete pods --grace-period=0"
 fi
 
 __k8s_enable_prompt_display () {
