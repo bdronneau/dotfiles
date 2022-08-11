@@ -7,6 +7,10 @@ if [[ -f "${HOME}/opt/bash-completion.d/kubectl" ]]; then
     complete -o default -F __start_kubectl k
 fi
 
+if [[ -f "${HOME}/opt/bash-completion.d/kubemux" ]]; then
+    source "${HOME}/opt/bash-completion.d/kubemux";
+fi
+
 if command -v kubectl > /dev/null 2>&1; then
   alias __k_logs_deploy="kubectl get deploy --output=custom-columns=:.metadata.name --no-headers | fzf | xargs kubectl kail --deploy"
   alias __k_logs_pods="kubectl get pods --output=custom-columns=:.metadata.name --no-headers | fzf | xargs kubectl kail"

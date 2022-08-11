@@ -160,5 +160,7 @@ install() {
     [ -f "${HOME}/opt/bin/kubemux" ] && rm -f "${HOME}/opt/bin/kubemux"
     ln -Fs "${HOME}/opt/kubectl/kubemux_${KUBEMUX_VERSION}" "${HOME}/opt/bin/kubemux"
     chmod u+x "${HOME}/opt/kubectl/kubemux_${KUBEMUX_VERSION}"
+
+    kubemux completion bash | sed 's|kube|kubemux|g' > "${HOME}/opt/bash-completion.d/kubemux"
   fi
 }
