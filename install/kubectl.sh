@@ -31,6 +31,8 @@ install() {
   local KUBECTL_ALLOCATIONS_VERSION=0.14.5
   # renovate: datasource=github-releases depName=ahmetb/kubectx
   local KUBETOOLS_VERSION="v0.9.4"
+  # renovate: datasource=github-releases depName=vibioh/kube
+  local KUBEMUX_VERSION="v0.0.2"
 
   local OS
   OS=$(uname -s | tr '[:upper:]' '[:lower:]')
@@ -144,5 +146,19 @@ install() {
       popd
       rm -Rf "${HOME}/opt/tmp/kubectl-view-allocations_${KUBECTL_ALLOCATIONS_VERSION}"
     fi
+  fi
+
+  if [[ ! -f "${HOME}/opt/kubectl/kubemux_${KUBEMUX_VERSION}" ]]; then
+    mkdir -p "${HOME}/opt/kubectl"
+
+    local OS
+    OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+
+    download "https://github.com/ViBiOh/kube/releases/download/${KUBEMUX_VERSION}/kube_${OS}_amd64" "${HOME}/opt/kubectl/kubemux_${KUBEMUX_VERSION}"
+
+    # Activate version
+    [ -f "${HOME}/opt/bin/kubemux" ] && rm -f "${HOME}/opt/bin/kubemux"
+    ln -Fs "${HOME}/opt/kubectl/kubemux_${KUBEMUX_VERSION}" "${HOME}/opt/bin/kubemux"
+    chmod u+x "${HOME}/opt/kubectl/kubemux_${KUBEMUX_VERSION}"
   fi
 }
