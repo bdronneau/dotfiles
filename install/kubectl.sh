@@ -31,8 +31,8 @@ install() {
   local KUBECTL_ALLOCATIONS_VERSION=0.14.5
   # renovate: datasource=github-releases depName=ahmetb/kubectx
   local KUBETOOLS_VERSION="v0.9.4"
-  # renovate: datasource=github-releases depName=vibioh/kube
-  local KUBEMUX_VERSION="v0.0.2"
+  # renovate: datasource=github-releases depName=vibioh/kmux
+  local KUBEMUX_VERSION="v0.0.3"
 
   local OS
   OS=$(uname -s | tr '[:upper:]' '[:lower:]')
@@ -154,13 +154,13 @@ install() {
     local OS
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
-    download "https://github.com/ViBiOh/kube/releases/download/${KUBEMUX_VERSION}/kube_${OS}_amd64" "${HOME}/opt/kubectl/kubemux_${KUBEMUX_VERSION}"
+    download "https://github.com/ViBiOh/kmux/releases/download/${KUBEMUX_VERSION}/kmux_${OS}_amd64" "${HOME}/opt/kubectl/kubemux_${KUBEMUX_VERSION}"
 
     # Activate version
     [ -f "${HOME}/opt/bin/kubemux" ] && rm -f "${HOME}/opt/bin/kubemux"
     ln -Fs "${HOME}/opt/kubectl/kubemux_${KUBEMUX_VERSION}" "${HOME}/opt/bin/kubemux"
     chmod u+x "${HOME}/opt/kubectl/kubemux_${KUBEMUX_VERSION}"
 
-    kubemux completion bash | sed 's|kube|kubemux|g' > "${HOME}/opt/bash-completion.d/kubemux"
+    kubemux completion bash | sed 's|kmux|kubemux|g' > "${HOME}/opt/bash-completion.d/kubemux"
   fi
 }
