@@ -5,6 +5,7 @@
   ],
   "regexManagers": [
     {
+      "description": "Update _VERSION and _VERSION_TAG variables in install/*.sh file",
       "fileMatch": ["^install\\/[^/]+\\.sh$"],
       "matchStrings": [
         "datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s.*?_VERSION=\"(?<currentValue>.*)\"\\s",
