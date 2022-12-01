@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+if command -v docker > /dev/null 2>&1; then
+    docker_menage() {
+        printf '%bDocker: clean maximum images in 3 secondes%b\n' "${RED}" "${RESET}"
+
+        sleep 3
+
+        docker images --quiet | xargs docker rmi
+        docker images --format '{{ .Repository }}:{{ .Tag}}' | xargs docker rmi
+    }
+fi
