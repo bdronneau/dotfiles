@@ -15,7 +15,7 @@ install() {
   fi
 
   # renovate: datasource=github-tags depName=dandavison/delta
-  local DELTA_VERSION="0.14.0"
+  local DELTA_VERSION="0.15.1"
   local DELTA_ARCHIVE="delta-${DELTA_VERSION}-x86_64"
 
   if [[ ${OSTYPE} =~ ^darwin ]]; then
