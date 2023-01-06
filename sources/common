@@ -8,7 +8,7 @@ fi
 export EDITOR='vim'
 
 meuhteo() {
-  curl -qsSL --max-time 10 "wttr.in/${1:-Paris}?m&format=v2"
+  curl --disable --max-time 30 "wttr.in/${1:-Paris}?m&format=v2"
 }
 
 gcd() {
