@@ -24,7 +24,7 @@ install() {
   local KUBECTL_KAIL_VERSION_TAG=v0.15.0
   local KUBECTL_KAIL_VERSION="${KUBECTL_KAIL_VERSION_TAG/v/}"
   # renovate: datasource=github-tags depName=bergerx/kubectl-status
-  local KUBECTL_STATUS_VERSION="v0.7.8"
+  local KUBECTL_STATUS_VERSION="v0.7.9"
   # renovate: datasource=github-tags depName=ahmetb/kubectl-tree
   local KUBECTL_TREE_VERSION="v0.4.3"
   # renovate: datasource=github-tags depName=davidB/kubectl-view-allocations
