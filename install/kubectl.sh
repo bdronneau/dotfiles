@@ -32,7 +32,7 @@ install() {
   # renovate: datasource=github-releases depName=ahmetb/kubectx
   local KUBETOOLS_VERSION="v0.9.4"
   # renovate: datasource=github-releases depName=vibioh/kmux
-  local KUBEMUX_VERSION="v0.2.5"
+  local KUBEMUX_VERSION="v0.3.0"
 
   local OS
   OS=$(uname -s | tr '[:upper:]' '[:lower:]')
