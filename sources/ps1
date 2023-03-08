@@ -42,7 +42,7 @@ __update_virtual_env ()
 }
 
 if command -v python3 > /dev/null 2>&1 && [[ $(type -t __update_virtual_env) = "function" ]]; then
-  PS1="${BLUE}\$(__update_virtual_env)${RESET} ${PS1}"
+  PS1="${PURPLE}\$(__update_virtual_env)${RESET} ${PS1}"
 fi
 
 if command -v git > /dev/null 2>&1 && [[ $(type -t __git_ps1) = "function" ]]; then
