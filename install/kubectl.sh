@@ -33,6 +33,14 @@ install() {
   local KUBETOOLS_VERSION="v0.9.4"
   # renovate: datasource=github-releases depName=vibioh/kmux
   local KUBEMUX_VERSION="v0.4.0"
+  # renovate: datasource=github-releases depName=FairwindsOps/pluto
+  local PLUTO_VERSION_TAG="v5.15.1"
+  local PLUTO_VERSION="${PLUTO_VERSION_TAG/v/}"
+  # renovate: datasource=github-releases depName=zegl/kube-score
+  local KUBE_SCORE_VERSION_TAG="v1.16.1"
+  local KUBE_SCORE_VERSION="${KUBE_SCORE_VERSION_TAG/v/}"
+  # renovate: datasource=github-releases depName=derailed/popeye
+  local POPEYE_VERSION_TAG="v0.11.1"
 
   local OS
   OS=$(uname -s | tr '[:upper:]' '[:lower:]')
@@ -162,5 +170,38 @@ install() {
     chmod u+x "${HOME}/opt/kubectl/kubemux_${KUBEMUX_VERSION}"
 
     kubemux completion bash | sed 's|kmux|kubemux|g' > "${HOME}/opt/bash-completion.d/kubemux"
+  fi
+
+  if [[ ! -f "${HOME}/opt/kubectl/pluto-${PLUTO_VERSION}" ]]; then
+    mkdir "${HOME}/opt/tmp/pluto_${PLUTO_VERSION}"
+    download "https://github.com/FairwindsOps/pluto/releases/download/${PLUTO_VERSION_TAG}/pluto_${PLUTO_VERSION}_${OS}_amd64.tar.gz" "${HOME}/opt/tmp/pluto_${PLUTO_VERSION}/pluto.tar.gz"
+    pushd "${HOME}/opt/tmp/pluto_${PLUTO_VERSION}"
+    tar xf "pluto.tar.gz"
+    mv "pluto" "${HOME}/opt/kubectl/pluto-${PLUTO_VERSION}"
+    ln -snf "${HOME}/opt/kubectl/pluto-${PLUTO_VERSION}" "${HOME}/opt/bin/pluto"
+    popd
+    rm -Rf "${HOME}/opt/tmp/pluto_${PLUTO_VERSION}"
+  fi
+
+  if [[ ! -f "${HOME}/opt/kubectl/kube-score-${KUBE_SCORE_VERSION}" ]]; then
+    mkdir "${HOME}/opt/tmp/kube-score_${KUBE_SCORE_VERSION}"
+    download "https://github.com/zegl/kube-score/releases/download/${KUBE_SCORE_VERSION_TAG}/kube-score_${KUBE_SCORE_VERSION}_${OS}_amd64.tar.gz" "${HOME}/opt/tmp/kube-score_${KUBE_SCORE_VERSION}/kube-score.tar.gz"
+    pushd "${HOME}/opt/tmp/kube-score_${KUBE_SCORE_VERSION}"
+    tar xf "kube-score.tar.gz"
+    mv "kube-score" "${HOME}/opt/kubectl/kube-score-${KUBE_SCORE_VERSION}"
+    ln -snf "${HOME}/opt/kubectl/kube-score-${KUBE_SCORE_VERSION}" "${HOME}/opt/bin/kube-score"
+    popd
+    rm -Rf "${HOME}/opt/tmp/kube-score_${KUBE_SCORE_VERSION}"
+  fi
+
+  if [[ ! -f "${HOME}/opt/kubectl/popeye-${POPEYE_VERSION_TAG}" ]]; then
+    mkdir "${HOME}/opt/tmp/popeye_${POPEYE_VERSION_TAG}"
+    download "https://github.com/derailed/popeye/releases/download/${POPEYE_VERSION_TAG}/popeye_${OS}_x86_64.tar.gz" "${HOME}/opt/tmp/popeye_${POPEYE_VERSION_TAG}/popeye.tar.gz"
+    pushd "${HOME}/opt/tmp/popeye_${POPEYE_VERSION_TAG}"
+    tar xf "popeye.tar.gz"
+    mv "popeye" "${HOME}/opt/kubectl/popeye-${POPEYE_VERSION_TAG}"
+    ln -snf "${HOME}/opt/kubectl/popeye-${POPEYE_VERSION_TAG}" "${HOME}/opt/bin/popeye"
+    popd
+    rm -Rf "${HOME}/opt/tmp/popeye_${POPEYE_VERSION_TAG}"
   fi
 }
