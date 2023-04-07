@@ -14,7 +14,7 @@ clean() {
 
 install() {
   # renovate: datasource=github-tags depName=gopasspw/gopass
-  local GOPASS_VERSION="v1.15.4"
+  local GOPASS_VERSION="v1.15.5"
   if [[ ! -f "${HOME}/opt/gopass/gopass_${GOPASS_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/gopass"
     local OS
