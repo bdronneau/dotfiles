@@ -32,7 +32,7 @@ install() {
   # renovate: datasource=github-releases depName=ahmetb/kubectx
   local KUBETOOLS_VERSION="v0.9.4"
   # renovate: datasource=github-releases depName=vibioh/kmux
-  local KUBEMUX_VERSION="v0.5.0"
+  local KUBEMUX_VERSION="v0.5.1"
   # renovate: datasource=github-releases depName=FairwindsOps/pluto
   local PLUTO_VERSION_TAG="v5.16.1"
   local PLUTO_VERSION="${PLUTO_VERSION_TAG/v/}"
