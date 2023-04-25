@@ -26,4 +26,28 @@ if command -v colima > /dev/null 2>&1; then
         nerdctl rm postgres
         nerdctl rm redis
     }
+
+    colima_k8s_up() {
+        printf "==> Start colima with containerd + kubernetes\n"
+
+        colima start --runtime containerd --kubernetes --kubernetes-disable=servicelb,traefik,metrics-server
+    }
+
+    colima_down() {
+        printf "==> Destroy colima\n"
+
+        colima delete --force
+    }
+
+    colima_up() {
+        printf "==> Start colima with containerd\n"
+
+        colima start --runtime containerd
+    }
+
+    colima_docker_up() {
+        printf "==> Start colima with docker\n"
+
+        colima start --runtime docker
+    }
 fi
