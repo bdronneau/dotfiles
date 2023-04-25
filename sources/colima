@@ -7,8 +7,8 @@ if command -v colima > /dev/null 2>&1; then
     colima_sidecars_up() {
         printf "==> Start sidecars\n"
 
-        nerdctl run --name postgres -e POSTGRES_PASSWORD=pwd -d postgres:15-alpine
-        nerdctl run --name redis -d redis:7-alpine
+        nerdctl run --name postgres -p 127.0.0.1:5432:5432 -e POSTGRES_PASSWORD=pwd -d postgres:15-alpine
+        nerdctl run --name redis -p 127.0.0.1:6379:6379 -d redis:7-alpine
     }
 
     colima_sidecars_stop() {
