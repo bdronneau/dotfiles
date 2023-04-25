@@ -53,5 +53,6 @@ install() {
     go install github.com/kisielk/errcheck@latest
     go install golang.org/x/lint/golint@latest
     go install golang.org/x/tools/cmd/goimports@latest
+    go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
   fi
 }
