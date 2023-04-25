@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+if command -v colima > /dev/null 2>&1; then
+    alias docker="nerdctl"
+    alias d="nerdctl"
+
+    colima_sidecars_up() {
+        printf "==> Start sidecars\n"
+
+        nerdctl run --name postgres -e POSTGRES_PASSWORD=pwd -d postgres:15-alpine
+        nerdctl run --name redis -d redis:7-alpine
+    }
+
+    colima_sidecars_stop() {
+        printf "==> Shutdown sidecars\n"
+
+        nerdctl stop postgres
+        nerdctl stop redis
+    }
+
+    colima_sidecars_down() {
+        colima_sidecars_stop
+
+        printf "==> Destroy sidecars\n"
+
+        nerdctl rm postgres
+        nerdctl rm redis
+    }
+fi
