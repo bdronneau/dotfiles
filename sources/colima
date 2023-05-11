@@ -11,6 +11,13 @@ if command -v colima > /dev/null 2>&1; then
         nerdctl run --name redis -p 127.0.0.1:6379:6379 -d redis:7-alpine
     }
 
+    colima_sidecars_start() {
+        printf "==> Start sidecars\n"
+
+        nerdctl start postgres
+        nerdctl start redis
+    }
+
     colima_sidecars_stop() {
         printf "==> Shutdown sidecars\n"
 
