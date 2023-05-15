@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -e
-
 sc_branch() {
     local SC_ITERATION_PATTERN
     SC_ITERATION_PATTERN="${1:-ops}"
