@@ -162,7 +162,8 @@ install() {
     local OS
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
-    download "https://github.com/ViBiOh/kmux/releases/download/${KUBEMUX_VERSION}/kmux_${OS}_amd64" "${HOME}/opt/kubectl/kubemux_${KUBEMUX_VERSION}"
+    local KUBEMUX_ARCHIVE="kmux_${OS}_x86_64.tar.gz"
+    url_tar "https://github.com/ViBiOh/kmux/releases/download/${KUBEMUX_VERSION}/${KUBEMUX_ARCHIVE}" "kmux" "${HOME}/opt/kubectl/kubemux_${KUBEMUX_VERSION}"
 
     # Activate version
     [ -f "${HOME}/opt/bin/kubemux" ] && rm -f "${HOME}/opt/bin/kubemux"
