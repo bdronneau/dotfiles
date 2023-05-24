@@ -35,3 +35,9 @@ __k8s_mktemp_kubeconfig() {
   __k8s_enable_prompt_display
   kubectx
 }
+
+__k8s_pods_by_node() {
+  local K8S_NODE
+  K8S_NODE=$(k get nodes --no-headers=true -o custom-columns=":metadata.name" | fzf --height=20 --ansi --reverse --select-1)
+  kubectl get pods --all-namespaces -o wide --field-selector spec.nodeName=${K8S_NODE}
+}
