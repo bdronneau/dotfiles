@@ -1,4 +1,4 @@
-[user]
-        name = bdronneau
-        email = bastien.dronneau@callity.fr
-        signingkey = 2FF401F3871CBE96
+[url "ssh://git@github.com/BatchLabs/lib.go.gocql"]
+      insteadOf = https://github.com/gocql/gocql
+[url "ssh://git@github.com/BatchLabs/"]
+      insteadOf = https://github.com/BatchLabs/

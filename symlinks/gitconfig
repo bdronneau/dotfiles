@@ -3,7 +3,7 @@
         email = basti1.dr@gmail.com
         signingkey = 657EE8DE5A187DD88D5F3EB36EB801B27AAB8AC9
 
-[includeIf "gitdir:~/code/panel-solutions/"]
+[includeIf "gitdir:~/code/BatchLabs/"]
         path = ~/.gitconfig_work
 
 [alias]
