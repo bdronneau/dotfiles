@@ -17,7 +17,7 @@ clean() {
 
 install() {
   # renovate: datasource=github-tags depName=golang/go
-  local GO_VERSION="go1.19"
+  local GO_VERSION="go1.20.5"
 
   local OS
   OS="$(uname -s | tr "[:upper:]" "[:lower:]")"
