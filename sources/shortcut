@@ -70,3 +70,8 @@ netbox_search() {
 
     echo "Netbox: ${NETBOX_SELECTED_ITEM_URL}"
 }
+
+_netbox_search() {
+  # This is macOS only
+  open -a "Google Chrome" "https://${NETBOX_URL}/search/?&obj_types=dcim.device&obj_types=virtualization.virtualmachine&q=$1"
+}
