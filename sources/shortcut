@@ -35,3 +35,38 @@ sc_branch() {
 
     git checkout -b "${SC_BRANCH_NAME}"
 }
+
+netbox_search() {
+    local NETBOX_SEARCH_PATTERN
+    NETBOX_SEARCH_PATTERN="${1}"
+
+    if [ -z "$NETBOX_SEARCH_PATTERN" ]
+    then
+        echo "Search is empty"
+    fi
+
+    local NETBOX_SEARCH_DEVICES
+    NETBOX_SEARCH_DEVICES=$(curl --silent -H "Content-Type: application/json" -H "Authorization: Token $NETBOX_API_TOKEN" -L "https://${NETBOX_URL}/api/dcim/devices/?q=${NETBOX_SEARCH_PATTERN}" | jq --raw-output '.results[] | (.id|tostring) + " - baremetal - " + .name')
+
+    local NETBOX_SEARCH_VM
+    NETBOX_SEARCH_VM=$(curl --silent -H "Content-Type: application/json" -H "Authorization: Token $NETBOX_API_TOKEN" -L "https://${NETBOX_URL}/api/virtualization/virtual-machines/?q=${NETBOX_SEARCH_PATTERN}" | jq --raw-output '.results[] | (.id|tostring) + " - VM - " + .name')
+
+    local NETBOX_SELECTED_ITEM
+    NETBOX_SELECTED_ITEM=$(echo "${NETBOX_SEARCH_VM} ${NETBOX_SEARCH_DEVICES}" | fzf --height=20 --ansi --reverse --select-1)
+
+    NETBOX_SELECTED_ITEM_TYPE=$(echo ${NETBOX_SELECTED_ITEM} | awk -F' - ' '{print $2}')
+    NETBOX_SELECTED_ITEM_ID=$(echo ${NETBOX_SELECTED_ITEM} | awk -F' - ' '{print $1}')
+
+    local NETBOX_SELECTED_ITEM_CONTENT
+    if [ "${NETBOX_SELECTED_ITEM_TYPE}" == "VM" ]; then
+        NETBOX_SELECTED_ITEM_CONTENT=$(curl --silent -H "Content-Type: application/json" -H "Authorization: Token $NETBOX_API_TOKEN" -L "https://${NETBOX_URL}/api/virtualization/virtual-machines/${NETBOX_SELECTED_ITEM_ID}" | jq .)
+        NETBOX_SELECTED_ITEM_URL="https://${NETBOX_URL}/virtualization/virtual-machines/${NETBOX_SELECTED_ITEM_ID}"
+    else
+        NETBOX_SELECTED_ITEM_CONTENT=$(curl --silent -H "Content-Type: application/json" -H "Authorization: Token $NETBOX_API_TOKEN" -L "https://${NETBOX_URL}/api/dcim/devices/${NETBOX_SELECTED_ITEM_ID}" | jq .)
+        NETBOX_SELECTED_ITEM_URL="https://${NETBOX_URL}/dcim/devices/${NETBOX_SELECTED_ITEM_ID}"
+    fi
+
+    echo -e "Information retrieve from netbox: \n${NETBOX_SELECTED_ITEM_CONTENT}"
+
+    echo "Netbox: ${NETBOX_SELECTED_ITEM_URL}"
+}
