@@ -20,7 +20,6 @@ export DOTFILES_PIP=true
 export DOTFILES_PYENV=true
 export DOTFILES_SHELLCHECK=true
 export DOTFILES_SOFTWARES=true
-export DOTFILES_TERRAGRUNT=false
 export DOTFILES_TGENV=false
 export DOTFILES_TFENV=false
 export DOTFILES_TFSWITCH=true
