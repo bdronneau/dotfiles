@@ -4,8 +4,8 @@ export HOMEBREW_NO_ANALYTICS="1"
 export HOMEBREW_NO_INSECURE_REDIRECT="1"
 export HOMEBREW_CASK_OPTS="--require-sha"
 
-if command -v brew >/dev/null 2>&1; then
-  BREW_PREFIX="$(brew --prefix)"
+if command -v /opt/homebrew/bin/brew >/dev/null 2>&1; then
+  BREW_PREFIX="$(/opt/homebrew/bin/brew --prefix)"
   export BREW_PREFIX
-  export PATH="${BREW_PREFIX}/opt/curl/bin:${BREW_PREFIX}/sbin:${PATH}"
+  export PATH="${BREW_PREFIX}/opt/curl/bin:${BREW_PREFIX}/sbin:${BREW_PREFIX}/bin:${PATH}"
 fi
