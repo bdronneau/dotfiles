@@ -19,8 +19,10 @@ install() {
     mkdir -p "${HOME}/opt/gopass"
     local OS
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+    local ARCH
+    ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
 
-    local GOPASS_ARCHIVE="gopass-${GOPASS_VERSION/v/}-${OS}-amd64.tar.gz"
+    local GOPASS_ARCHIVE="gopass-${GOPASS_VERSION/v/}-${OS}-${ARCH}.tar.gz"
     url_tar "https://github.com/gopasspw/gopass/releases/download/${GOPASS_VERSION}/${GOPASS_ARCHIVE}" "gopass" "${HOME}/opt/gopass/gopass_${GOPASS_VERSION}"
 
     # Activate version

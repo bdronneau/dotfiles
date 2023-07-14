@@ -18,6 +18,8 @@ install() {
 
     local OS
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+    local ARCH
+    ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
 
     local EXT
     EXT="tar.gz"
@@ -26,16 +28,16 @@ install() {
         EXT="zip"
     fi
 
-    download "https://github.com/junegunn/fzf/releases/download/${FZF_VERSION}/fzf-${FZF_VERSION}-${OS}_amd64.${EXT}" "fzf-${FZF_VERSION}-${OS}_amd64.${EXT}"
+    download "https://github.com/junegunn/fzf/releases/download/${FZF_VERSION}/fzf-${FZF_VERSION}-${OS}_${ARCH}.${EXT}" "fzf-${FZF_VERSION}-${OS}_${ARCH}.${EXT}"
 
     if [ "${EXT}" = "tar.gz" ]; then
-      tar xf "fzf-${FZF_VERSION}-${OS}_amd64.${EXT}"
+      tar xf "fzf-${FZF_VERSION}-${OS}_${ARCH}.${EXT}"
     else
-      unzip "fzf-${FZF_VERSION}-${OS}_amd64.${EXT}"
+      unzip "fzf-${FZF_VERSION}-${OS}_${ARCH}.${EXT}"
     fi
 
     mv "fzf" "${HOME}/opt/fzf/fzf_${FZF_VERSION}"
-    rm "fzf-${FZF_VERSION}-${OS}_amd64.${EXT}"
+    rm "fzf-${FZF_VERSION}-${OS}_${ARCH}.${EXT}"
 
     if [[ -f "${HOME}/opt/bin/fzf" ]]; then
       rm -f "${HOME}/opt/bin/fzf"

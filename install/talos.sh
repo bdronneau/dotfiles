@@ -19,13 +19,15 @@ install() {
 
   local OS
   OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+  local ARCH
+  ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
 
   if [[ ! -f "${HOME}/opt/talos/talosctl_${TALOSCTL_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/talos"
     mkdir -p "${HOME}/opt/bash-completion.d"
 
 
-    download "https://github.com/siderolabs/talos/releases/download/${TALOSCTL_VERSION}/talosctl-${OS}-amd64" "${HOME}/opt/talos/talosctl_${TALOSCTL_VERSION}"
+    download "https://github.com/siderolabs/talos/releases/download/${TALOSCTL_VERSION}/talosctl-${OS}-${ARCH}" "${HOME}/opt/talos/talosctl_${TALOSCTL_VERSION}"
     chmod u+x "${HOME}/opt/talos/talosctl_${TALOSCTL_VERSION}"
 
     [[ -f "${TALOSCTL_BIN}" ]] && rm -f "${TALOSCTL_BIN}"

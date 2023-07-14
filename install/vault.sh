@@ -19,10 +19,12 @@ install() {
 
     local OS
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+    local ARCH
+    ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
 
-    download "https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_${OS}_amd64.zip" "vault_${VAULT_VERSION}_${OS}_amd64.zip"
-    unzip "vault_${VAULT_VERSION}_${OS}_amd64.zip"
-    rm "vault_${VAULT_VERSION}_${OS}_amd64.zip"
+    download "https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_${OS}_${ARCH}.zip" "vault_${VAULT_VERSION}_${OS}_${ARCH}.zip"
+    unzip "vault_${VAULT_VERSION}_${OS}_${ARCH}.zip"
+    rm "vault_${VAULT_VERSION}_${OS}_${ARCH}.zip"
     mv "vault" "${HOME}/opt/vault/vault_${VAULT_VERSION}"
 
     if [[ -f "${HOME}/opt/bin/vault" ]]; then

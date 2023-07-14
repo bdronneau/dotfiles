@@ -18,13 +18,15 @@ clean() {
 install() {
   local OS
   OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+  local ARCH
+  ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
 
   # renovate: datasource=github-tags depName=fluxcd/flux2
   local FLUX_VERSION_TAG="v2.0.1"
   local FLUX_VERSION="${FLUX_VERSION_TAG/v/}"
   if [[ ! -f "${HOME}/opt/flux/flux_${FLUX_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/flux"
-    url_tar "https://github.com/fluxcd/flux2/releases/download/${FLUX_VERSION_TAG}/flux_${FLUX_VERSION}_${OS}_amd64.tar.gz" "flux" "${HOME}/opt/flux/flux_${FLUX_VERSION}"
+    url_tar "https://github.com/fluxcd/flux2/releases/download/${FLUX_VERSION_TAG}/flux_${FLUX_VERSION}_${OS}_${ARCH}.tar.gz" "flux" "${HOME}/opt/flux/flux_${FLUX_VERSION}"
 
     if [[ -f "${FLUX_BIN}" ]]; then
       rm -f "${FLUX_BIN}"
@@ -40,7 +42,7 @@ install() {
   local KUBESEAL_VERSION="v0.22.0"
   if [[ ! -f "${HOME}/opt/kubeseal/kubeseal_${KUBESEAL_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/kubeseal"
-    url_tar "https://github.com/bitnami-labs/sealed-secrets/releases/download/${KUBESEAL_VERSION}/kubeseal-${KUBESEAL_VERSION/v/}-${OS}-amd64.tar.gz" "kubeseal" "${HOME}/opt/kubeseal/kubeseal_${KUBESEAL_VERSION}"
+    url_tar "https://github.com/bitnami-labs/sealed-secrets/releases/download/${KUBESEAL_VERSION}/kubeseal-${KUBESEAL_VERSION/v/}-${OS}-${ARCH}.tar.gz" "kubeseal" "${HOME}/opt/kubeseal/kubeseal_${KUBESEAL_VERSION}"
 
     if [[ -f "${KUBESEAL_BIN}" ]]; then
       rm -f "${KUBESEAL_BIN}"

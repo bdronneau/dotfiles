@@ -18,9 +18,11 @@ install() {
 
     local OS
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+    local ARCH
+    ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
 
-    download "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_${OS}_amd64" "yq_${OS}_amd64"
-    mv "yq_${OS}_amd64" "${HOME}/opt/yq/yq_${YQ_VERSION}"
+    download "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_${OS}_${ARCH}" "yq_${OS}_${ARCH}"
+    mv "yq_${OS}_${ARCH}" "${HOME}/opt/yq/yq_${YQ_VERSION}"
 
     if [[ -f "${HOME}/opt/bin/yq" ]]; then
       rm -f "${HOME}/opt/bin/yq"

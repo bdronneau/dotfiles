@@ -44,13 +44,15 @@ install() {
 
   local OS
   OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+  local ARCH
+  ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
 
   if [[ ! -f "${HOME}/opt/kubectl/kubectl_${KUBECTL_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/kubectl"
     mkdir -p "${HOME}/opt/bash-completion.d"
 
 
-    download "https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/${OS}/amd64/kubectl" "${HOME}/opt/kubectl/kubectl_${KUBECTL_VERSION}"
+    download "https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/${OS}/${ARCH}/kubectl" "${HOME}/opt/kubectl/kubectl_${KUBECTL_VERSION}"
     chmod u+x "${HOME}/opt/kubectl/kubectl_${KUBECTL_VERSION}"
 
     [[ -f "${KUBECTL_BIN}" ]] && rm -f "${KUBECTL_BIN}"
@@ -95,9 +97,9 @@ install() {
   if command -v kubectl > /dev/null 2>&1; then
     if [[ ! -f "${HOME}/opt/kubectl/kubectl-view_secret-${KUBECTL_VIEW_SECRET_VERSION}" ]]; then
       mkdir "${HOME}/opt/tmp/kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}"
-      download "https://github.com/elsesiy/kubectl-view-secret/releases/download/${KUBECTL_VIEW_SECRET_VERSION}/kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}_${OS}_amd64.tar.gz" "${HOME}/opt/tmp/kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}/kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}_amd64.tar.gz"
+      download "https://github.com/elsesiy/kubectl-view-secret/releases/download/${KUBECTL_VIEW_SECRET_VERSION}/kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}_${OS}_${ARCH}.tar.gz" "${HOME}/opt/tmp/kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}/kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}_${ARCH}.tar.gz"
       pushd "${HOME}/opt/tmp/kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}"
-      tar xf "kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}_amd64.tar.gz"
+      tar xf "kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}_${ARCH}.tar.gz"
       mv "kubectl-view-secret" "${HOME}/opt/kubectl/kubectl-view_secret-${KUBECTL_VIEW_SECRET_VERSION}"
       ln -snf "${HOME}/opt/kubectl/kubectl-view_secret-${KUBECTL_VIEW_SECRET_VERSION}" "${HOME}/opt/bin/kubectl-view_secret"
       popd
@@ -117,7 +119,7 @@ install() {
 
     if [[ ! -f "${HOME}/opt/kubectl/kubectl-status-${KUBECTL_STATUS_VERSION}" ]]; then
       mkdir "${HOME}/opt/tmp/kubectl-status_${KUBECTL_STATUS_VERSION}"
-      download "https://github.com/bergerx/kubectl-status/releases/download/${KUBECTL_STATUS_VERSION}/status_${OS}_amd64.tar.gz" "${HOME}/opt/tmp/kubectl-status_${KUBECTL_STATUS_VERSION}/status.tar.gz"
+      download "https://github.com/bergerx/kubectl-status/releases/download/${KUBECTL_STATUS_VERSION}/status_${OS}_${ARCH}.tar.gz" "${HOME}/opt/tmp/kubectl-status_${KUBECTL_STATUS_VERSION}/status.tar.gz"
       pushd "${HOME}/opt/tmp/kubectl-status_${KUBECTL_STATUS_VERSION}"
       tar xf "status.tar.gz"
       mv "status" "${HOME}/opt/kubectl/kubectl-status-${KUBECTL_STATUS_VERSION}"
@@ -128,7 +130,7 @@ install() {
 
     if [[ ! -f "${HOME}/opt/kubectl/kubectl-tree-${KUBECTL_TREE_VERSION}" ]]; then
       mkdir "${HOME}/opt/tmp/kubectl-tree_${KUBECTL_TREE_VERSION}"
-      download "https://github.com/ahmetb/kubectl-tree/releases/download/${KUBECTL_TREE_VERSION}/kubectl-tree_${KUBECTL_TREE_VERSION}_${OS}_amd64.tar.gz" "${HOME}/opt/tmp/kubectl-tree_${KUBECTL_TREE_VERSION}/tree.tar.gz"
+      download "https://github.com/ahmetb/kubectl-tree/releases/download/${KUBECTL_TREE_VERSION}/kubectl-tree_${KUBECTL_TREE_VERSION}_${OS}_${ARCH}.tar.gz" "${HOME}/opt/tmp/kubectl-tree_${KUBECTL_TREE_VERSION}/tree.tar.gz"
       pushd "${HOME}/opt/tmp/kubectl-tree_${KUBECTL_TREE_VERSION}"
       tar xf "tree.tar.gz"
       mv "kubectl-tree" "${HOME}/opt/kubectl/kubectl-tree-${KUBECTL_TREE_VERSION}"
@@ -159,10 +161,7 @@ install() {
   if [[ ! -f "${HOME}/opt/kubectl/kubemux_${KUBEMUX_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/kubectl"
 
-    local OS
-    OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-
-    local KUBEMUX_ARCHIVE="kmux_${OS}_x86_64.tar.gz"
+    local KUBEMUX_ARCHIVE="kmux_${OS}_${ARCH}.tar.gz"
     url_tar "https://github.com/ViBiOh/kmux/releases/download/${KUBEMUX_VERSION}/${KUBEMUX_ARCHIVE}" "kmux" "${HOME}/opt/kubectl/kubemux_${KUBEMUX_VERSION}"
 
     # Activate version
@@ -175,7 +174,7 @@ install() {
 
   if [[ ! -f "${HOME}/opt/kubectl/pluto-${PLUTO_VERSION}" ]]; then
     mkdir "${HOME}/opt/tmp/pluto_${PLUTO_VERSION}"
-    download "https://github.com/FairwindsOps/pluto/releases/download/${PLUTO_VERSION_TAG}/pluto_${PLUTO_VERSION}_${OS}_amd64.tar.gz" "${HOME}/opt/tmp/pluto_${PLUTO_VERSION}/pluto.tar.gz"
+    download "https://github.com/FairwindsOps/pluto/releases/download/${PLUTO_VERSION_TAG}/pluto_${PLUTO_VERSION}_${OS}_${ARCH}.tar.gz" "${HOME}/opt/tmp/pluto_${PLUTO_VERSION}/pluto.tar.gz"
     pushd "${HOME}/opt/tmp/pluto_${PLUTO_VERSION}"
     tar xf "pluto.tar.gz"
     mv "pluto" "${HOME}/opt/kubectl/pluto-${PLUTO_VERSION}"
@@ -186,7 +185,7 @@ install() {
 
   if [[ ! -f "${HOME}/opt/kubectl/kube-score-${KUBE_SCORE_VERSION}" ]]; then
     mkdir "${HOME}/opt/tmp/kube-score_${KUBE_SCORE_VERSION}"
-    download "https://github.com/zegl/kube-score/releases/download/${KUBE_SCORE_VERSION_TAG}/kube-score_${KUBE_SCORE_VERSION}_${OS}_amd64.tar.gz" "${HOME}/opt/tmp/kube-score_${KUBE_SCORE_VERSION}/kube-score.tar.gz"
+    download "https://github.com/zegl/kube-score/releases/download/${KUBE_SCORE_VERSION_TAG}/kube-score_${KUBE_SCORE_VERSION}_${OS}_${ARCH}.tar.gz" "${HOME}/opt/tmp/kube-score_${KUBE_SCORE_VERSION}/kube-score.tar.gz"
     pushd "${HOME}/opt/tmp/kube-score_${KUBE_SCORE_VERSION}"
     tar xf "kube-score.tar.gz"
     mv "kube-score" "${HOME}/opt/kubectl/kube-score-${KUBE_SCORE_VERSION}"

@@ -19,8 +19,10 @@ install() {
     mkdir -p "${HOME}/opt/curlie"
     local OS
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+    local ARCH
+    ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
 
-    local CURLIE_ARCHIVE="curlie_${CURLIE_VERSION/v/}_${OS}_amd64.tar.gz"
+    local CURLIE_ARCHIVE="curlie_${CURLIE_VERSION/v/}_${OS}_${ARCH}.tar.gz"
     download "https://github.com/rs/curlie/releases/download/${CURLIE_VERSION}/${CURLIE_ARCHIVE}" "${CURLIE_ARCHIVE}"
 
     tar -C "/tmp" -xzf "${CURLIE_ARCHIVE}"

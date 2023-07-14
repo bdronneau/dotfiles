@@ -15,13 +15,15 @@ clean() {
 install() {
   local OS
   OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+  local ARCH
+  ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
 
   # renovate: datasource=github-tags depName=warrensbox/terraform-switcher
   local TFSWITCH_VERSION="0.13.1308"
   if [[ ! -f "${HOME}/opt/tfswitch/tfswitch_${TFSWITCH_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/tfswitch"
 
-    url_tar "https://github.com/warrensbox/terraform-switcher/releases/download/${TFSWITCH_VERSION}/terraform-switcher_${TFSWITCH_VERSION}_${OS}_amd64.tar.gz" "tfswitch" "${HOME}/opt/tfswitch/tfswitch_${TFSWITCH_VERSION}"
+    url_tar "https://github.com/warrensbox/terraform-switcher/releases/download/${TFSWITCH_VERSION}/terraform-switcher_${TFSWITCH_VERSION}_${OS}_${ARCH}.tar.gz" "tfswitch" "${HOME}/opt/tfswitch/tfswitch_${TFSWITCH_VERSION}"
 
     if [[ -f "${TFSWITCH_BIN}" ]]; then
       rm -f "${TFSWITCH_BIN}"

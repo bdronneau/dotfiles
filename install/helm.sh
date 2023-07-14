@@ -20,17 +20,19 @@ install() {
 
     local OS
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+    local ARCH
+    ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
 
-    download "https://get.helm.sh/helm-${HELM_VERSION}-${OS}-amd64.tar.gz" "helm-${HELM_VERSION}-${OS}-amd64.tar.gz"
+    download "https://get.helm.sh/helm-${HELM_VERSION}-${OS}-${ARCH}.tar.gz" "helm-${HELM_VERSION}-${OS}-${ARCH}.tar.gz"
 
     # Temp directory for extraction
     if [[ ! -d "helm-${HELM_VERSION}" ]]; then
       mkdir "helm-${HELM_VERSION}"
     fi
 
-    tar -C "helm-${HELM_VERSION}" -xf "helm-${HELM_VERSION}-${OS}-amd64.tar.gz"
-    rm "helm-${HELM_VERSION}-${OS}-amd64.tar.gz"
-    mv "helm-${HELM_VERSION}/${OS}-amd64/helm" "${HOME}/opt/helm/helm_${HELM_VERSION}"
+    tar -C "helm-${HELM_VERSION}" -xf "helm-${HELM_VERSION}-${OS}-${ARCH}.tar.gz"
+    rm "helm-${HELM_VERSION}-${OS}-${ARCH}.tar.gz"
+    mv "helm-${HELM_VERSION}/${OS}-${ARCH}/helm" "${HOME}/opt/helm/helm_${HELM_VERSION}"
     rm -Rf "helm-${HELM_VERSION}"
 
     if [[ -f "${HOME}/opt/bin/helm" ]]; then

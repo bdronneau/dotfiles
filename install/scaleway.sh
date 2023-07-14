@@ -19,8 +19,10 @@ install() {
     mkdir -p "${HOME}/opt/scaleway"
     local OS
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+    local ARCH
+    ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
 
-    local SCW_ARCHIVE="/scaleway-cli_${SCW_VERSION/v/}_${OS}_amd64"
+    local SCW_ARCHIVE="/scaleway-cli_${SCW_VERSION/v/}_${OS}_${ARCH"
     download "https://github.com/scaleway/scaleway-cli/releases/download/${SCW_VERSION}/${SCW_ARCHIVE}" "${HOME}/opt/scaleway/scaleway_${SCW_VERSION}"
 
     # Activate version
