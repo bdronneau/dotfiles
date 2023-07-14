@@ -106,17 +106,6 @@ install() {
       rm -Rf "${HOME}/opt/tmp/kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}"
     fi
 
-    if [[ ! -f "${HOME}/opt/kubectl/kubectl-kail-${KUBECTL_KAIL_VERSION}" ]]; then
-      mkdir "${HOME}/opt/tmp/kubectl-kail_${KUBECTL_KAIL_VERSION}"
-      download "https://github.com/boz/kail/releases/download/${KUBECTL_KAIL_VERSION_TAG}/kail_${KUBECTL_KAIL_VERSION}_${OS}_amd64.tar.gz" "${HOME}/opt/tmp/kubectl-kail_${KUBECTL_KAIL_VERSION}/kail.tar.gz"
-      pushd "${HOME}/opt/tmp/kubectl-kail_${KUBECTL_KAIL_VERSION}"
-      tar xf "kail.tar.gz"
-      mv "kail" "${HOME}/opt/kubectl/kubectl-kail-${KUBECTL_KAIL_VERSION}"
-      ln -snf "${HOME}/opt/kubectl/kubectl-kail-${KUBECTL_KAIL_VERSION}" "${HOME}/opt/bin/kubectl-kail"
-      popd
-      rm -Rf "${HOME}/opt/tmp/kubectl-kail_${KUBECTL_KAIL_VERSION}"
-    fi
-
     if [[ ! -f "${HOME}/opt/kubectl/kubectl-status-${KUBECTL_STATUS_VERSION}" ]]; then
       mkdir "${HOME}/opt/tmp/kubectl-status_${KUBECTL_STATUS_VERSION}"
       download "https://github.com/bergerx/kubectl-status/releases/download/${KUBECTL_STATUS_VERSION}/status_${OS}_${ARCH}.tar.gz" "${HOME}/opt/tmp/kubectl-status_${KUBECTL_STATUS_VERSION}/status.tar.gz"
