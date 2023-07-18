@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+if [[ -f "${HOME}/opt/bash-completion.d/cilium" ]]; then
+    source "${HOME}/opt/bash-completion.d/cilium";
+fi
