@@ -20,9 +20,6 @@ install() {
 
   # renovate: datasource=github-tags depName=elsesiy/kubectl-view-secret
   local KUBECTL_VIEW_SECRET_VERSION=v0.9.0
-  # renovate: datasource=github-tags depName=boz/kail
-  local KUBECTL_KAIL_VERSION_TAG=v0.15.0
-  local KUBECTL_KAIL_VERSION="${KUBECTL_KAIL_VERSION_TAG/v/}"
   # renovate: datasource=github-tags depName=bergerx/kubectl-status
   local KUBECTL_STATUS_VERSION="v0.7.10"
   # renovate: datasource=github-tags depName=ahmetb/kubectl-tree
