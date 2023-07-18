@@ -2,6 +2,8 @@
 
 export DOTFILES__PACKAGES=true
 export DOTFILES__FIRST=true
+export DOTFILES_CILIUM=true
+export DOTFILES_COLIMA=true
 export DOTFILES_CURLIE=true
 export DOTFILES_FZ=true
 export DOTFILES_FZF=true
