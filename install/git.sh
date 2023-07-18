@@ -16,7 +16,15 @@ install() {
 
   # renovate: datasource=github-tags depName=dandavison/delta
   local DELTA_VERSION="0.16.5"
-  local DELTA_ARCHIVE="delta-${DELTA_VERSION}-x86_64"
+  local DELTA_ARCHIVE
+
+  local ARCH
+  ARCH="$(uname -m | tr "[:upper:]" "[:lower:]")"
+  if [[ ${ARCH} = "arm64" ]]; then
+    DELTA_ARCHIVE="delta-${DELTA_VERSION}-aarch64"
+  else
+    DELTA_ARCHIVE="delta-${DELTA_VERSION}-x86_64"
+  fi
 
   if [[ ${OSTYPE} =~ ^darwin ]]; then
     DELTA_ARCHIVE+="-apple-darwin"
