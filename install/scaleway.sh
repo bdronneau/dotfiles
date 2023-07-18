@@ -22,7 +22,7 @@ install() {
     local ARCH
     ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
 
-    local SCW_ARCHIVE="/scaleway-cli_${SCW_VERSION/v/}_${OS}_${ARCH"
+    local SCW_ARCHIVE="/scaleway-cli_${SCW_VERSION}_${OS}_${ARCH}"
     download "https://github.com/scaleway/scaleway-cli/releases/download/${SCW_VERSION}/${SCW_ARCHIVE}" "${HOME}/opt/scaleway/scaleway_${SCW_VERSION}"
 
     # Activate version
