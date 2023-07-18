@@ -4,7 +4,7 @@ set -o nounset -o pipefail -o errexit
 
 install() {
   if [[ "${OSTYPE}" =~ ^darwin ]]; then
-    brew install \
+    brew install --quiet \
       tmux \
       reattach-to-user-namespace
   elif command -v apt-get > /dev/null 2>&1; then

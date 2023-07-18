@@ -10,5 +10,5 @@ clean() {
 }
 
 install() {
-  brew install pulumi/tap/pulumi
+  brew install --quiet pulumi/tap/pulumi
 }

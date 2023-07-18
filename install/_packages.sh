@@ -27,9 +27,9 @@ END_OF_BASH_PROFILE
 
     brew update
     brew upgrade
-    brew install "${PACKAGES[@]}"
-    brew install --cask 1password 1password-cli nextcloud balenaetcher rectangle raycast firefox google-chrome postico cyberduck spotify discord obs slack iterm2
-    brew install tailscale smug
+    brew install --quiet "${PACKAGES[@]}"
+    brew install --quiet --cask 1password 1password-cli nextcloud balenaetcher rectangle raycast firefox google-chrome postico cyberduck spotify discord obs slack iterm2
+    brew install --quiet tailscale smug
 
     if [[ $(grep -c "$(brew --prefix)" "/etc/shells") -eq 0 ]]; then
       echo "+-------------------------+"

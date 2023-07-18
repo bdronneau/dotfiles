@@ -14,7 +14,7 @@ install() {
   elif command -v pacman > /dev/null 2>&1; then
     sudo pacman -S --noconfirm --needed firefox code flatpak
   elif command -v brew > /dev/null 2>&1; then
-    brew install keepassxc
+    brew install --quiet keepassxc
   fi
 
   if command -v code > /dev/null 2>&1; then

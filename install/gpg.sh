@@ -4,7 +4,7 @@ set -o nounset -o pipefail -o errexit
 
 install() {
   if [[ "${OSTYPE}" =~ ^darwin ]]; then
-    brew install gnupg
+    brew install --quiet gnupg
   elif command -v apt-get > /dev/null 2>&1; then
     sudo apt-get install -y -qq gnupg
   elif command -v pacman > /dev/null 2>&1; then
