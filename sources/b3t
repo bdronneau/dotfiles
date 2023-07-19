@@ -1,0 +1,244 @@
+#!/usr/bin/env bash
+
+##############
+# Requirements
+##############
+# environnement variables
+# - B3T_SSH_PORT: if need custom port for ssh-keyscan
+# - NETBOX_API_TOKEN: in order to interract with Netbox
+# - NETBOX_URL: netbox url target (exemple foo.bar). Note https is mandatory
+# external tools
+# - fzf
+# - yq
+# - curl
+# - ssh
+# - ssh-keyscan
+# - git
+
+b3t(){
+    local BIN_NAME
+    BIN_NAME="b3t"
+    local B3T_CONFIG_DIR
+    B3T_CONFIG_DIR="${HOME}/.config/b3t"
+    local B3T_CACHE_DIR
+    B3T_CACHE_DIR="${B3T_CONFIG_DIR}/cache"
+    local B3T_CACHE_FILE_VM
+    B3T_CACHE_FILE_VM="${B3T_CACHE_DIR}/vms.yaml"
+    local B3T_CACHE_FILE_DEVICES
+    B3T_CACHE_FILE_DEVICES="${B3T_CACHE_DIR}/devices.yaml"
+    local B3T_KNOWN_HOSTS_FILE
+    B3T_KNOWN_HOSTS_FILE="${B3T_CONFIG_DIR}/known_hosts"
+    local B3T_SSH_PORT
+    B3T_SSH_PORT="${B3T_SSH_PORT:-22}"
+
+    if [ ! -d "$B3T_CONFIG_DIR" ]; then
+        echo "First run create b3t config dir => ${B3T_CONFIG_DIR}"
+        mkdir -p ${B3T_CONFIG_DIR}
+    fi
+
+    command_help(){
+        echo "Usage: $BIN_NAME <subcommand>"
+        echo "Subcommands:"
+        echo "    ssh           Helpers to dialog with infrastructure"
+        echo "    shortcut|sc   Helpers to dialog with shortcut"
+    }
+
+    command_ssh_scan(){
+        echo "Running 'ssh/scan' command."
+
+        _ssh_cache
+
+        cat /dev/null > "${B3T_KNOWN_HOSTS_FILE}"
+
+        for entry in $(yq .instances "${B3T_CACHE_FILE_DEVICES}" "${B3T_CACHE_FILE_VM}" | yq '.[] | select(.status == "active") | .name'); do
+            echo "Processing device: ${entry}:${B3T_SSH_PORT}"
+            ssh-keyscan -p "${B3T_SSH_PORT}" "${entry}" >> "${B3T_KNOWN_HOSTS_FILE}"
+        done
+    }
+
+    command_ssh_connect(){
+        echo "Running 'ssh/connect' command."
+
+        SSH_TARGET=$(awk -F'[][]' '{ if (NF > 2) print $2 }' "${B3T_KNOWN_HOSTS_FILE}" | uniq | fzf --height=20 --ansi --reverse --select-1)
+        if [ -z "${SSH_TARGET}" ]
+        then
+            echo "No host selected aborted"
+            return
+        fi
+
+        ssh ${SSH_TARGET}
+    }
+
+    _ssh_cache(){
+        if [ ! -d "$B3T_CACHE_DIR" ]; then
+            echo "First run create b3t cache => ${B3T_CACHE_DIR}"
+            mkdir -p ${B3T_CACHE_DIR}
+        fi
+
+        if [ ! -f "${B3T_CACHE_FILE_VM}" ] || [ ! -f "${B3T_CACHE_FILE_DEVICES}" ]; then
+            echo "Populate cache"
+
+            mkdir -p ${B3T_CACHE_DIR}
+            curl -o "${B3T_CACHE_DIR}/devices.yaml" --silent -H "Content-Type: application/json" -H "Authorization: Token $NETBOX_API_TOKEN" -L "https://${NETBOX_URL}/api/dcim/devices/?export=b3t"
+            curl -o "${B3T_CACHE_DIR}/vms.yaml" --silent -H "Content-Type: application/json" -H "Authorization: Token $NETBOX_API_TOKEN" -L "https://${NETBOX_URL}/api/virtualization/virtual-machines/?export=b3t"
+        fi
+    }
+
+    command_ssh_cache_reload(){
+        echo "Running 'ssh/cache_clear' command."
+        rm "${B3T_CACHE_FILE_VM}" "${B3T_CACHE_FILE_DEVICES}" || true
+        _ssh_cache
+    }
+
+    command_ssh_help(){
+        echo "Usage: $BIN_NAME ssh <subcommand>\n"
+        echo "Subcommands:"
+        echo "    connect           make ssh connection to one instance"
+        echo "    scan              (re)populate ssh_knows_hosts with fingerprint"
+        echo "    cache_reload      clear cache files from netbox export"
+    }
+
+    command_ssh(){
+        subcommand=$1
+
+        case "${subcommand}" in
+        "connect")
+            shift
+            command_ssh_connect
+            ;;
+        "scan")
+            shift
+            command_ssh_scan
+            ;;
+        "cache_reload")
+            shift
+            command_ssh_cache_reload
+            ;;
+        *)
+            command_ssh_help
+            ;;
+        esac
+    }
+
+    command_shortcut_help(){
+        echo "Usage: $BIN_NAME shortcut <subcommand>\n"
+        echo "Subcommands:"
+        echo "    branch   create branch base on ticket number"
+    }
+
+    command_shortcut_branch(){
+        local SC_ITERATION_PATTERN
+        SC_ITERATION_PATTERN="${1:-ops}"
+
+        echo "Search story pattern ${SC_ITERATION_PATTERN}"
+
+        local SC_ITERATION
+        SC_ITERATION=$(curl --silent -X GET -H "Content-Type: application/json" -H "Shortcut-Token: $SHORTCUT_API_TOKEN" -d '{ "detail": "slim", "page_size": 10, "query": "'${SC_ITERATION_PATTERN}'" }' -L "https://api.app.shortcut.com/api/v3/search/iterations" | jq --raw-output '.data[] | select(.status=="started") | (.id|tostring) + " - " + .name' | fzf --height=20 --ansi --reverse --select-1)
+
+        if [ -z "${SC_ITERATION}" ]
+        then
+            echo "No iteration selected aborted"
+            return
+        fi
+
+        local SC_ITERATION_ID
+        SC_ITERATION_ID=$(echo ${SC_ITERATION} | awk '{print $1}')
+        echo "${SC_ITERATION} => ${SC_ITERATION_ID}"
+
+        local SC_STORY
+        SC_STORY=$(curl --silent -H "Content-Type: application/json" -H "Shortcut-Token: $SHORTCUT_API_TOKEN" -L "https://api.app.shortcut.com/api/v3/iterations/${SC_ITERATION_ID}/stories" | jq --raw-output '.[] | (.id|tostring) + " - " + .story_type + " : " + .name' | fzf --height=20 --ansi --reverse --select-1)
+
+        if [ -z "${SC_STORY}" ]
+        then
+            echo "No story selected aborted"
+            return
+        fi
+
+        local SC_STORY_TYPE
+        SC_STORY_TYPE=$(echo ${SC_STORY} | awk '{print $3}')
+        local SC_STORY_ID
+        SC_STORY_ID=$(echo ${SC_STORY} | awk '{print $1}')
+        local SC_STORY_NAME
+        SC_STORY_NAME=${SC_STORY##*:}
+        # Trim spaces
+        SC_STORY_NAME=${SC_STORY_NAME## }
+        SC_STORY_NAME=${SC_STORY_NAME%% }
+        # Slugify branchname
+        # From https://gist.github.com/oneohthree/f528c7ae1e701ad990e6
+        SC_STORY_NAME=$(echo "${SC_STORY_NAME}" | iconv -c -t ascii//TRANSLIT | sed -E 's/[~^]+//g' | sed -E 's/[^a-zA-Z0-9]+/-/g' | sed -E 's/^-+|-+$//g' | tr A-Z a-z)
+
+        local SC_BRANCH_NAME
+        SC_BRANCH_NAME="${SC_STORY_TYPE}/sc-${SC_STORY_ID}_${SC_STORY_NAME}"
+
+        echo "Create branch for ${SC_BRANCH_NAME}"
+
+        git checkout -b "${SC_BRANCH_NAME}"
+    }
+
+    command_shortcut(){
+        subcommand=$1
+
+        case "${subcommand}" in
+        "branch")
+            shift
+            command_shortcut_branch
+            ;;
+        *)
+            command_shortcut_help
+            ;;
+        esac
+    }
+
+    command=$1
+    case "${command}" in
+        "ssh")
+            shift
+            command_ssh $@
+        ;;
+        "sc"|"shortcut")
+            shift
+            command_shortcut $@
+        ;;
+        *)
+            command_help
+        ;;
+    esac
+}
+
+_b3t_root_autocomplete() {
+    local completions=("ssh" "shortcut" "sc")
+    local current_word="${COMP_WORDS[COMP_CWORD]}"
+    COMPREPLY=($(compgen -W "${completions[*]}" -- "$current_word"))
+}
+
+_b3t_ssh_autocomplete() {
+    local completions=("cache_reload" "connect" "scan")
+    local current_word="${COMP_WORDS[COMP_CWORD]}"
+
+    COMPREPLY=($(compgen -W "${completions[*]}" -- "$current_word"))
+}
+
+_b3t_shortcut_autocomplete() {
+    local completions=("branch")
+    local current_word="${COMP_WORDS[COMP_CWORD]}"
+
+    COMPREPLY=($(compgen -W "${completions[*]}" -- "$current_word"))
+}
+
+_b3t_autocomplete() {
+    local current_word="${COMP_WORDS[COMP_CWORD]}"
+
+    case "${COMP_WORDS[1]}" in
+        "ssh")
+            _b3t_ssh_autocomplete
+            ;;
+        "shortcut"|"sc")
+            _b3t_shortcut_autocomplete
+            ;;
+        *)
+            _b3t_root_autocomplete
+            ;;
+    esac
+}
+
+complete -F _b3t_autocomplete b3t
