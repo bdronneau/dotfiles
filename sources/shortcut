@@ -1,41 +1,5 @@
 #!/usr/bin/env bash
 
-sc_branch() {
-    local SC_ITERATION_PATTERN
-    SC_ITERATION_PATTERN="${1:-ops}"
-
-    echo "Search story pattern ${SC_ITERATION_PATTERN}"
-
-    local SC_ITERATION
-    SC_ITERATION=$(curl --silent -X GET -H "Content-Type: application/json" -H "Shortcut-Token: $SHORTCUT_API_TOKEN" -d '{ "detail": "slim", "page_size": 10, "query": "'${SC_ITERATION_PATTERN}'" }' -L "https://api.app.shortcut.com/api/v3/search/iterations" | jq --raw-output '.data[] | select(.status=="started") | (.id|tostring) + " - " + .name' | fzf --height=20 --ansi --reverse --select-1)
-
-    local SC_ITERATION_ID
-    SC_ITERATION_ID=$(echo ${SC_ITERATION} | awk '{print $1}')
-    echo "${SC_ITERATION} => ${SC_ITERATION_ID}"
-
-    local SC_STORY
-    SC_STORY=$(curl --silent -H "Content-Type: application/json" -H "Shortcut-Token: $SHORTCUT_API_TOKEN" -L "https://api.app.shortcut.com/api/v3/iterations/${SC_ITERATION_ID}/stories" | jq --raw-output '.[] | (.id|tostring) + " - " + .story_type + " : " + .name' | fzf --height=20 --ansi --reverse --select-1)
-
-    local SC_STORY_TYPE
-    SC_STORY_TYPE=$(echo ${SC_STORY} | awk '{print $3}')
-    local SC_STORY_ID
-    SC_STORY_ID=$(echo ${SC_STORY} | awk '{print $1}')
-    local SC_STORY_NAME
-    SC_STORY_NAME=${SC_STORY##*:}
-    # Trim spaces
-    SC_STORY_NAME=${SC_STORY_NAME## }
-    SC_STORY_NAME=${SC_STORY_NAME%% }
-    # From https://gist.github.com/oneohthree/f528c7ae1e701ad990e6
-    SC_STORY_NAME=$(echo "${SC_STORY_NAME}" | iconv -c -t ascii//TRANSLIT | sed -E 's/[~^]+//g' | sed -E 's/[^a-zA-Z0-9]+/-/g' | sed -E 's/^-+|-+$//g' | tr A-Z a-z)
-
-    local SC_BRANCH_NAME
-    SC_BRANCH_NAME="${SC_STORY_TYPE}/sc-${SC_STORY_ID}_${SC_STORY_NAME}"
-
-    echo "Create branch for ${SC_BRANCH_NAME}"
-
-    git checkout -b "${SC_BRANCH_NAME}"
-}
-
 netbox_search() {
     local NETBOX_SEARCH_PATTERN
     NETBOX_SEARCH_PATTERN="${1}"
