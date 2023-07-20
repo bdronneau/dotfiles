@@ -14,6 +14,13 @@
 # - ssh
 # - ssh-keyscan
 # - git
+# SSH command are based on elements retrieved with netbox export
+# ensure you have b3t export templates
+# instances:
+# {%- for device in queryset %}
+#   - name: "{{device.name}}"
+#     status: "{{device.status}}"
+# {%- endfor %}
 
 b3t(){
     local BIN_NAME
