@@ -68,7 +68,7 @@ install() {
     local OS
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
-    local kubectx_ARCHIVE="kubectx_${KUBETOOLS_VERSION}_${OS}_x86_64.tar.gz"
+    local kubectx_ARCHIVE="kubectx_${KUBETOOLS_VERSION}_${OS}_${ARCH}.tar.gz"
     url_tar "https://github.com/ahmetb/kubectx/releases/download/${KUBETOOLS_VERSION}/${kubectx_ARCHIVE}" "kubectx" "${HOME}/opt/kubectl/kubectx_${KUBETOOLS_VERSION}"
 
     # Activate version
@@ -83,7 +83,7 @@ install() {
     local OS
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
-    local KUBENS_ARCHIVE="kubens_${KUBETOOLS_VERSION}_${OS}_x86_64.tar.gz"
+    local KUBENS_ARCHIVE="kubens_${KUBETOOLS_VERSION}_${OS}_${ARCH}.tar.gz"
     url_tar "https://github.com/ahmetb/kubectx/releases/download/${KUBETOOLS_VERSION}/${KUBENS_ARCHIVE}" "kubens" "${HOME}/opt/kubectl/kubens_${KUBETOOLS_VERSION}"
 
     # Activate version
