@@ -18,7 +18,7 @@ install() {
   fi
 
   if command -v code > /dev/null 2>&1; then
-    code --install-extension bungcip.better-toml
+    code --install-extension tamasfe.even-better-toml
     code --install-extension EditorConfig.EditorConfig
     code --install-extension esbenp.prettier-vscode
     code --install-extension golang.go
