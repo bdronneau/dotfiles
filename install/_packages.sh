@@ -3,7 +3,7 @@
 set -o nounset -o pipefail -o errexit
 
 install() {
-  local PACKAGES=('bash' 'bash-completion' 'htop' 'openssl' 'curl' 'vim' 'git-lfs')
+  local PACKAGES=('bash' 'htop' 'openssl' 'curl' 'vim' 'git-lfs')
 
   mkdir -p "${HOME}/opt/bin"
 
@@ -27,7 +27,7 @@ END_OF_BASH_PROFILE
 
     brew update
     brew upgrade
-    brew install --quiet "${PACKAGES[@]}"
+    brew install --quiet "${PACKAGES[@]}" bash-completion@2
     HOMEBREW_CASK_OPTS="" brew install --cask --quiet google-chrome spotify
     brew install --quiet --cask 1password 1password-cli nextcloud balenaetcher rectangle raycast firefox postico cyberduck  discord obs slack iterm2
     brew install --quiet tailscale smug minio-mc
@@ -51,6 +51,7 @@ END_OF_BASH_PROFILE
   elif command -v pacman > /dev/null 2>&1; then
     sudo pacman -Syuq --noconfirm
     sudo pacman -S --noconfirm --needed "${PACKAGES[@]}" \
+      bash-completion \
       make \
       binutils \
       yay \
