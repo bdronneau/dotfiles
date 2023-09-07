@@ -135,7 +135,7 @@ b3t(){
 
     command_shortcut_branch(){
         local SC_ITERATION_PATTERN
-        SC_ITERATION_PATTERN="${1:-ops}"
+        SC_ITERATION_PATTERN="${1:-Infrastructure}"
 
         echo "Search story pattern ${SC_ITERATION_PATTERN}"
 
