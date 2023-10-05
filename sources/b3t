@@ -136,7 +136,7 @@ b3t(){
 
     command_shortcut_branch(){
         local SC_ITERATION_PATTERN
-        SC_ITERATION_PATTERN="${1:-Infrastructure}"
+        SC_ITERATION_PATTERN="${1:-Ops}"
 
         echo "Search story pattern ${SC_ITERATION_PATTERN}"
 
@@ -250,3 +250,5 @@ _b3t_autocomplete() {
 }
 
 complete -F _b3t_autocomplete b3t
+
+alias bssh="b3t ssh connect"
