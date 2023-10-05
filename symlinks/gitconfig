@@ -10,6 +10,7 @@
         br = branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate
         co = checkout
         cosmmit = commit -s
+        default = ! git rev-parse --abbrev-ref origin/HEAD | cut -c8- | xargs -n 1 git checkout
         del = branch -D
         diff-last-tag = !sh -c 'git log --merges --format=\"%Cred%h%Creset %s %C(yellow)%b%Creset\" $(git describe --abbrev=0 --tags)..HEAD'
         diff-last-tag-short= !sh -c 'git log --merges --oneline $(git describe --abbrev=0 --tags)..HEAD'
