@@ -38,6 +38,9 @@ b3t(){
     local B3T_SSH_PORT
     B3T_SSH_PORT="${B3T_SSH_PORT:-22}"
 
+    local B3T_TALOS_DIR
+    B3T_TALOS_DIR="${HOME}/.talos"
+
     if [ ! -d "$B3T_CONFIG_DIR" ]; then
         echo "First run create b3t config dir => ${B3T_CONFIG_DIR}"
         mkdir -p ${B3T_CONFIG_DIR}
@@ -46,8 +49,10 @@ b3t(){
     command_help(){
         echo "Usage: $BIN_NAME <subcommand>"
         echo "Subcommands:"
-        echo "    ssh           Helpers to dialog with infrastructure"
-        echo "    shortcut|sc   Helpers to dialog with shortcut"
+        echo "    ssh              Helpers to dialog with infrastructure"
+        echo "    shortcut|sc      Helpers to dialog with shortcut"
+        echo "    k8s|kubernetes   Helpers to dialog with k8s"
+        echo "    talos            Helpers to dialog with talos"
     }
 
     command_ssh_scan(){
@@ -197,6 +202,126 @@ b3t(){
         esac
     }
 
+    command_kubernetes_help(){
+        echo "Usage: $BIN_NAME talos files <subcommand> <cluster>\n"
+        echo "Subcommands:"
+    }
+
+    command_kubernetes(){
+        subcommand=$1
+
+        case "${subcommand}" in
+        *)
+            command_kubernetes_help
+            ;;
+        esac
+    }
+
+    command_talos(){
+        subcommand=$1
+
+        case "${subcommand}" in
+        "config")
+            shift
+            command_talos_config $@
+            ;;
+        "files")
+            shift
+            command_talos_files $@
+            ;;
+        *)
+            command_talos_help
+            ;;
+        esac
+    }
+
+    command_talos_files(){
+        subcommand=$1
+
+        case "${subcommand}" in
+        "get")
+            shift
+            command_talos_files_get $@
+            ;;
+        *)
+            command_talos_files_help
+            ;;
+        esac
+    }
+
+    command_talos_switch(){
+        TALOSCONFIG_SELECT=$(find "${B3T_TALOS_DIR}" -name talosconfig | fzf)
+
+        export TALOSCONFIG="${TALOSCONFIG_SELECT}"
+    }
+
+    command_talos_config_get() {
+        if [ -z "${B3T_TALOS_OP_VAULT}" ]
+        then
+            echo "B3T_TALOS_OP_VAULT is not fill"
+            return
+        fi
+
+        local CLUSTER_NAME
+        CLUSTER_NAME="${1}"
+
+        if [ -z "${CLUSTER_NAME}" ]
+        then
+            echo "no cluster name give by argument"
+            return
+        fi
+
+        printf "Retrieve talosconfig file for cluster ${CLUSTER_NAME} (save in ${B3T_TALOS_DIR}/${CLUSTER_NAME})\n"
+        TALOS_FILES=(secrets.yaml worker.yaml controlplane.yaml talosconfig)
+
+        if ! [ -d "${B3T_TALOS_DIR}/${CLUSTER_NAME}" ]
+        then
+            mkdir -p "${B3T_TALOS_DIR}/${CLUSTER_NAME}"
+        fi
+
+        for FILE in "${TALOS_FILES[@]}"; do
+            printf "Retrieve ${FILE}\n"
+            op read "op://${B3T_TALOS_OP_VAULT}/Talos - ${CLUSTER_NAME}/${FILE}?attribute=content" > "${B3T_TALOS_DIR}/${CLUSTER_NAME}/${FILE}"
+        done
+    }
+
+    command_talos_config(){
+        subcommand=$1
+
+        case "${subcommand}" in
+        "get")
+            shift
+            command_talos_config_get $@
+            ;;
+        "switch")
+            shift
+            command_talos_switch $@
+            ;;
+        *)
+            command_talos_config_help
+            ;;
+        esac
+    }
+
+    command_talos_files_help(){
+        echo "Usage: $BIN_NAME talos files <subcommand> <cluster>\n"
+        echo "Subcommands:"
+        echo "    get   retrieve configuration files for talos (controlplane, worker, secrets)"
+    }
+
+    command_talos_help(){
+        echo "Usage: $BIN_NAME talos <subcommand>\n"
+        echo "Subcommands:"
+        echo "    config   interract with talosconfig files"
+    }
+
+    command_talos_config_help(){
+        echo "Usage: $BIN_NAME talos config <subcommand>\n"
+        echo "Subcommands:"
+        echo "    get      retrieve all talosconfig files"
+        echo "    switch   change talos context"
+    }
+
     command=$1
     case "${command}" in
         "ssh")
@@ -206,6 +331,14 @@ b3t(){
         "sc"|"shortcut")
             shift
             command_shortcut $@
+        ;;
+        "talos")
+            shift
+            command_talos $@
+        ;;
+        "k8s"|"kubernetes")
+            shift
+            command_kubernetes $@
         ;;
         *)
             command_help
