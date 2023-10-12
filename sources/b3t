@@ -318,7 +318,7 @@ b3t(){
     command_talos_config_help(){
         echo "Usage: $BIN_NAME talos config <subcommand>\n"
         echo "Subcommands:"
-        echo "    get      retrieve all talosconfig files"
+        echo "    get      retrieve all talos files for given cluster"
         echo "    switch   change talos context"
     }
 
