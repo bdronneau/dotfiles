@@ -258,7 +258,7 @@ b3t(){
     command_talos_config_get() {
         if [ -z "${B3T_TALOS_OP_VAULT}" ]
         then
-            echo "B3T_TALOS_OP_VAULT is not fill"
+            echo "ERROR: B3T_TALOS_OP_VAULT is not fill"
             return
         fi
 
@@ -267,7 +267,7 @@ b3t(){
 
         if [ -z "${CLUSTER_NAME}" ]
         then
-            echo "no cluster name give by argument"
+            echo "ERROR: no cluster name give by argument"
             return
         fi
 
