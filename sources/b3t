@@ -41,6 +41,9 @@ b3t(){
     local B3T_TALOS_DIR
     B3T_TALOS_DIR="${HOME}/.talos"
 
+    local B3T_KUBE_CONFIG_DIR
+    B3T_KUBE_CONFIG_DIR="${HOME}/.kube"
+
     if [ ! -d "$B3T_CONFIG_DIR" ]; then
         echo "First run create b3t config dir => ${B3T_CONFIG_DIR}"
         mkdir -p ${B3T_CONFIG_DIR}
@@ -203,18 +206,82 @@ b3t(){
     }
 
     command_kubernetes_help(){
-        echo "Usage: $BIN_NAME talos files <subcommand> <cluster>\n"
+        echo "Usage: $BIN_NAME kubernetes|k8s <subcommand>\n"
         echo "Subcommands:"
+        echo "    get              retrieve kubeconfig from 1password"
+        echo "    switch           set KUBECONFIG env vars to specific files"
+        echo "    default          copy merge kubeconfig to default .kube/config"
     }
 
     command_kubernetes(){
         subcommand=$1
 
         case "${subcommand}" in
+        "get")
+            shift
+            command_kubernetes_config $@
+            ;;
+        "switch")
+            shift
+            command_kubernetes_switch $@
+            ;;
+        "default")
+            shift
+            command_kubernetes_default
+            ;;
         *)
             command_kubernetes_help
             ;;
         esac
+    }
+
+    command_kubernetes_switch(){
+        local KUBECONFIG_SELECT
+        KUBECONFIG_SELECT=$(find "${B3T_KUBE_CONFIG_DIR}/b3t" | fzf)
+        printf "${KUBECONFIG_SELECT}\n"
+        export KUBECONFIG="${KUBECONFIG_SELECT}"
+    }
+
+    command_kubernetes_default(){
+        cp "${B3T_KUBE_CONFIG_DIR}/b3t/all.yaml" "${HOME}/.kube/config"
+    }
+
+    command_kubernetes_config(){
+        if [ -z "${B3T_KUBE_CLUSTERS}" ]
+        then
+            echo "ERROR: B3T_KUBE_CLUSTERS is not set"
+            return
+        fi
+
+        if [ -z "${B3T_KUBERNETES_OP_VAULT}" ]
+        then
+            echo "ERROR: B3T_KUBERNETES_OP_VAULT is not set"
+            return
+        fi
+
+        if ! [ -d "${B3T_KUBE_CONFIG_DIR}/b3t" ]
+        then
+            mkdir -p "${B3T_KUBE_CONFIG_DIR}/b3t"
+        fi
+
+        local KUBE_CLUSTERS
+        KUBE_CLUSTERS=($B3T_KUBE_CLUSTERS)
+
+        for FILE in "${KUBE_CLUSTERS[@]}"; do
+            printf "Retrieve kubeconfig for ${FILE/.yaml/}\n"
+            op read "op://${B3T_KUBERNETES_OP_VAULT}/kubeconfig/${FILE}?attribute=content" > "${B3T_KUBE_CONFIG_DIR}/b3t/${FILE}"
+        done
+
+        local PATH_KUBECONFIG_FILES
+        PATH_KUBECONFIG_FILES=()
+        for FILE in "${KUBE_CLUSTERS[@]}"; do
+          PATH_KUBECONFIG_FILES+=("${B3T_KUBE_CONFIG_DIR}/b3t/${FILE}")
+        done
+
+        local KUBECONFIG_ALL
+        KUBECONFIG_ALL=$(IFS=: ; echo "${PATH_KUBECONFIG_FILES[*]}")
+
+        KUBECONFIG="${KUBECONFIG_ALL}" kubectl config view --flatten > "${B3T_KUBE_CONFIG_DIR}/b3t/all.yaml"
     }
 
     command_talos(){
