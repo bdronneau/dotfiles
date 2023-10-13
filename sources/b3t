@@ -339,7 +339,7 @@ b3t(){
         fi
 
         printf "Retrieve talosconfig file for cluster ${CLUSTER_NAME} (save in ${B3T_TALOS_DIR}/${CLUSTER_NAME})\n"
-        TALOS_FILES=(secrets.yaml worker.yaml controlplane.yaml talosconfig)
+        TALOS_FILES=(talosconfig)
 
         if ! [ -d "${B3T_TALOS_DIR}/${CLUSTER_NAME}" ]
         then
@@ -349,6 +349,42 @@ b3t(){
         for FILE in "${TALOS_FILES[@]}"; do
             printf "Retrieve ${FILE}\n"
             op read "op://${B3T_TALOS_OP_VAULT}/Talos - ${CLUSTER_NAME}/${FILE}?attribute=content" > "${B3T_TALOS_DIR}/${CLUSTER_NAME}/${FILE}"
+        done
+    }
+
+    command_talos_files_get() {
+        if [ -z "${B3T_TALOS_OP_VAULT}" ]
+        then
+            echo "ERROR: B3T_TALOS_OP_VAULT is not fill"
+            return
+        fi
+
+        local CLUSTER_NAME
+        CLUSTER_NAME="${1}"
+        if [ -z "${CLUSTER_NAME}" ]
+        then
+            echo "ERROR: no cluster name give by argument"
+            return
+        fi
+
+        local LOCAL_PATH
+        LOCAL_PATH="${2}"
+        if [ -z "${LOCAL_PATH}" ]
+        then
+            LOCAL_PATH="${B3T_TALOS_DIR}/${CLUSTER_NAME}"
+        fi
+
+        printf "Retrieve talos generated files for cluster ${CLUSTER_NAME} (save in ${LOCAL_PATH})\n"
+        TALOS_FILES=(secrets.yaml worker.yaml controlplane.yaml)
+
+        if ! [ -d "${LOCAL_PATH}" ]
+        then
+            mkdir -p "${LOCAL_PATH}"
+        fi
+
+        for FILE in "${TALOS_FILES[@]}"; do
+            printf "Retrieve ${FILE}\n"
+            op read "op://${B3T_TALOS_OP_VAULT}/Talos - ${CLUSTER_NAME}/${FILE}?attribute=content" > "${LOCAL_PATH}/${FILE}"
         done
     }
 
@@ -380,12 +416,13 @@ b3t(){
         echo "Usage: $BIN_NAME talos <subcommand>\n"
         echo "Subcommands:"
         echo "    config   interract with talosconfig files"
+        echo "    files    interract with talos generated files"
     }
 
     command_talos_config_help(){
         echo "Usage: $BIN_NAME talos config <subcommand>\n"
         echo "Subcommands:"
-        echo "    get      retrieve all talos files for given cluster"
+        echo "    get      retrieve all talosconfig for given cluster"
         echo "    switch   change talos context"
     }
 
