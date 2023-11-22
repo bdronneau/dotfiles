@@ -10,13 +10,14 @@
         br = branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate
         co = checkout
         cosmmit = commit -s
+        default-get = ! git rev-parse --abbrev-ref origin/HEAD
         default = ! git rev-parse --abbrev-ref origin/HEAD | cut -c8- | xargs -n 1 git checkout
         del = branch -D
         diff-last-tag = !sh -c 'git log --merges --format=\"%Cred%h%Creset %s %C(yellow)%b%Creset\" $(git describe --abbrev=0 --tags)..HEAD'
         diff-last-tag-short= !sh -c 'git log --merges --oneline $(git describe --abbrev=0 --tags)..HEAD'
         fco = "!f() { git checkout $(git branch -vv --all | fzf --ansi --reverse -1 -q ${1:-''} | awk '{print $1}' | sed 's|^remotes/origin/||'); }; f"
-        fcommit = ! git log --oneline | fzf --reverse -1 -q ${1:-''} | awk '{print $1}' | xargs -I{} git commit --fixup={}
-        frebase = ! git log --oneline | fzf --reverse -1 -q ${1:-''} | awk '{print $1}' | xargs -o -I{} git rebase -i {}^ --autosquash --autostash
+        fcommit = ! git log "$(git default-get).." --oneline | fzf --reverse -1 -q ${1:-''} | awk '{print $1}' | xargs -I{} git commit --fixup={}
+        frebase = ! git log "$(git default-get).." --oneline | fzf --reverse -1 -q ${1:-''} | awk '{print $1}' | xargs -o -I{} git rebase -i {}^ --autosquash --autostash
         last = log -1 HEAD --stat
         lola = log --graph --pretty=format:'%C(bold red)%h%Creset -%C(bold yellow)%d%Creset %s %C(bold green)(%ar) %C(bold ul blue)%an%Creset' --abbrev-commit --all
         putsch = push --force-with-lease
