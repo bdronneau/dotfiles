@@ -13,7 +13,7 @@ install() {
   # renovate: datasource=github-tags depName=helm/helm
   local HELM_VERSION="v3.13.2"
   # renovate: datasource=github-tags depName=hayorov/helm-gcs
-  local HELM_PLUGIN_GCS_VERSION="0.3.18"
+  local HELM_PLUGIN_GCS_VERSION="0.4.3"
 
   if [[ ! -f "${HOME}/opt/helm/helm_${HELM_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/helm"
