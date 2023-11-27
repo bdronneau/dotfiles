@@ -12,7 +12,7 @@ clean() {
 
 install() {
   if [[ ! -d "${HOME}/opt/google-cloud-sdk" ]]; then
-    local GCLOUD_VERSION=321.0.0
+    local GCLOUD_VERSION="321.0.0"
     local OS
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     local ARCH
