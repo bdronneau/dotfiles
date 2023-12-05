@@ -100,18 +100,11 @@ b3t(){
         fi
     }
 
-    command_ssh_cache_reload(){
-        echo "Running 'ssh/cache_clear' command."
-        rm "${B3T_CACHE_FILE_VM}" "${B3T_CACHE_FILE_DEVICES}" || true
-        _b3t_cache
-    }
-
     command_ssh_help(){
         echo "Usage: $BIN_NAME ssh <subcommand>\n"
         echo "Subcommands:"
         echo "    connect           make ssh connection to one instance"
         echo "    scan              (re)populate ssh_knows_hosts with fingerprint"
-        echo "    cache_reload      clear cache files from netbox export"
     }
 
     command_ssh(){
@@ -125,10 +118,6 @@ b3t(){
         "scan")
             shift
             command_ssh_scan
-            ;;
-        "cache_reload")
-            shift
-            command_ssh_cache_reload
             ;;
         *)
             command_ssh_help
@@ -463,6 +452,32 @@ b3t(){
         echo "    switch   change talos context"
     }
 
+    command_netbox(){
+        subcommand=$1
+
+        case "${subcommand}" in
+        "cache_reload")
+            shift
+            command_netbox_cache_reload
+            ;;
+        *)
+            command_talos_config_help
+            ;;
+        esac
+    }
+
+    command_netbox_cache_reload(){
+        echo "Running 'netbox/cache_reload' command."
+        rm "${B3T_CACHE_FILE_VM}" "${B3T_CACHE_FILE_DEVICES}" || true
+        _b3t_cache
+    }
+
+    command_netbox_help(){
+        echo "Usage: $BIN_NAME netbox <subcommand>\n"
+        echo "Subcommands:"
+        echo "    cache_reload           refresh local cached informations"
+    }
+
     command=$1
     case "${command}" in
         "ssh")
@@ -485,6 +500,10 @@ b3t(){
             shift
             command_ovh $@
         ;;
+        "netbox")
+            shift
+            command_netbox $@
+        ;;
         *)
             command_help
         ;;
@@ -496,10 +515,11 @@ _b3t_autocomplete() {
     local prev1=${COMP_WORDS[COMP_CWORD-1]}
     local prev2=${COMP_WORDS[COMP_CWORD-2]}
 
-    local root_options=("ssh" "shortcut" "sc" "k8s" "kubernetes" "talos" "ovh")
-    local ssh_options=("connect" "cache_reload" "scan")
+    local root_options=("ssh" "shortcut" "sc" "k8s" "kubernetes" "talos" "ovh" "netbox")
+    local ssh_options=("connect" "scan")
     local shortcut_options=("branch")
     local ovh_options=("manager")
+    local netbox_options=("cache_reload")
     local talos_options=("config" "files")
     local talos_config_options=("get" "switch")
     local talos_files_options=("get")
@@ -528,6 +548,9 @@ _b3t_autocomplete() {
                     ;;
                 "shortcut"|"sc")
                     COMPREPLY=($(compgen -W "${shortcut_options[*]}" -- "$cur"))
+                    ;;
+                "netbox")
+                    COMPREPLY=($(compgen -W "${netbox_options[*]}" -- "$cur"))
                     ;;
                 *)
                     COMPREPLY=($(compgen -W "${root_options[*]}" -- "$cur"))
