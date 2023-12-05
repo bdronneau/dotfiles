@@ -491,38 +491,48 @@ b3t(){
     esac
 }
 
-_b3t_root_autocomplete() {
-    local completions=("ssh" "shortcut" "sc")
-    local current_word="${COMP_WORDS[COMP_CWORD]}"
-    COMPREPLY=($(compgen -W "${completions[*]}" -- "$current_word"))
-}
-
-_b3t_ssh_autocomplete() {
-    local completions=("cache_reload" "connect" "scan")
-    local current_word="${COMP_WORDS[COMP_CWORD]}"
-
-    COMPREPLY=($(compgen -W "${completions[*]}" -- "$current_word"))
-}
-
-_b3t_shortcut_autocomplete() {
-    local completions=("branch")
-    local current_word="${COMP_WORDS[COMP_CWORD]}"
-
-    COMPREPLY=($(compgen -W "${completions[*]}" -- "$current_word"))
-}
-
 _b3t_autocomplete() {
-    local current_word="${COMP_WORDS[COMP_CWORD]}"
+    local cur=${COMP_WORDS[COMP_CWORD]}
+    local prev1=${COMP_WORDS[COMP_CWORD-1]}
+    local prev2=${COMP_WORDS[COMP_CWORD-2]}
 
-    case "${COMP_WORDS[1]}" in
-        "ssh")
-            _b3t_ssh_autocomplete
+    local root_options=("ssh" "shortcut" "sc" "k8s" "kubernetes" "talos" "ovh")
+    local ssh_options=("connect" "cache_reload" "scan")
+    local shortcut_options=("branch")
+    local ovh_options=("manager")
+    local talos_options=("config" "files")
+    local talos_config_options=("get" "switch")
+    local talos_files_options=("get")
+    local kubernetes_options=("get" "switch" "default")
+
+    case "$prev2 $prev1" in
+        "talos files")
+            COMPREPLY=($(compgen -W "${talos_files_options[*]}" -- "$cur"))
             ;;
-        "shortcut"|"sc")
-            _b3t_shortcut_autocomplete
+        "talos config")
+            COMPREPLY=($(compgen -W "${talos_config_options[*]}" -- "$cur"))
             ;;
         *)
-            _b3t_root_autocomplete
+            case "$prev1" in
+                "ssh")
+                    COMPREPLY=($(compgen -W "${ssh_options[*]}" -- "$cur"))
+                    ;;
+                "talos")
+                    COMPREPLY=($(compgen -W "${talos_options[*]}" -- "$cur"))
+                    ;;
+                "k8s"|"kubernetes")
+                    COMPREPLY=($(compgen -W "${kubernetes_options[*]}" -- "$cur"))
+                    ;;
+                "ovh")
+                    COMPREPLY=($(compgen -W "${ovh_options[*]}" -- "$cur"))
+                    ;;
+                "shortcut"|"sc")
+                    COMPREPLY=($(compgen -W "${shortcut_options[*]}" -- "$cur"))
+                    ;;
+                *)
+                    COMPREPLY=($(compgen -W "${root_options[*]}" -- "$cur"))
+                    ;;
+            esac
             ;;
     esac
 }
