@@ -61,7 +61,7 @@ b3t(){
     command_ssh_scan(){
         echo "Running 'ssh/scan' command."
 
-        _ssh_cache
+        _b3t_cache
 
         cat /dev/null > "${B3T_KNOWN_HOSTS_FILE}"
 
@@ -85,7 +85,7 @@ b3t(){
         ssh ${SSH_TARGET}
     }
 
-    _ssh_cache(){
+    _b3t_cache(){
         if [ ! -d "$B3T_CACHE_DIR" ]; then
             echo "First run create b3t cache => ${B3T_CACHE_DIR}"
             mkdir -p ${B3T_CACHE_DIR}
@@ -103,7 +103,7 @@ b3t(){
     command_ssh_cache_reload(){
         echo "Running 'ssh/cache_clear' command."
         rm "${B3T_CACHE_FILE_VM}" "${B3T_CACHE_FILE_DEVICES}" || true
-        _ssh_cache
+        _b3t_cache
     }
 
     command_ssh_help(){
@@ -208,7 +208,7 @@ b3t(){
     command_ovh_manager(){
         echo "Running 'ovh/manager' command."
 
-        _ssh_cache
+        _b3t_cache
 
         TARGET=$(yq  '.instances[] | select(.status == "active")  | .name + " | " + .asset_tag' "${B3T_CACHE_FILE_DEVICES}" | uniq | fzf --height=20 --ansi --reverse --select-1)
         if [ -z "${TARGET}" ]
