@@ -205,6 +205,43 @@ b3t(){
         esac
     }
 
+    command_ovh_manager(){
+        echo "Running 'ovh/manager' command."
+
+        _ssh_cache
+
+        TARGET=$(yq  '.instances[] | select(.status == "active")  | .name + " | " + .asset_tag' "${B3T_CACHE_FILE_DEVICES}" | uniq | fzf --height=20 --ansi --reverse --select-1)
+        if [ -z "${TARGET}" ]
+        then
+            echo "No host selected aborted"
+            return
+        fi
+
+        ASSET_TAG=$(echo "${TARGET}" | awk -F' | ' '{ print $3 }')
+
+        echo "https://www.ovh.com/manager/#/dedicated/server/${ASSET_TAG}"
+    }
+
+    command_ovh_help(){
+        echo "Usage: $BIN_NAME ovh <subcommand>\n"
+        echo "Subcommands:"
+        echo "    manager          open ovh manager on instance"
+    }
+
+    command_ovh(){
+        subcommand=$1
+
+        case "${subcommand}" in
+        "manager")
+            shift
+            command_ovh_manager $@
+            ;;
+        *)
+            command_ovh_help
+            ;;
+        esac
+    }
+
     command_kubernetes_help(){
         echo "Usage: $BIN_NAME kubernetes|k8s <subcommand>\n"
         echo "Subcommands:"
@@ -443,6 +480,10 @@ b3t(){
         "k8s"|"kubernetes")
             shift
             command_kubernetes $@
+        ;;
+        "ovh")
+            shift
+            command_ovh $@
         ;;
         *)
             command_help
