@@ -16,7 +16,7 @@ clean() {
 
 install() {
   # renovate: datasource=github-tags depName=cilium/cilium-cli
-  local CILIUM_CLI_VERSION="v0.15.16"
+  local CILIUM_CLI_VERSION="v0.15.17"
   local CILIUM_CLI_BIN_VERSION_PATH="${HOME}/opt/cilium/cilium_${CILIUM_CLI_VERSION}"
   local CILIUM_CLI_BIN_NAME="cilium"
 
