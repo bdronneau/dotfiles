@@ -452,6 +452,84 @@ b3t(){
         echo "    switch   change talos context"
     }
 
+    command_netbox_search() {
+        local NETBOX_SEARCH_PATTERN
+        NETBOX_SEARCH_PATTERN="${1}"
+
+        if [ -z "$NETBOX_SEARCH_PATTERN" ]
+        then
+            echo "Search is empty, result will be limited to netbox default pagination"
+        fi
+
+        local NETBOX_SEARCH_DEVICES
+        NETBOX_SEARCH_DEVICES=$(curl --silent -H "Content-Type: application/json" -H "Authorization: Token $NETBOX_API_TOKEN" -L "https://${NETBOX_URL}/api/dcim/devices/?q=${NETBOX_SEARCH_PATTERN}" | jq --raw-output '.results[] | (.id|tostring) + " - baremetal - " + .name')
+
+        local NETBOX_SEARCH_VM
+        NETBOX_SEARCH_VM=$(curl --silent -H "Content-Type: application/json" -H "Authorization: Token $NETBOX_API_TOKEN" -L "https://${NETBOX_URL}/api/virtualization/virtual-machines/?q=${NETBOX_SEARCH_PATTERN}" | jq --raw-output '.results[] | (.id|tostring) + " - VM - " + .name')
+
+        local NETBOX_SELECTED_ITEM
+        NETBOX_SELECTED_ITEM=$(echo "${NETBOX_SEARCH_VM} ${NETBOX_SEARCH_DEVICES}" | fzf --height=20 --ansi --reverse --select-1)
+
+        NETBOX_SELECTED_ITEM_TYPE=$(echo ${NETBOX_SELECTED_ITEM} | awk -F' - ' '{print $2}')
+        NETBOX_SELECTED_ITEM_ID=$(echo ${NETBOX_SELECTED_ITEM} | awk -F' - ' '{print $1}')
+
+        local NETBOX_SELECTED_ITEM_CONTENT
+        if [ "${NETBOX_SELECTED_ITEM_TYPE}" == "VM" ]; then
+            NETBOX_SELECTED_ITEM_CONTENT=$(curl --silent -H "Content-Type: application/json" -H "Authorization: Token $NETBOX_API_TOKEN" -L "https://${NETBOX_URL}/api/virtualization/virtual-machines/${NETBOX_SELECTED_ITEM_ID}" | jq .)
+            NETBOX_SELECTED_ITEM_URL="https://${NETBOX_URL}/virtualization/virtual-machines/${NETBOX_SELECTED_ITEM_ID}"
+        else
+            NETBOX_SELECTED_ITEM_CONTENT=$(curl --silent -H "Content-Type: application/json" -H "Authorization: Token $NETBOX_API_TOKEN" -L "https://${NETBOX_URL}/api/dcim/devices/${NETBOX_SELECTED_ITEM_ID}" | jq .)
+            NETBOX_SELECTED_ITEM_URL="https://${NETBOX_URL}/dcim/devices/${NETBOX_SELECTED_ITEM_ID}"
+        fi
+
+        echo -e "Information retrieve from netbox: \n${NETBOX_SELECTED_ITEM_CONTENT}"
+
+        echo "Netbox: ${NETBOX_SELECTED_ITEM_URL}"
+    }
+
+    command_netbox_search_browser() {
+        local OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+
+        if [ "${OS}" = "darwin" ]; then
+            open "https://${NETBOX_URL}/search/?&obj_types=dcim.device&obj_types=virtualization.virtualmachine&q=$1"
+        else
+            xdg-open "https://${NETBOX_URL}/search/?&obj_types=dcim.device&obj_types=virtualization.virtualmachine&q=$1"
+        fi
+    }
+
+    command_netbox_export() {
+        local NETBOX_SEARCH_PATTERN
+        NETBOX_SEARCH_PATTERN="${1}"
+
+        if [ -z "$NETBOX_SEARCH_PATTERN" ]
+        then
+            echo "Search is empty, result will be limited to netbox default pagination"
+        fi
+
+        local NETBOX_SEARCH_DEVICES
+        NETBOX_SEARCH_DEVICES=$(curl --silent -H "Content-Type: application/json" -H "Authorization: Token $NETBOX_API_TOKEN" -L "https://${NETBOX_URL}/api/dcim/devices/?q=${NETBOX_SEARCH_PATTERN}" | jq --raw-output '.results[] | (.id|tostring) + " - " + .name')
+
+        echo -e "Devices retrieved: ${NETBOX_SEARCH_DEVICES}"
+
+        read -p "Export (y/n)?" CONT
+        if [ "$CONT" = "y" ]; then
+            echo -e "Select export format"
+            local NETBOX_EXPORT_SELECTED
+            NETBOX_EXPORT_SELECTED=$(curl --silent -H "Content-Type: application/json" -H "Authorization: Token $NETBOX_API_TOKEN" -L "https://${NETBOX_URL}/api/extras/export-templates/" | jq --raw-output '.results[] | (.id|tostring) + " - " + .name' | fzf --height=20 --ansi --reverse)
+            local NETBOX_EXPORT_SELECTED_NAME
+            NETBOX_EXPORT_SELECTED_NAME=$(echo ${NETBOX_EXPORT_SELECTED} | awk -F' - ' '{print $2}')
+
+            local NETBOX_EXPORT_FILENAME
+            NETBOX_EXPORT_FILENAME="$(date +'%Y%m%d_%H%M')_${NETBOX_SEARCH_PATTERN}.txt"
+
+            echo "Exporting to ${NETBOX_EXPORT_FILENAME}"
+
+            curl --silent -H "Content-Type: application/json" -H "Authorization: Token $NETBOX_API_TOKEN" -L "https://${NETBOX_URL}/api/dcim/devices/?q=${NETBOX_SEARCH_PATTERN}&export=${NETBOX_EXPORT_SELECTED_NAME}" > "./${NETBOX_EXPORT_FILENAME}"
+        else
+            echo "Okay bye!"
+        fi
+    }
+
     command_netbox(){
         subcommand=$1
 
@@ -459,6 +537,18 @@ b3t(){
         "cache_reload")
             shift
             command_netbox_cache_reload
+            ;;
+        "search")
+            shift
+            command_netbox_search $@
+            ;;
+        "search_browser")
+            shift
+            command_netbox_search_browser $@
+            ;;
+        "export")
+            shift
+            command_netbox_export $@
             ;;
         *)
             command_talos_config_help
@@ -476,6 +566,9 @@ b3t(){
         echo "Usage: $BIN_NAME netbox <subcommand>\n"
         echo "Subcommands:"
         echo "    cache_reload           refresh local cached informations"
+        echo "    search_browser         open in default brower UI to netbox in search mode (devices and vm)"
+        echo "    search                 search devices or vms"
+        echo "    export                 search devices or vms and export to disk"
     }
 
     command=$1
@@ -519,7 +612,7 @@ _b3t_autocomplete() {
     local ssh_options=("connect" "scan")
     local shortcut_options=("branch")
     local ovh_options=("manager")
-    local netbox_options=("cache_reload")
+    local netbox_options=("cache_reload" "search_browser" "search" "export")
     local talos_options=("config" "files")
     local talos_config_options=("get" "switch")
     local talos_files_options=("get")
