@@ -469,7 +469,7 @@ b3t(){
         NETBOX_SEARCH_VM=$(curl --silent -H "Content-Type: application/json" -H "Authorization: Token $NETBOX_API_TOKEN" -L "https://${NETBOX_URL}/api/virtualization/virtual-machines/?q=${NETBOX_SEARCH_PATTERN}" | jq --raw-output '.results[] | (.id|tostring) + " - VM - " + .name')
 
         local NETBOX_SELECTED_ITEM
-        NETBOX_SELECTED_ITEM=$(echo "${NETBOX_SEARCH_VM} ${NETBOX_SEARCH_DEVICES}" | fzf --height=20 --ansi --reverse --select-1)
+        NETBOX_SELECTED_ITEM=$(printf "${NETBOX_SEARCH_VM}\n${NETBOX_SEARCH_DEVICES}" | fzf --height=20 --ansi --reverse --select-1)
 
         NETBOX_SELECTED_ITEM_TYPE=$(echo ${NETBOX_SELECTED_ITEM} | awk -F' - ' '{print $2}')
         NETBOX_SELECTED_ITEM_ID=$(echo ${NETBOX_SELECTED_ITEM} | awk -F' - ' '{print $1}')
