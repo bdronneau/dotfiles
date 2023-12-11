@@ -45,3 +45,5 @@ ssh_pass() {
 _ff_search_g() {
   firefox --new-tab "https://www.google.com/search?q=$1"
 }
+
+alias curl_r3="CURL_SSL_BACKEND=secure-transport curl"
