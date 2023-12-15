@@ -16,8 +16,8 @@ clean() {
 }
 
 install() {
-  # renovate: datasource=github-tags depName=golang/go
-  local GO_VERSION="go1.21.0"
+  # renovate: datasource=github-tags versioning="regex:^go?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$" depName=golang/go
+  local GO_VERSION="go1.21.5"
 
   local OS
   OS="$(uname -s | tr "[:upper:]" "[:lower:]")"
