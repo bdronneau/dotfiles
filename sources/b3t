@@ -237,7 +237,6 @@ b3t(){
         echo "Subcommands:"
         echo "    get              retrieve kubeconfig from 1password"
         echo "    switch           set KUBECONFIG env vars to specific files"
-        echo "    default          copy merge kubeconfig to default .kube/config"
     }
 
     command_kubernetes(){
@@ -252,10 +251,6 @@ b3t(){
             shift
             command_kubernetes_switch $@
             ;;
-        "default")
-            shift
-            command_kubernetes_default
-            ;;
         *)
             command_kubernetes_help
             ;;
@@ -267,10 +262,6 @@ b3t(){
         KUBECONFIG_SELECT=$(find "${B3T_KUBE_CONFIG_DIR}/b3t" | fzf)
         printf "${KUBECONFIG_SELECT}\n"
         export KUBECONFIG="${KUBECONFIG_SELECT}"
-    }
-
-    command_kubernetes_default(){
-        cp "${B3T_KUBE_CONFIG_DIR}/b3t/all.yaml" "${HOME}/.kube/config"
     }
 
     command_kubernetes_config(){
