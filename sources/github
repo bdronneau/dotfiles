@@ -1,5 +1,0 @@
-sources/githubc#!/usr/bin/env bash
-
-if [[ -f "${HOME}/opt/bash-completion.d/gh" ]]; then
-    source "${HOME}/opt/bash-completion.d/gh";
-fi
