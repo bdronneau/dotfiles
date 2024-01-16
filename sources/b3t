@@ -200,7 +200,7 @@ b3t(){
 
         _b3t_cache
 
-        TARGET=$(yq  '.instances[] | select(.status == "active")  | .name + " | " + .asset_tag' "${B3T_CACHE_FILE_DEVICES}" | uniq | fzf --height=20 --ansi --reverse --select-1)
+        TARGET=$(yq  '.instances[] | select(.status == "active")  | .name + " | " + .asset_tag' "${B3T_CACHE_FILE_DEVICES}" "${B3T_CACHE_FILE_VM}" | uniq | fzf --height=20 --ansi --reverse --select-1)
         if [ -z "${TARGET}" ]
         then
             echo "No host selected aborted"
@@ -563,6 +563,49 @@ b3t(){
         echo "    export                 search devices or vms and export to disk"
     }
 
+    command_monitoring_vmagent(){
+        echo "Running 'monitoring/vmagent' command."
+
+        _b3t_cache
+
+        TARGET=$(yq  '.instances[] | select(.status == "active")  | .name + " | " + .asset_tag' "${B3T_CACHE_FILE_DEVICES}" | uniq | fzf --height=20 --ansi --reverse --select-1)
+        if [ -z "${TARGET}" ]
+        then
+            echo "No host selected aborted"
+            return
+        fi
+
+        INSTANCE_NAME=$(echo "${TARGET}" | awk -F' | ' '{ print $1 }')
+
+        echo "http://${INSTANCE_NAME}:8429"
+
+        if [ "${OS}" = "darwin" ]; then
+            open "http://${INSTANCE_NAME}:8429"
+        else
+            xdg-open "http://${INSTANCE_NAME}:8429"
+        fi
+    }
+
+    command_monitoring_help(){
+        echo "Usage: $BIN_NAME monitoring <subcommand>\n"
+        echo "Subcommands:"
+        echo "    vmagent          open vmagent on instance"
+    }
+
+    command_monitoring(){
+        subcommand=$1
+
+        case "${subcommand}" in
+        "vmagent")
+            shift
+            command_monitoring_vmagent $@
+            ;;
+        *)
+            command_monitoring_help
+            ;;
+        esac
+    }
+
     command=$1
     case "${command}" in
         "ssh")
@@ -589,6 +632,10 @@ b3t(){
             shift
             command_netbox $@
         ;;
+        "monitoring")
+            shift
+            command_monitoring $@
+        ;;
         *)
             command_help
         ;;
@@ -604,6 +651,7 @@ _b3t_autocomplete() {
     local ssh_options=("connect" "scan")
     local shortcut_options=("branch")
     local ovh_options=("manager")
+    local monitoring_options=("vmagent")
     local netbox_options=("cache_reload" "search_browser" "search" "export")
     local talos_options=("config" "files")
     local talos_config_options=("get" "switch")
@@ -636,6 +684,9 @@ _b3t_autocomplete() {
                     ;;
                 "netbox")
                     COMPREPLY=($(compgen -W "${netbox_options[*]}" -- "$cur"))
+                    ;;
+                "monitoring")
+                    COMPREPLY=($(compgen -W "${monitoring_options[*]}" -- "$cur"))
                     ;;
                 *)
                     COMPREPLY=($(compgen -W "${root_options[*]}" -- "$cur"))
