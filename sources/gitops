@@ -1,4 +1,3 @@
-sources/gitops
 #!/usr/bin/env bash
 
 if [[ -f "${HOME}/opt/bash-completion.d/flux" ]]; then
