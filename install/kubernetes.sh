@@ -182,7 +182,7 @@ install() {
 
   if [[ ! -f "${HOME}/opt/kubectl/popeye-${POPEYE_VERSION_TAG}" ]]; then
     mkdir "${HOME}/opt/tmp/popeye_${POPEYE_VERSION_TAG}"
-    download "https://github.com/derailed/popeye/releases/download/${POPEYE_VERSION_TAG}/popeye_${OS}_x86_64.tar.gz" "${HOME}/opt/tmp/popeye_${POPEYE_VERSION_TAG}/popeye.tar.gz"
+    download "https://github.com/derailed/popeye/releases/download/${POPEYE_VERSION_TAG}/popeye_${OS}_${ARCH}.tar.gz" "${HOME}/opt/tmp/popeye_${POPEYE_VERSION_TAG}/popeye.tar.gz"
     pushd "${HOME}/opt/tmp/popeye_${POPEYE_VERSION_TAG}"
     tar xf "popeye.tar.gz"
     mv "popeye" "${HOME}/opt/kubectl/popeye-${POPEYE_VERSION_TAG}"
