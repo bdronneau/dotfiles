@@ -1,8 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:base"
-  ],
+  "extends": ["config:base"],
   "regexManagers": [
     {
       "description": "Update _VERSION and _VERSION_TAG variables in install/*.sh file",
@@ -12,6 +10,12 @@
         "datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s.*?_VERSION_TAG=\"(?<currentValue>.*)\"\\s"
       ],
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
+    },
+    {
+      "fileMatch": ["^install/golang.sh$"],
+      "matchStrings": ["GO_VERSION=\"(?<currentValue>.*)\"\\s"],
+      "depNameTemplate": "golang/go",
+      "datasourceTemplate": "github-tags"
     }
   ],
   "packageRules": [
