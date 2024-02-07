@@ -28,7 +28,6 @@ END_OF_BASH_PROFILE
     brew update
     brew upgrade
     brew install --quiet "${PACKAGES[@]}" bash-completion@2
-    HOMEBREW_CASK_OPTS="" brew install --cask --quiet google-chrome spotify
     brew install --quiet --cask 1password 1password-cli nextcloud balenaetcher rectangle raycast firefox postico cyberduck  discord obs slack iterm2
     brew install --quiet tailscale smug minio-mc graphviz
 
