@@ -56,5 +56,6 @@ install() {
     go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
     go install github.com/dkorunic/betteralign/cmd/betteralign@latest
     go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+    go install mvdan.cc/gofumpt@latest
   fi
 }
