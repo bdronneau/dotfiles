@@ -5,22 +5,22 @@ set -o nounset -o pipefail -o errexit
 cd "$(dirname "${BASH_SOURCE[0]}")" \
     && . "../bin/utils.sh"
 
-PET_BIN_NAME="pet"
-PET_BIN_PATH="${HOME}/opt/bin/${PET_BIN_NAME}"
+APP_NAME="pet"
+APP_BIN_NAME="${APP_NAME}"
+APP_BIN_PATH="${HOME}/opt/bin/${APP_BIN_NAME}"
 
 clean() {
-  rm -rf "${HOME}/opt/${PET_BIN_NAME}"
-  # rm -rf "${HOME}/opt/bash-completion.d/${PET_BIN_NAME}"
+  rm -rf "${HOME}/opt/${APP_BIN_NAME}"
 }
 
 install() {
   # renovate: datasource=github-tags depName=knqyf263/pet
-  local PET_VERSION_TAG="v0.6.0"
-  local PET_VERSION="${PET_VERSION_TAG/v/}"
-  local PET_BIN_VERSION_PATH="${HOME}/opt/pet/pet_${PET_VERSION}"
+  local APP_VERSION_TAG="v0.6.0"
+  local APP_VERSION="${APP_VERSION_TAG/v/}"
+  local APP_BIN_VERSION_PATH="${HOME}/opt/${APP_NAME}/APP_${APP_VERSION}"
 
-  if [[ ! -f "${HOME}/opt/pet/pet_${PET_VERSION}" ]]; then
-    mkdir -p "${HOME}/opt/${PET_BIN_NAME}"
+  if [[ ! -f "${HOME}/opt/${APP_NAME}/${APP_NAME}_${APP_VERSION}" ]]; then
+    mkdir -p "${HOME}/opt/${APP_NAME}"
     mkdir -p "${HOME}/opt/bash-completion.d"
 
     local OS
@@ -28,12 +28,12 @@ install() {
     local ARCH
     ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
 
-    url_tar "https://github.com/knqyf263/pet/releases/download/${PET_VERSION_TAG}/pet_${PET_VERSION}_${OS}_${ARCH}.tar.gz" "${PET_BIN_NAME}" "${PET_BIN_VERSION_PATH}"
-    chmod u+x "${PET_BIN_VERSION_PATH}"
+    url_tar "https://github.com/knqyf263/pet/releases/download/${APP_VERSION_TAG}/${APP_NAME}_${APP_VERSION}_${OS}_${ARCH}.tar.gz" "${APP_BIN_NAME}" "${APP_BIN_VERSION_PATH}"
+    chmod u+x "${APP_BIN_VERSION_PATH}"
 
-    [[ -f "${PET_BIN_PATH}" ]] && rm -f "${PET_BIN_PATH}"
+    [[ -f "${APP_BIN_PATH}" ]] && rm -f "${APP_BIN_PATH}"
 
     # Activate version
-    ln -Fs "${PET_BIN_VERSION_PATH}" "${PET_BIN_PATH}"
+    ln -Fs "${APP_BIN_VERSION_PATH}" "${APP_BIN_PATH}"
   fi
 }
