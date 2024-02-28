@@ -174,7 +174,7 @@ b3t(){
         SC_STORY_NAME=$(echo "${SC_STORY_NAME}" | iconv -c -t ascii//TRANSLIT | sed -E 's/[~^]+//g' | sed -E 's/[^a-zA-Z0-9]+/-/g' | sed -E 's/^-+|-+$//g' | tr A-Z a-z)
 
         local SC_BRANCH_NAME
-        SC_BRANCH_NAME="${SC_STORY_TYPE}/sc-${SC_STORY_ID}_${SC_STORY_NAME}"
+        SC_BRANCH_NAME="${SC_STORY_TYPE}/sc-${SC_STORY_ID}_${SC_STORY_NAME:0:10}"
 
         echo "Create branch for ${SC_BRANCH_NAME}"
 
