@@ -4,8 +4,11 @@ if [ -d "${HOME}/opt/bin" ]; then
     export PATH="${PATH}:${HOME}/opt/bin"
 fi
 
-# Use by TMUXG
+# Use by TMUX
 export EDITOR='vim'
+
+# In order to get date in history command
+export HISTTIMEFORMAT="%d/%m/%y %T "
 
 meuhteo() {
   curl --disable --max-time 30 "wttr.in/${1:-Paris}?m&format=v2"
