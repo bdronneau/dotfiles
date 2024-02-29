@@ -15,7 +15,7 @@ clean() {
 
 install() {
   # renovate: datasource=github-tags depName=knqyf263/pet
-  local APP_VERSION_TAG="v0.6.0"
+  local APP_VERSION_TAG="v0.6.3"
   local APP_VERSION="${APP_VERSION_TAG/v/}"
   local APP_BIN_VERSION_PATH="${HOME}/opt/${APP_NAME}/APP_${APP_VERSION}"
 
