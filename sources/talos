@@ -4,3 +4,10 @@ if [[ -f "${HOME}/opt/bash-completion.d/talosctl" ]]; then
     source "${HOME}/opt/bash-completion.d/talosctl";
 fi
 
+__talos_enable_prompt_display () {
+  export DOTFILES_PROMPT_TALOS=true
+}
+
+__talos_disable_prompt_display () {
+  export DOTFILES_PROMPT_TALOS=false
+}

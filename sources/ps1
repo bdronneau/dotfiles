@@ -32,6 +32,13 @@ __kube_context_display ()
   fi
 }
 
+__talosctx_context_display ()
+{
+  if [[ "${DOTFILES_PROMPT_TALOS:-}" == "true" ]]; then
+    printf " [$(talosctx --get-context)]"
+  fi
+}
+
 __update_virtual_env ()
 {
   # Current virtualenv
@@ -51,6 +58,10 @@ fi
 
 if command -v kubectl > /dev/null 2>&1; then
   PS1="${PS1}${LBLUE}\$(__kube_context_display)${RESET}"
+fi
+
+if command -v talosctx > /dev/null 2>&1; then
+  PS1="${PS1}${LBLUE}\$(__talosctx_context_display)${RESET}"
 fi
 
 PROMPT_DIRTRIM=3
