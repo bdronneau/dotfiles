@@ -11,7 +11,7 @@ clean() {
 
 install() {
   # renovate: datasource=github-tags depName=helm/helm
-  local HELM_VERSION="v3.14.2"
+  local HELM_VERSION="v3.14.3"
   # renovate: datasource=github-tags depName=hayorov/helm-gcs
   local HELM_PLUGIN_GCS_VERSION="0.4.3"
 
