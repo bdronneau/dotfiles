@@ -12,7 +12,7 @@ clean() {
 
 install() {
   # renovate: datasource=github-tags depName=junegunn/fzf
-  local FZF_VERSION="0.47.0"
+  local FZF_VERSION="0.48.0"
   if [[ ! -f "${HOME}/opt/fzf/fzf_${FZF_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/fzf"
 
