@@ -12,11 +12,17 @@ clean() {
 
 install() {
   if [[ ! -d "${HOME}/opt/google-cloud-sdk" ]]; then
-    local GCLOUD_VERSION="321.0.0"
+    local GCLOUD_VERSION="468.0.0"
     local OS
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     local ARCH
     ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
+
+    # Handle architecture specific to macOS
+    if [[ "$OS" == "darwin" && "$ARCH" == "arm64" ]]; then
+      ARCH="arm"
+    fi
+
     local GO_ARCHIVE
     GO_ARCHIVE="google-cloud-sdk-${GCLOUD_VERSION}-${OS}-${ARCH}.tar.gz"
 

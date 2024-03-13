@@ -7,6 +7,7 @@ export DOTFILES_COLIMA=true
 export DOTFILES_CURLIE=true
 export DOTFILES_FZ=true
 export DOTFILES_FZF=true
+export DOTFILES_GCLOUD=true
 export DOTFILES_GIT=true
 export DOTFILES_GITOPS=true
 export DOTFILES_GOLANG=true
