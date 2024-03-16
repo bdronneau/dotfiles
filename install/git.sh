@@ -15,7 +15,7 @@ install() {
   fi
 
   # renovate: datasource=github-tags depName=dandavison/delta
-  local DELTA_VERSION="0.16.5"
+  local DELTA_VERSION="0.17.0"
   local DELTA_ARCHIVE
 
   local ARCH
