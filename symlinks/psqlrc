@@ -19,7 +19,7 @@
 
 --logging
 -- Use a separate history file per-database.
-\set HISTFILE ~/.psql_history- :USER - :HOST - :PORT - :DBNAME
+\set HISTFILE ~/.psql/psql_history- :USER - :HOST - :PORT - :DBNAME
 -- If a command is run more than once in a row, only store it once in the
 -- history.
 \set HISTCONTROL ignoredups
