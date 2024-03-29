@@ -2,6 +2,8 @@
 
 if [[ -f "${HOME}/opt/bash-completion.d/talosctl" ]]; then
     source "${HOME}/opt/bash-completion.d/talosctl";
+    alias t="${HOME}/opt/bin/talosctl"
+    complete -o default -F __start_talosctl t
 fi
 
 __talos_enable_prompt_display () {
