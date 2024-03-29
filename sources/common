@@ -19,12 +19,7 @@ gcd() {
 }
 
 fcd() {
-  if [ -z "$1" ]
-  then
-    ccd $(fzf)
-  else
-    ccd $(find . -maxdepth $1 | fzf)
-  fi
+  ccd $(find . -maxdepth ${1:-1} | fzf)
 }
 
 ccd() {
