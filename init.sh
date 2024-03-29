@@ -131,6 +131,7 @@ main() {
   mkdir -p "${HOME}/opt/bin"
   mkdir -p "${HOME}/opt/tmp"
   mkdir -p "${HOME}/opt/bash-completion.d"
+  mkdir -p "${HOME}/opt/.psql"
   # shellcheck source=/dev/null
   PS1="$" source "${HOME}/.bashrc"
   set -e
