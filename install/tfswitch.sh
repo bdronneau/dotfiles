@@ -19,7 +19,7 @@ install() {
   ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
 
   # renovate: datasource=github-tags depName=warrensbox/terraform-switcher
-  local TFSWITCH_VERSION="1.0.2"
+  local TFSWITCH_VERSION="v1.1.0"
   if [[ ! -f "${HOME}/opt/tfswitch/tfswitch_${TFSWITCH_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/tfswitch"
 
