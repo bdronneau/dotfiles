@@ -22,6 +22,7 @@
         lola = log --graph --pretty=format:'%C(bold red)%h%Creset -%C(bold yellow)%d%Creset %s %C(bold green)(%ar) %C(bold ul blue)%an%Creset' --abbrev-commit --all
         putsch = push --force-with-lease
         rebaseauto = rebase --autosquash --autostash
+        rebasedefault = ! git rebase --autosquash --autostash $(git default-get)
         refreshremote = remote update origin --prune && git fetch --tags
         root = rev-parse --show-toplevel
         save = !git add -A && git commit -m 'chore: savepoint'
