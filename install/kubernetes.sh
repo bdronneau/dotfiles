@@ -31,7 +31,7 @@ install() {
   # renovate: datasource=github-releases depName=vibioh/kmux
   local KUBEMUX_VERSION="v0.10.0"
   # renovate: datasource=github-releases depName=FairwindsOps/pluto
-  local PLUTO_VERSION_TAG="v5.19.0"
+  local PLUTO_VERSION_TAG="v5.19.1"
   local PLUTO_VERSION="${PLUTO_VERSION_TAG/v/}"
   # renovate: datasource=github-releases depName=zegl/kube-score
   local KUBE_SCORE_VERSION_TAG="v1.18.0"
