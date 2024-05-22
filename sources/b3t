@@ -50,6 +50,21 @@ b3t(){
         mkdir -p ${B3T_CONFIG_DIR}
     fi
 
+    _b3t_cache(){
+        if [ ! -d "$B3T_CACHE_DIR" ]; then
+            echo "First run create b3t cache => ${B3T_CACHE_DIR}"
+            mkdir -p ${B3T_CACHE_DIR}
+        fi
+
+        if [ ! -f "${B3T_CACHE_FILE_VM}" ] || [ ! -f "${B3T_CACHE_FILE_DEVICES}" ]; then
+            echo "Populate cache"
+
+            mkdir -p ${B3T_CACHE_DIR}
+            curl -o "${B3T_CACHE_DIR}/devices.yaml" --silent -H "Content-Type: application/json" -H "Authorization: Token $NETBOX_API_TOKEN" -L "https://${NETBOX_URL}/api/dcim/devices/?export=b3t"
+            curl -o "${B3T_CACHE_DIR}/vms.yaml" --silent -H "Content-Type: application/json" -H "Authorization: Token $NETBOX_API_TOKEN" -L "https://${NETBOX_URL}/api/virtualization/virtual-machines/?export=b3t"
+        fi
+    }
+
     _b3t_open(){
         local URL
         URL=$1
@@ -99,21 +114,6 @@ b3t(){
 
         history -s ssh ${SSH_TARGET}
         ssh ${SSH_TARGET}
-    }
-
-    _b3t_cache(){
-        if [ ! -d "$B3T_CACHE_DIR" ]; then
-            echo "First run create b3t cache => ${B3T_CACHE_DIR}"
-            mkdir -p ${B3T_CACHE_DIR}
-        fi
-
-        if [ ! -f "${B3T_CACHE_FILE_VM}" ] || [ ! -f "${B3T_CACHE_FILE_DEVICES}" ]; then
-            echo "Populate cache"
-
-            mkdir -p ${B3T_CACHE_DIR}
-            curl -o "${B3T_CACHE_DIR}/devices.yaml" --silent -H "Content-Type: application/json" -H "Authorization: Token $NETBOX_API_TOKEN" -L "https://${NETBOX_URL}/api/dcim/devices/?export=b3t"
-            curl -o "${B3T_CACHE_DIR}/vms.yaml" --silent -H "Content-Type: application/json" -H "Authorization: Token $NETBOX_API_TOKEN" -L "https://${NETBOX_URL}/api/virtualization/virtual-machines/?export=b3t"
-        fi
     }
 
     command_ssh_help(){
