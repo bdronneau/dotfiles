@@ -50,6 +50,19 @@ b3t(){
         mkdir -p ${B3T_CONFIG_DIR}
     fi
 
+    _b3t_open(){
+        local URL
+        URL=$1
+        local OS
+        OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+
+        if [ "${OS}" = "darwin" ]; then
+            open "${URL}"
+        else
+            xdg-open "${URL}"
+        fi
+    }
+
     command_help(){
         echo "Usage: $BIN_NAME <subcommand>"
         echo "Subcommands:"
@@ -482,11 +495,7 @@ b3t(){
     command_netbox_search_browser() {
         local OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
-        if [ "${OS}" = "darwin" ]; then
-            open "https://${NETBOX_URL}/search/?&obj_types=dcim.device&obj_types=virtualization.virtualmachine&q=$1"
-        else
-            xdg-open "https://${NETBOX_URL}/search/?&obj_types=dcim.device&obj_types=virtualization.virtualmachine&q=$1"
-        fi
+        _b3t_open "https://${NETBOX_URL}/search/?&obj_types=dcim.device&obj_types=virtualization.virtualmachine&q=$1"
     }
 
     command_netbox_export() {
@@ -577,13 +586,9 @@ b3t(){
 
         INSTANCE_NAME=$(echo "${TARGET}" | awk -F' | ' '{ print $1 }')
 
-        echo "http://${INSTANCE_NAME}:8429"
+        echo "Go to http://${INSTANCE_NAME}:8429"
 
-        if [ "${OS}" = "darwin" ]; then
-            open "http://${INSTANCE_NAME}:8429"
-        else
-            xdg-open "http://${INSTANCE_NAME}:8429"
-        fi
+        _b3t_open "http://${INSTANCE_NAME}:8429"
     }
 
     command_monitoring_help(){
