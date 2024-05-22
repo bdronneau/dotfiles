@@ -210,19 +210,14 @@ b3t(){
     }
 
     command_shortcut_commit(){
-        if [[ $(git branch --show-current) =~ sc-[0-9]+ ]]; then
-            SC_STORY_ID=${BASH_REMATCH[0]}
-            echo "Attach commit to STORY_ID: $SC_STORY_ID"
-        else
-            local SC_ITERATION_PATTERN
-            SC_ITERATION_PATTERN="${1:-Ops}"
+        local SC_ITERATION_PATTERN
+        SC_ITERATION_PATTERN="${1:-Ops}"
 
-            local SC_STORY
-            SC_STORY=$(_b3t_shortcut_get_story "${SC_ITERATION_PATTERN}")
+        local SC_STORY
+        SC_STORY=$(_b3t_shortcut_get_story "${SC_ITERATION_PATTERN}")
 
-            local SC_STORY_ID
-            SC_STORY_ID=$(echo ${SC_STORY} | awk '{print $1}')
-        fi
+        local SC_STORY_ID
+        SC_STORY_ID=$(echo ${SC_STORY} | awk '{print $1}')
 
         COMMIT_TYPES=("fix" "feat" "build" "chore" "ci" "docs" "style" "refactor" "perf" "test")
         COMMIT_TYPE=$(printf "%s\n" "${COMMIT_TYPES[@]}" | fzf)
