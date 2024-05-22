@@ -70,6 +70,8 @@ b3t(){
         echo "    shortcut|sc      Helpers to dialog with shortcut"
         echo "    k8s|kubernetes   Helpers to dialog with k8s"
         echo "    talos            Helpers to dialog with talos"
+        echo "    ovh              Helpers to dialog with ovh"
+        echo "    monitoring       Helpers to dialog with monitoring tooling: vmagent,..."
     }
 
     command_ssh_scan(){
