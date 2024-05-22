@@ -78,6 +78,37 @@ b3t(){
         fi
     }
 
+    _b3t_shortcut_get_story(){
+        local SC_ITERATION_PATTERN
+        SC_ITERATION_PATTERN="${1:-Ops}"
+
+        echo "Search story pattern ${SC_ITERATION_PATTERN}" >&2
+
+        local SC_ITERATION
+        SC_ITERATION=$(curl --silent -X GET -H "Content-Type: application/json" -H "Shortcut-Token: $SHORTCUT_API_TOKEN" -d '{ "detail": "slim", "page_size": 10, "query": "'${SC_ITERATION_PATTERN}'" }' -L "https://api.app.shortcut.com/api/v3/search/iterations" | jq --raw-output '.data[] | select(.status=="started") | (.id|tostring) + " - " + .name' | fzf --height=20 --ansi --reverse --select-1)
+
+        if [ -z "${SC_ITERATION}" ]
+        then
+            echo "No iteration selected aborted" >&2
+            return
+        fi
+
+        local SC_ITERATION_ID
+        SC_ITERATION_ID=$(echo ${SC_ITERATION} | awk '{print $1}')
+        echo "${SC_ITERATION} => ${SC_ITERATION_ID}" >&2
+
+        local SC_STORY
+        SC_STORY=$(curl --silent -H "Content-Type: application/json" -H "Shortcut-Token: $SHORTCUT_API_TOKEN" -L "https://api.app.shortcut.com/api/v3/iterations/${SC_ITERATION_ID}/stories" | jq --raw-output '.[] | (.id|tostring) + " - " + .story_type + " : " + .name' | fzf --height=20 --ansi --reverse --select-1)
+
+        if [ -z "${SC_STORY}" ]
+        then
+            echo "No story selected aborted" >&2
+            return
+        fi
+
+        echo "${SC_STORY}"
+    }
+
     command_help(){
         echo "Usage: $BIN_NAME <subcommand>"
         echo "Subcommands:"
@@ -144,36 +175,18 @@ b3t(){
     command_shortcut_help(){
         echo "Usage: $BIN_NAME shortcut <subcommand>\n"
         echo "Subcommands:"
-        echo "    branch   create branch base on ticket number"
+        echo "    branch      create branch base on ticket number"
+        echo "    co|commit   append ticket number to commit message"
     }
 
     command_shortcut_branch(){
         local SC_ITERATION_PATTERN
         SC_ITERATION_PATTERN="${1:-Ops}"
 
-        echo "Search story pattern ${SC_ITERATION_PATTERN}"
-
-        local SC_ITERATION
-        SC_ITERATION=$(curl --silent -X GET -H "Content-Type: application/json" -H "Shortcut-Token: $SHORTCUT_API_TOKEN" -d '{ "detail": "slim", "page_size": 10, "query": "'${SC_ITERATION_PATTERN}'" }' -L "https://api.app.shortcut.com/api/v3/search/iterations" | jq --raw-output '.data[] | select(.status=="started") | (.id|tostring) + " - " + .name' | fzf --height=20 --ansi --reverse --select-1)
-
-        if [ -z "${SC_ITERATION}" ]
-        then
-            echo "No iteration selected aborted"
-            return
-        fi
-
-        local SC_ITERATION_ID
-        SC_ITERATION_ID=$(echo ${SC_ITERATION} | awk '{print $1}')
-        echo "${SC_ITERATION} => ${SC_ITERATION_ID}"
-
         local SC_STORY
-        SC_STORY=$(curl --silent -H "Content-Type: application/json" -H "Shortcut-Token: $SHORTCUT_API_TOKEN" -L "https://api.app.shortcut.com/api/v3/iterations/${SC_ITERATION_ID}/stories" | jq --raw-output '.[] | (.id|tostring) + " - " + .story_type + " : " + .name' | fzf --height=20 --ansi --reverse --select-1)
+        SC_STORY=$(_b3t_shortcut_get_story "${SC_ITERATION_PATTERN}")
 
-        if [ -z "${SC_STORY}" ]
-        then
-            echo "No story selected aborted"
-            return
-        fi
+        echo "Coin ${SC_STORY}"
 
         local SC_STORY_TYPE
         SC_STORY_TYPE=$(echo ${SC_STORY} | awk '{print $3}')
@@ -196,6 +209,51 @@ b3t(){
         git checkout -b "${SC_BRANCH_NAME}"
     }
 
+    command_shortcut_commit(){
+        if [[ $(git branch --show-current) =~ sc-[0-9]+ ]]; then
+            SC_STORY_ID=${BASH_REMATCH[0]}
+            echo "Attach commit to STORY_ID: $SC_STORY_ID"
+        else
+            local SC_ITERATION_PATTERN
+            SC_ITERATION_PATTERN="${1:-Ops}"
+
+            local SC_STORY
+            SC_STORY=$(_b3t_shortcut_get_story "${SC_ITERATION_PATTERN}")
+
+            local SC_STORY_ID
+            SC_STORY_ID=$(echo ${SC_STORY} | awk '{print $1}')
+        fi
+
+        COMMIT_TYPES=("fix" "feat" "build" "chore" "ci" "docs" "style" "refactor" "perf" "test")
+        COMMIT_TYPE=$(printf "%s\n" "${COMMIT_TYPES[@]}" | fzf)
+
+        user_prompt() {
+            local PROMPT_MESSAGE=$1
+            local USER_INPUT
+            read -p "$PROMPT_MESSAGE" USER_INPUT
+            echo $USER_INPUT
+        }
+
+        SCOPE=$(user_prompt "Enter scope (optional): ")
+        MESSAGE=$(user_prompt "Enter message: ")
+
+        # Trim spaces
+        SCOPE=${SCOPE## }
+        SCOPE=${SCOPE%% }
+        MESSAGE=${MESSAGE## }
+        MESSAGE=${MESSAGE%% }
+
+        local COMMIT_MESSAGE
+        # Format message
+        if [ -z "$SCOPE" ]; then
+            COMMIT_MESSAGE="$COMMIT_TYPE: [sc-${SC_STORY_ID}] $MESSAGE"
+        else
+            COMMIT_MESSAGE="$COMMIT_TYPE($SCOPE): [sc-${SC_STORY_ID}] $MESSAGE"
+        fi
+
+        git commit -m "${COMMIT_MESSAGE}"
+    }
+
     command_shortcut(){
         subcommand=$1
 
@@ -203,6 +261,10 @@ b3t(){
         "branch")
             shift
             command_shortcut_branch
+            ;;
+        "commit")
+            shift
+            command_shortcut_commit
             ;;
         *)
             command_shortcut_help
@@ -656,7 +718,7 @@ _b3t_autocomplete() {
 
     local root_options=("ssh" "shortcut" "sc" "k8s" "kubernetes" "talos" "ovh" "netbox" "monitoring")
     local ssh_options=("connect" "scan")
-    local shortcut_options=("branch")
+    local shortcut_options=("branch" "commit")
     local ovh_options=("manager")
     local monitoring_options=("vmagent")
     local netbox_options=("cache_reload" "search_browser" "search" "export")
@@ -706,3 +768,5 @@ _b3t_autocomplete() {
 complete -F _b3t_autocomplete b3t
 
 alias bssh="b3t ssh connect"
+alias bcommit="b3t shortcut commit"
+alias bbranch="b3t shortcut branch"
