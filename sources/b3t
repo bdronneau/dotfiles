@@ -670,6 +670,58 @@ b3t(){
         esac
     }
 
+    command_iac_ipp(){
+        local COMMAND="pulumi"
+        echo "Running 'iac/ipp' command."
+        local PULUMI_ARGS
+        PULUMI_ARGS=${1:-"up"}
+
+        local IPP_DEFINITIONS_DIR
+        IPP_DEFINITIONS_DIR="./definitions"
+
+        # Find all json in current directory
+        local IPP_FILE
+        IPP_FILE=$(find ${IPP_DEFINITIONS_DIR} -type f -name "*.json" | fzf --height=20 --ansi --reverse --select-1)
+
+        # Remove prefix
+        IPP_FILE=$(echo "${IPP_FILE}" | sed "s|${IPP_DEFINITIONS_DIR}/||")
+
+        # Replace / with dot
+        local IPP_FILE_NAME
+        IPP_FILE_NAME=$(echo "${IPP_FILE}" | sed 's/\//./g')
+
+        # Trim json extension
+        IPP_FILE_NAME=${IPP_FILE_NAME%.json}
+
+        echo "Run ${COMMAND} ${PULUMI_ARGS} --stack ${IPP_FILE_NAME}"
+
+        history -a
+        history -s ${COMMAND} ${PULUMI_ARGS} --stack ${IPP_FILE_NAME}
+
+        # Run pulumi up
+        ${COMMAND} "${PULUMI_ARGS}" --stack ${IPP_FILE_NAME}
+    }
+
+    command_iac_help(){
+        echo "Usage: $BIN_NAME iac <subcommand>\n"
+        echo "Subcommands:"
+        echo "    ipp      interract with ipp, args: up (default), destroy, preview, refresh"
+    }
+
+    command_iac(){
+        subcommand=$1
+
+        case "${subcommand}" in
+        "ipp")
+            shift
+            command_iac_ipp $@
+            ;;
+        *)
+            command_iac_help
+            ;;
+        esac
+    }
+
     command=$1
     case "${command}" in
         "ssh")
@@ -696,6 +748,10 @@ b3t(){
             shift
             command_netbox $@
         ;;
+        "iac")
+            shift
+            command_iac $@
+        ;;
         "monitoring")
             shift
             command_monitoring $@
@@ -711,7 +767,7 @@ _b3t_autocomplete() {
     local prev1=${COMP_WORDS[COMP_CWORD-1]}
     local prev2=${COMP_WORDS[COMP_CWORD-2]}
 
-    local root_options=("ssh" "shortcut" "sc" "k8s" "kubernetes" "talos" "ovh" "netbox" "monitoring")
+    local root_options=("ssh" "shortcut" "sc" "k8s" "kubernetes" "talos" "ovh" "netbox" "monitoring", "iac")
     local ssh_options=("connect" "scan")
     local shortcut_options=("branch" "commit")
     local ovh_options=("manager")
@@ -721,6 +777,7 @@ _b3t_autocomplete() {
     local talos_config_options=("get" "switch")
     local talos_files_options=("get")
     local kubernetes_options=("get" "switch" "default")
+    local iac_options=("ipp")
 
     case "$prev2 $prev1" in
         "talos files")
@@ -751,6 +808,9 @@ _b3t_autocomplete() {
                     ;;
                 "monitoring")
                     COMPREPLY=($(compgen -W "${monitoring_options[*]}" -- "$cur"))
+                    ;;
+                "iac")
+                    COMPREPLY=($(compgen -W "${iac_options[*]}" -- "$cur"))
                     ;;
                 *)
                     COMPREPLY=($(compgen -W "${root_options[*]}" -- "$cur"))
