@@ -143,6 +143,7 @@ b3t(){
             return
         fi
 
+        history -a
         history -s ssh ${SSH_TARGET}
         ssh ${SSH_TARGET}
     }
