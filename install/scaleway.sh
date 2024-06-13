@@ -14,7 +14,7 @@ clean() {
 
 install() {
   # renovate: datasource=github-releases depName=scaleway/scaleway-cli
-  local SCW_VERSION_TAG="v2.30.0"
+  local SCW_VERSION_TAG="v2.31.0"
   local SCW_VERSION="${SCW_VERSION_TAG/v/}"
   if [[ ! -f "${HOME}/opt/scaleway/scaleway_${SCW_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/scaleway"
