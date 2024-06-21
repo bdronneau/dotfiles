@@ -15,7 +15,7 @@ clean() {
 
 install() {
   # renovate: datasource=github-tags depName=siderolabs/talos
-  local TALOSCTL_VERSION="v1.7.4" 
+  local TALOSCTL_VERSION="v1.7.5" 
 
   local OS
   OS=$(uname -s | tr '[:upper:]' '[:lower:]')
