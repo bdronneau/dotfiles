@@ -5,6 +5,7 @@
 ##############
 # environnement variables
 # - B3T_SSH_PORT: if need custom port for ssh-keyscan
+# - B3T_SK_BASE_PATH: path to your gitops repository
 # - NETBOX_API_TOKEN: in order to interract with Netbox
 # - NETBOX_URL: netbox url target (exemple foo.bar). Note https is mandatory
 # external tools
@@ -44,6 +45,9 @@ b3t(){
 
     local B3T_KUBE_CONFIG_DIR
     B3T_KUBE_CONFIG_DIR="${HOME}/.kube"
+
+    local _B3T_SK_BASE_PATH
+    _B3T_SK_BASE_PATH="${B3T_SK_BASE_PATH:-./}"
 
     if [ ! -d "$B3T_CONFIG_DIR" ]; then
         echo "First run create b3t config dir => ${B3T_CONFIG_DIR}"
@@ -723,6 +727,69 @@ b3t(){
         esac
     }
 
+    command_sk_run(){
+        local COMMAND="sk"
+        echo "Running 'sk/run' command."
+        local SK_ACTION
+        SK_ACTION=${2:-"sync"}
+
+        local SK_ENV
+        SK_ENV=${1}
+
+        # Check if env is set
+        if [ -z "${SK_ENV}" ]
+        then
+            echo "No env selected aborted"
+            command_sk_help
+            return
+        fi
+
+        local SK_FILE
+        SK_FILE=$(find ${_B3T_SK_BASE_PATH} -type f -name "*.star" | sed "s|${_B3T_SK_BASE_PATH}/||")
+        local SK_DIRECTORIES
+        SK_DIRECTORIES=$(find "${_B3T_SK_BASE_PATH}" -type d | grep systems |  sed "s|${_B3T_SK_BASE_PATH}/||" | sed "s|$|/*|")
+
+        local SK_ALL
+        SK_ALL=$(printf "%s\n%s\n" "${SK_DIRECTORIES}" "${SK_FILE}")
+        local SK_ITEMS
+        SK_ITEMS=$(echo "${SK_ALL}" | fzf --height=20 --ansi --reverse --select-1)
+
+        local SK_TARGET
+        # Trim star extension
+        SK_TARGET=${SK_ITEMS%.star}
+        # Trim first element until /
+        SK_TARGET=$(echo "${SK_TARGET}" | sed 's/^[^/]*\///')
+
+        echo "Run ${COMMAND} -e ${SK_ENV} ${SK_ACTION} ${SK_TARGET}"
+
+        # Save in bash history current command and the build one
+        history -s ${BIN_NAME} sk run -e ${SK_ENV} ${SK_ACTION} ${SK_TARGET}
+        history -s ${COMMAND} -e ${SK_ENV} ${SK_ACTION} ${SK_TARGET}
+
+        # Run
+        ${COMMAND} -e ${SK_ENV} "${SK_ACTION}" ${SK_TARGET}
+    }
+
+    command_sk_help(){
+        echo "Usage: $BIN_NAME sk <subcommand>"
+        echo "Subcommands:"
+        echo "    run      interract with gitops, args: <env: (commas separated)> <action: (default: sync)>"
+    }
+
+    command_sk(){
+        subcommand=$1
+
+        case "${subcommand}" in
+        "run")
+            shift
+            command_sk_run $@
+            ;;
+        *)
+            command_sk_help
+            ;;
+        esac
+    }
+
     command=$1
     case "${command}" in
         "ssh")
@@ -753,6 +820,10 @@ b3t(){
             shift
             command_iac $@
         ;;
+        "sk")
+            shift
+            command_sk $@
+        ;;
         "monitoring")
             shift
             command_monitoring $@
@@ -768,7 +839,7 @@ _b3t_autocomplete() {
     local prev1=${COMP_WORDS[COMP_CWORD-1]}
     local prev2=${COMP_WORDS[COMP_CWORD-2]}
 
-    local root_options=("ssh" "shortcut" "sc" "k8s" "kubernetes" "talos" "ovh" "netbox" "monitoring", "iac")
+    local root_options=("ssh" "shortcut" "sc" "k8s" "kubernetes" "talos" "ovh" "netbox" "monitoring", "iac", "sk")
     local ssh_options=("connect" "scan")
     local shortcut_options=("branch" "commit")
     local ovh_options=("manager")
@@ -779,6 +850,7 @@ _b3t_autocomplete() {
     local talos_files_options=("get")
     local kubernetes_options=("get" "switch" "default")
     local iac_options=("ipp")
+    local sk_options=("run")
 
     case "$prev2 $prev1" in
         "talos files")
@@ -812,6 +884,9 @@ _b3t_autocomplete() {
                     ;;
                 "iac")
                     COMPREPLY=($(compgen -W "${iac_options[*]}" -- "$cur"))
+                    ;;
+                "sk")
+                    COMPREPLY=($(compgen -W "${sk_options[*]}" -- "$cur"))
                     ;;
                 *)
                     COMPREPLY=($(compgen -W "${root_options[*]}" -- "$cur"))
