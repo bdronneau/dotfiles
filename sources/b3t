@@ -37,8 +37,8 @@ b3t(){
     B3T_CACHE_FILE_DEVICES="${B3T_CACHE_DIR}/devices.yaml"
     local B3T_KNOWN_HOSTS_FILE
     B3T_KNOWN_HOSTS_FILE="${B3T_CONFIG_DIR}/known_hosts"
-    local B3T_SSH_PORT
-    B3T_SSH_PORT="${B3T_SSH_PORT:-22}"
+    local _B3T_SSH_PORT
+    _B3T_SSH_PORT="${B3T_SSH_PORT:-22}"
 
     local B3T_TALOS_DIR
     B3T_TALOS_DIR="${HOME}/.talos"
@@ -132,8 +132,8 @@ b3t(){
         cat /dev/null > "${B3T_KNOWN_HOSTS_FILE}"
 
         for entry in $(yq .instances "${B3T_CACHE_FILE_DEVICES}" "${B3T_CACHE_FILE_VM}" | yq '.[] | select(.status == "active") | .name'); do
-            echo "Processing device: ${entry}:${B3T_SSH_PORT}"
-            ssh-keyscan -p "${B3T_SSH_PORT}" "${entry}" >> "${B3T_KNOWN_HOSTS_FILE}"
+            echo "Processing device: ${entry}:${_B3T_SSH_PORT}"
+            ssh-keyscan -p "${_B3T_SSH_PORT}" "${entry}" >> "${B3T_KNOWN_HOSTS_FILE}"
         done
     }
 
