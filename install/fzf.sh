@@ -44,8 +44,8 @@ install() {
       rm -f "${HOME}/opt/bin/fzf"
     fi
 
-    download "https://raw.githubusercontent.com/junegunn/fzf/${FZF_VERSION}/shell/completion.bash" "${HOME}/opt/bash-completion.d/fzf.completion.bash"
-    download "https://raw.githubusercontent.com/junegunn/fzf/${FZF_VERSION}/shell/key-bindings.bash" "${HOME}/opt/bash-completion.d/fzf.key-bindings.bash"
+    download "https://raw.githubusercontent.com/junegunn/fzf/${FZF_VERSION_TAG}/shell/completion.bash" "${HOME}/opt/bash-completion.d/fzf.completion.bash"
+    download "https://raw.githubusercontent.com/junegunn/fzf/${FZF_VERSION_TAG}/shell/key-bindings.bash" "${HOME}/opt/bash-completion.d/fzf.key-bindings.bash"
 
     # Activate version
     ln -Fs "${HOME}/opt/fzf/fzf_${FZF_VERSION}" "${HOME}/opt/bin/fzf"
