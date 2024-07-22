@@ -12,7 +12,8 @@ clean() {
 
 install() {
   # renovate: datasource=github-tags depName=junegunn/fzf
-  local FZF_VERSION="v0.54.1"
+  local FZF_VERSION_TAG="v0.54.1"
+  local FZF_VERSION="${FZF_VERSION_TAG/v/}"
   if [[ ! -f "${HOME}/opt/fzf/fzf_${FZF_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/fzf"
 
@@ -28,7 +29,7 @@ install() {
         EXT="zip"
     fi
 
-    download "https://github.com/junegunn/fzf/releases/download/${FZF_VERSION}/fzf-${FZF_VERSION}-${OS}_${ARCH}.${EXT}" "fzf-${FZF_VERSION}-${OS}_${ARCH}.${EXT}"
+    download "https://github.com/junegunn/fzf/releases/download/${FZF_VERSION_TAG}/fzf-${FZF_VERSION}-${OS}_${ARCH}.${EXT}" "fzf-${FZF_VERSION}-${OS}_${ARCH}.${EXT}"
 
     if [ "${EXT}" = "tar.gz" ]; then
       tar xf "fzf-${FZF_VERSION}-${OS}_${ARCH}.${EXT}"
