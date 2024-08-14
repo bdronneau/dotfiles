@@ -16,7 +16,7 @@ clean() {
 
 install() {
   # renovate: datasource=github-tags depName=deviceinsight/kafkactl
-  local APP_VERSION_TAG="v5.2.0"
+  local APP_VERSION_TAG="v5.3.0"
   local APP_VERSION="${APP_VERSION_TAG/v/}"
   local APP_BIN_VERSION_PATH="${HOME}/opt/${APP_NAME}/APP_${APP_VERSION}"
 
