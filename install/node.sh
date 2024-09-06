@@ -20,7 +20,7 @@ clean() {
 
 install() {
   # renovate: datasource=github-tags depName=tj/n
-  local N_VERSION="v9.2.3"
+  local N_VERSION="v10.0.0"
   if [[ ! -f "${HOME}/opt/n/n_${N_VERSION}.sh" ]]; then
     mkdir -p "${HOME}/opt/n"
     mkdir -p "${HOME}/opt/n/node"
