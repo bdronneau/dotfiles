@@ -840,7 +840,7 @@ _b3t_autocomplete() {
     local prev1=${COMP_WORDS[COMP_CWORD-1]}
     local prev2=${COMP_WORDS[COMP_CWORD-2]}
 
-    local root_options=("ssh" "shortcut" "sc" "k8s" "kubernetes" "talos" "ovh" "netbox" "monitoring", "iac", "sk")
+    local root_options=("ssh" "shortcut" "sc" "k8s" "kubernetes" "talos" "ovh" "netbox" "monitoring" "iac" "sk")
     local ssh_options=("connect" "scan")
     local shortcut_options=("branch" "commit")
     local ovh_options=("manager")
