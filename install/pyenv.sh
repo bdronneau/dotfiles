@@ -36,7 +36,7 @@ requirements() {
 
 install() {
   # renovate: datasource=github-tags depName=pyenv/pyenv
-  local PYENV_VERSION="v2.4.15"
+  local PYENV_VERSION="v2.4.16"
 
   if [[ ! -d "${HOME}/opt/pyenv/${PYENV_VERSION}" ]]; then
     requirements
