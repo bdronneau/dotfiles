@@ -11,7 +11,7 @@ clean() {
 
 install() {
   # renovate: datasource=github-tags depName=hashicorp/vault
-  local VAULT_VERSION_TAG="v1.18.4"
+  local VAULT_VERSION_TAG="v1.18.5"
   local VAULT_VERSION="${VAULT_VERSION_TAG/v/}"
 
   if [[ ! -f "${HOME}/opt/vault/vault_${VAULT_VERSION}" ]]; then
