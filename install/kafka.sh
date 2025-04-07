@@ -25,7 +25,7 @@ install() {
     mkdir -p "${HOME}/opt/bash-completion.d"
 
     local OS
-    OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+    OS=$(get_os)
     local ARCH
     ARCH=$(get_arch "amd64")
 

@@ -88,3 +88,10 @@ get_arch() {
         printf -- "%s" "${ARCH}"
     fi
 }
+
+get_os() {
+    local OS
+    OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+
+    printf -- "%s" "${OS}"
+}
