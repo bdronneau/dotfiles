@@ -22,7 +22,7 @@ set_locale() {
 
 source_all() {
   local BASHRC_PATH
-  BASHRC_PATH="$(python3 -c 'import sys; import os.path; print(os.path.realpath(sys.argv[1]))' "${BASH_SOURCE[0]}")"
+  BASHRC_PATH="$(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null || realpath "${BASH_SOURCE[0]}" 2>/dev/null || echo "${BASH_SOURCE[0]}")"
   local DOTFILES_PATH
   DOTFILES_PATH="$(dirname "${BASHRC_PATH}")"
 
