@@ -62,10 +62,10 @@ chsh -s $(brew --prefix)/bin/bash
 
 ## Manual actions
 
-### Global
+### Debian
 
-```bash
-pyenv install 3.10.0
+```shell
+sudo apt update && sudo apt install -y git
 ```
 
 ### Manjaro

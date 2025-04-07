@@ -61,13 +61,12 @@
         rebase = true
 
 [help]
-        autocorrect = 20
+        autocorrect = prompt
 
 [init]
         defaultBranch = main
 
 [delta]
-
         line-numbers = true
 
 [filter "lfs"]
