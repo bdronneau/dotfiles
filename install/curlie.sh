@@ -22,6 +22,10 @@ install() {
     local ARCH
     ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
 
+    if [[ ${ARCH} = "x86_64" ]]; then
+      ARCH="amd64"
+    fi
+
     local CURLIE_ARCHIVE="curlie_${CURLIE_VERSION/v/}_${OS}_${ARCH}.tar.gz"
     download "https://github.com/rs/curlie/releases/download/${CURLIE_VERSION}/${CURLIE_ARCHIVE}" "${CURLIE_ARCHIVE}"
 
