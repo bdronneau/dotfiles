@@ -74,3 +74,17 @@ print_title() {
   printf "%s%s%s\n" "| " "${1}" " |"
   printf "%s%s%s\n" "+-" "${line:0:${#1}}" "-+"
 }
+
+get_arch() {
+    local ARCH
+    ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
+
+    local X86_OVERRIDE="${1-}"
+    shift || true
+
+    if [[ -n "${X86_OVERRIDE}" && "${ARCH}" == "x86_64" ]]; then
+        printf -- "%s" "${X86_OVERRIDE}"
+    else
+        printf -- "%s" "${ARCH}"
+    fi
+}

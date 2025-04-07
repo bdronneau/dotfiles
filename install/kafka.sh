@@ -27,7 +27,7 @@ install() {
     local OS
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     local ARCH
-    ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
+    ARCH=$(get_arch "amd64")
 
     url_tar "https://github.com/deviceinsight/kafkactl/releases/download/${APP_VERSION_TAG}/${APP_NAME}_${APP_VERSION}_${OS}_${ARCH}.tar.gz" "${APP_BIN_NAME}" "${APP_BIN_VERSION_PATH}"
     chmod u+x "${APP_BIN_VERSION_PATH}"
