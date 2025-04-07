@@ -7,29 +7,26 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
 
 APP_NAME="kafkactl"
 APP_BIN_NAME="${APP_NAME}"
+APP_BASE_PATH="${HOME}/opt/${APP_NAME}"
 APP_BIN_PATH="${HOME}/opt/bin/${APP_BIN_NAME}"
 APP_COMPLETION_PATH="${HOME}/opt/bash-completion.d/${APP_NAME}"
 
 clean() {
-  rm -rf "${HOME}/opt/${APP_BIN_NAME}"
+  rm -rf "${APP_BIN_PATH}"
+  rm -rf "${APP_BASE_PATH}"
 }
 
 install() {
   # renovate: datasource=github-tags depName=deviceinsight/kafkactl
   local APP_VERSION_TAG="v5.7.0"
   local APP_VERSION="${APP_VERSION_TAG/v/}"
-  local APP_BIN_VERSION_PATH="${HOME}/opt/${APP_NAME}/APP_${APP_VERSION}"
+  local APP_BIN_VERSION_PATH="${APP_BASE_PATH}/${APP_BIN_NAME}_${APP_VERSION}"
 
-  if [[ ! -f "${HOME}/opt/${APP_NAME}/${APP_NAME}_${APP_VERSION}" ]]; then
-    mkdir -p "${HOME}/opt/${APP_NAME}"
+  if [[ ! -f "${APP_BIN_VERSION_PATH}" ]]; then
+    mkdir -p "${APP_BASE_PATH}"
     mkdir -p "${HOME}/opt/bash-completion.d"
 
-    local OS
-    OS=$(get_os)
-    local ARCH
-    ARCH=$(get_arch "amd64")
-
-    url_tar "https://github.com/deviceinsight/kafkactl/releases/download/${APP_VERSION_TAG}/${APP_NAME}_${APP_VERSION}_${OS}_${ARCH}.tar.gz" "${APP_BIN_NAME}" "${APP_BIN_VERSION_PATH}"
+    url_tar "https://github.com/deviceinsight/kafkactl/releases/download/${APP_VERSION_TAG}/${APP_NAME}_${APP_VERSION}_$(get_os)_$(get_arch amd64).tar.gz" "${APP_BIN_NAME}" "${APP_BIN_VERSION_PATH}"
     chmod u+x "${APP_BIN_VERSION_PATH}"
 
     [[ -f "${APP_BIN_PATH}" ]] && rm -f "${APP_BIN_PATH}"

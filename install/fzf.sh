@@ -5,49 +5,36 @@ set -o nounset -o pipefail -o errexit
 cd "$(dirname "${BASH_SOURCE[0]}")" \
     && . "../bin/utils.sh"
 
+APP_NAME="fzf"
+APP_BIN_NAME="${APP_NAME}"
+APP_BASE_PATH="${HOME}/opt/${APP_NAME}"
+APP_BIN_PATH="${HOME}/opt/bin/${APP_BIN_NAME}"
+APP_COMPLETION_PATH="${HOME}/opt/bash-completion.d/${APP_NAME}"
+
 clean() {
-  rm -rf "${HOME}/opt/bin/fzf"
-  rm -rf "${HOME}/opt/fzf"
+  rm -rf "${APP_BIN_PATH}"
+  rm -rf "${APP_BASE_PATH}"
 }
 
 install() {
   # renovate: datasource=github-tags depName=junegunn/fzf
-  local FZF_VERSION_TAG="v0.61.1"
-  local FZF_VERSION="${FZF_VERSION_TAG/v/}"
-  if [[ ! -f "${HOME}/opt/fzf/fzf_${FZF_VERSION}" ]]; then
-    mkdir -p "${HOME}/opt/fzf"
+  local APP_VERSION_TAG="v0.61.1"
+  local APP_VERSION="${APP_VERSION_TAG/v/}"
+  local APP_BIN_VERSION_PATH="${APP_BASE_PATH}/${APP_BIN_NAME}_${APP_VERSION}"
 
-    local OS
-    OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-    local ARCH
-    ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
+  if [[ ! -f "${APP_BIN_VERSION_PATH}" ]]; then
+    mkdir -p "${APP_BASE_PATH}"
+    mkdir -p "${HOME}/opt/bash-completion.d"
 
-    local EXT
-    EXT="tar.gz"
+    url_tar "https://github.com/junegunn/fzf/releases/download/${APP_VERSION_TAG}/fzf-${APP_VERSION}-$(get_os)_$(get_arch amd64).tar.gz"  "${APP_BIN_NAME}" "${APP_BIN_VERSION_PATH}"
+    chmod u+x "${APP_BIN_VERSION_PATH}"
 
-    if [[ ${ARCH} = "x86_64" ]]; then
-      ARCH="amd64"
-    fi
-
-    download "https://github.com/junegunn/fzf/releases/download/${FZF_VERSION_TAG}/fzf-${FZF_VERSION}-${OS}_${ARCH}.${EXT}" "fzf-${FZF_VERSION}-${OS}_${ARCH}.${EXT}"
-
-    if [ "${EXT}" = "tar.gz" ]; then
-      tar xf "fzf-${FZF_VERSION}-${OS}_${ARCH}.${EXT}"
-    else
-      unzip "fzf-${FZF_VERSION}-${OS}_${ARCH}.${EXT}"
-    fi
-
-    mv "fzf" "${HOME}/opt/fzf/fzf_${FZF_VERSION}"
-    rm "fzf-${FZF_VERSION}-${OS}_${ARCH}.${EXT}"
-
-    if [[ -f "${HOME}/opt/bin/fzf" ]]; then
-      rm -f "${HOME}/opt/bin/fzf"
-    fi
-
-    download "https://raw.githubusercontent.com/junegunn/fzf/${FZF_VERSION_TAG}/shell/completion.bash" "${HOME}/opt/bash-completion.d/fzf.completion.bash"
-    download "https://raw.githubusercontent.com/junegunn/fzf/${FZF_VERSION_TAG}/shell/key-bindings.bash" "${HOME}/opt/bash-completion.d/fzf.key-bindings.bash"
+    [[ -f "${APP_BIN_PATH}" ]] && rm -f "${APP_BIN_PATH}"
 
     # Activate version
-    ln -Fs "${HOME}/opt/fzf/fzf_${FZF_VERSION}" "${HOME}/opt/bin/fzf"
+    ln -Fs "${APP_BIN_VERSION_PATH}" "${APP_BIN_PATH}"
+
+    download "https://raw.githubusercontent.com/junegunn/fzf/${APP_VERSION_TAG}/shell/completion.bash" "${HOME}/opt/bash-completion.d/fzf.completion.bash"
+    download "https://raw.githubusercontent.com/junegunn/fzf/${APP_VERSION_TAG}/shell/key-bindings.bash" "${HOME}/opt/bash-completion.d/fzf.key-bindings.bash"
   fi
 }
