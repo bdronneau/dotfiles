@@ -29,6 +29,10 @@ install() {
         EXT="zip"
     fi
 
+    if [[ ${ARCH} = "x86_64" ]]; then
+      ARCH="amd64"
+    fi
+
     download "https://github.com/junegunn/fzf/releases/download/${FZF_VERSION_TAG}/fzf-${FZF_VERSION}-${OS}_${ARCH}.${EXT}" "fzf-${FZF_VERSION}-${OS}_${ARCH}.${EXT}"
 
     if [ "${EXT}" = "tar.gz" ]; then
