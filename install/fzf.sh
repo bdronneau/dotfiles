@@ -25,10 +25,6 @@ install() {
     local EXT
     EXT="tar.gz"
 
-    if [ "${OS}" = "darwin" ]; then
-        EXT="zip"
-    fi
-
     if [[ ${ARCH} = "x86_64" ]]; then
       ARCH="amd64"
     fi
