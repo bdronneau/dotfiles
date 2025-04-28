@@ -34,7 +34,7 @@ install() {
   local PLUTO_VERSION_TAG="v5.21.4"
   local PLUTO_VERSION="${PLUTO_VERSION_TAG/v/}"
   # renovate: datasource=github-releases depName=zegl/kube-score
-  local KUBE_SCORE_VERSION_TAG="v1.19.0"
+  local KUBE_SCORE_VERSION_TAG="v1.20.0"
   local KUBE_SCORE_VERSION="${KUBE_SCORE_VERSION_TAG/v/}"
   # renovate: datasource=github-releases depName=derailed/popeye
   local POPEYE_VERSION_TAG="v0.22.1"
