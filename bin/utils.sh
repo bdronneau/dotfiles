@@ -82,8 +82,13 @@ get_arch() {
     local X86_OVERRIDE="${1-}"
     shift || true
 
+    local ARM_OVERRIDE="${1-}"
+    shift || true
+
     if [[ -n "${X86_OVERRIDE}" && "${ARCH}" == "x86_64" ]]; then
         printf -- "%s" "${X86_OVERRIDE}"
+    elif [[ -n "${ARM_OVERRIDE}" && "${ARCH}" == "arm64" ]]; then
+        printf -- "%s" "${ARM_OVERRIDE}"
     else
         printf -- "%s" "${ARCH}"
     fi
@@ -94,4 +99,16 @@ get_os() {
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
     printf -- "%s" "${OS}"
+}
+
+get_os_name() {
+    local OS_NAME
+
+    if [[ "$(get_os)" == "darwin" ]]; then
+      OS_NAME="apple"
+    elif [[ "$(get_os)" == "linux" ]]; then
+      OS_NAME="linux"
+    fi
+
+    printf -- "%s" "${OS_NAME}"
 }
