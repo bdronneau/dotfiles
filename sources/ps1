@@ -39,19 +39,6 @@ __talosctx_context_display ()
   fi
 }
 
-__update_virtual_env ()
-{
-  # Current virtualenv
-  if [[ $VIRTUAL_ENV != "" ]]; then
-      # Strip out the path and just leave the env name
-      printf "{${VIRTUAL_ENV##*/}}"
-  fi
-}
-
-if command -v python3 > /dev/null 2>&1 && [[ $(type -t __update_virtual_env) = "function" ]]; then
-  PS1="${PURPLE}\$(__update_virtual_env)${RESET} ${PS1}"
-fi
-
 if command -v git > /dev/null 2>&1 && [[ $(type -t __git_ps1) = "function" ]]; then
   PS1="${PS1}${YELLOW}\$(__git_ps1)${RESET}"
 fi
