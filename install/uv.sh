@@ -9,7 +9,6 @@ APP_NAME="uv"
 APP_BIN_NAME="${APP_NAME}"
 APP_BASE_PATH="${HOME}/opt/${APP_NAME}"
 APP_BIN_PATH="${HOME}/opt/bin/${APP_BIN_NAME}"
-APP_COMPLETION_PATH="${HOME}/opt/bash-completion.d/${APP_NAME}"
 
 clean() {
   rm -rf "${APP_BIN_PATH}"
@@ -33,8 +32,5 @@ install() {
 
     # Activate version
     ln -Fs "${APP_BIN_VERSION_PATH}" "${APP_BIN_PATH}"
-
-    # Completion
-    # "${APP_BIN_VERSION_PATH}" completion bash > "${APP_COMPLETION_PATH}"
   fi
 }
