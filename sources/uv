@@ -1,0 +1,152 @@
+#!/usr/bin/env bash
+
+if command -v uv > /dev/null 2>&1; then
+    uv.sh() {
+        local BIN_NAME
+        BIN_NAME="uv.sh"
+
+        local BIN_WORKDIR
+        BIN_WORKDIR="${HOME}/.venvs/"
+
+        commands_venv_list(){
+            if [[ -d "${BIN_WORKDIR}" ]]; then
+                find "${BIN_WORKDIR}" -d 1 -type d | while read -r venv; do
+                    echo "$(basename "${venv}")"
+                done
+            else
+                echo "No virtual environments found."
+            fi
+        }
+
+        command_venv_create(){
+            local venv_name=$1
+            if [[ -z "${venv_name}" ]]; then
+                echo "Usage: ${BIN_NAME} venv create <venv_name>"
+                return 1
+            fi
+
+            local venv_path="${BIN_WORKDIR}${venv_name}"
+            if [[ -d "${venv_path}" ]]; then
+                echo "Virtual environment '${venv_name}' already exists. Active or choose a different name."
+                return 1
+            fi
+
+            uv venv "${venv_path}"
+            echo "Virtual environment '${venv_name}' created at ${venv_path}. Activating it now..."
+
+            source "${venv_path}/bin/activate"
+        }
+
+        command_venv_delete(){
+            local venv_name=$1
+            if [[ -z "${venv_name}" ]]; then
+                venv_name=$(find "${BIN_WORKDIR}" -d 1 -type d | xargs -n1 basename | fzf --prompt="Select a virtual environment to delete: ")
+                if [[ -z "${venv_name}" ]]; then
+                    echo "No virtual environment selected."
+                    return 1
+                fi
+            fi
+
+            local venv_path="${BIN_WORKDIR}${venv_name}"
+            if [[ ! -d "${venv_path}" ]]; then
+                echo "Virtual environment '${venv_name}' does not exist."
+                return 1
+            fi
+
+            read -p "Are you sure you want to delete the virtual environment '${venv_name}'? (y/n): " confirm
+
+            rm -rf "${venv_path}"
+            echo "Virtual environment '${venv_name}' deleted."
+        }
+
+        command_venv_activate(){
+            local venv_name=$1
+            if [[ -z "${venv_name}" ]]; then
+                venv_name=$(find "${BIN_WORKDIR}" -d 1 -type d | xargs -n1 basename | fzf --prompt="Select a virtual environment to activate: ")
+                if [[ -z "${venv_name}" ]]; then
+                    echo "No virtual environment selected."
+                    return 1
+                fi
+            fi
+
+            local venv_path="${BIN_WORKDIR}${venv_name}"
+            if [[ ! -d "${venv_path}" ]]; then
+                echo "Virtual environment '${venv_name}' does not exist."
+                return 1
+            fi
+
+            source "${venv_path}/bin/activate"
+            echo "Activated virtual environment '${venv_name}'."
+        }
+
+        command_venvs(){
+            local subcommand=$1
+            case "${subcommand}" in
+                "create")
+                    shift
+                    command_venv_create "$@"
+                ;;
+                "delete")
+                    shift
+                    command_venv_delete "$@"
+                ;;
+                "list")
+                    shift
+                    commands_venv_list
+                ;;
+                "activate")
+                    shift
+                    command_venv_activate "$@"
+                ;;
+                "deactivate")
+                    deactivate
+                ;;
+                *)
+                    echo "Unknown venv command: ${subcommand}"
+                    echo "Available commands: create, delete, list, activate, deactivate"
+                ;;
+            esac
+        }
+
+        command_help(){
+            echo "Usage: $BIN_NAME <subcommand>"
+            echo "Subcommands:"
+            echo "    venvs             work with virtualenvs"
+        }
+
+        command=$1
+        case "${command}" in
+            "venv"|"venvs")
+                shift
+                command_venvs $@
+            ;;
+            *)
+                command_help
+            ;;
+        esac
+    }
+
+    _uv_sh_autocomplete() {
+        local cur=${COMP_WORDS[COMP_CWORD]}
+        local prev1=${COMP_WORDS[COMP_CWORD-1]}
+        local prev2=${COMP_WORDS[COMP_CWORD-2]}
+
+        local root_options=("venv" "venvs")
+        local venv_options=("create" "list" "activate" "deactivate" "delete")
+
+        case "$prev2 $prev1" in
+            *)
+                case "$prev1" in
+                    "venv"|"venvs")
+                        COMPREPLY=($(compgen -W "${venv_options[*]}" -- "$cur"))
+                        ;;
+                    *)
+                        COMPREPLY=($(compgen -W "${root_options[*]}" -- "$cur"))
+                        ;;
+                esac
+                ;;
+        esac
+    }
+
+    complete -F _uv_sh_autocomplete uv.sh
+fi
