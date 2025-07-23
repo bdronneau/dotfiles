@@ -12,7 +12,7 @@ clean() {
 
 install() {
   # renovate: datasource=github-tags depName=mikefarah/yq
-  local YQ_VERSION="v4.46.1"
+  local YQ_VERSION="v4.47.1"
   if [[ ! -f "${HOME}/opt/yq/yq_${YQ_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/yq"
 
