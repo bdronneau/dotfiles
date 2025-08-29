@@ -41,3 +41,20 @@ __k8s_pods_by_node() {
   K8S_NODE=$(k get nodes --no-headers=true -o custom-columns=":metadata.name" | fzf --height=20 --ansi --reverse --select-1)
   kubectl get pods --all-namespaces -o wide --field-selector spec.nodeName=${K8S_NODE}
 }
+
+k8s_all_resources() {
+  ns="$1"
+  if [ -z "$ns" ]; then
+    echo "Usage: k8s_all_resources <namespace>"
+    return 1
+  fi
+
+  for r in $(kubectl api-resources --namespaced=true -o name); do
+    echo "### $r ###"
+    if kubectl get -n "$ns" "$r" --ignore-not-found -o name | grep -q .; then
+      echo "### $r ###"
+      kubectl get -n "$ns" "$r"
+      echo
+    fi
+  done
+}
