@@ -38,6 +38,9 @@ install() {
   local KUBE_SCORE_VERSION="${KUBE_SCORE_VERSION_TAG/v/}"
   # renovate: datasource=github-releases depName=derailed/popeye
   local POPEYE_VERSION_TAG="v0.22.1"
+  # renovate: datasource=github-releases depName=int128/kubelogin
+  local KUBELOGIN_VERSION_TAG="v1.34.1"
+  local KUBELOGIN_VERSION="${KUBELOGIN_VERSION_TAG/v/}"
 
   local OS
   OS=$(uname -s | tr '[:upper:]' '[:lower:]')
@@ -189,5 +192,24 @@ install() {
     ln -snf "${HOME}/opt/kubectl/popeye-${POPEYE_VERSION_TAG}" "${HOME}/opt/bin/popeye"
     popd
     rm -Rf "${HOME}/opt/tmp/popeye_${POPEYE_VERSION_TAG}"
+  fi
+
+  if [[ ! -f "${HOME}/opt/kubectl/kubectl-oidc-login-${KUBELOGIN_VERSION}" ]]; then
+    mkdir "${HOME}/opt/tmp/kubectl-oidc-login_${KUBELOGIN_VERSION}"
+    pushd "${HOME}/opt/tmp/kubectl-oidc-login_${KUBELOGIN_VERSION}"
+    download "https://github.com/int128/kubelogin/releases/download/${KUBELOGIN_VERSION_TAG}/kubelogin_${OS}_${ARCH}.zip" "kubelogin_${KUBELOGIN_VERSION}_${OS}_${ARCH}.zip"
+    unzip "kubelogin_${KUBELOGIN_VERSION}_${OS}_${ARCH}.zip"
+    rm "kubelogin_${KUBELOGIN_VERSION}_${OS}_${ARCH}.zip"
+    mv "kubelogin" "${HOME}/opt/kubectl/kubectl-oidc-login-${KUBELOGIN_VERSION}"
+    popd
+    rm -Rf "${HOME}/opt/tmp/kubectl-oidc-login_${KUBELOGIN_VERSION}"
+
+
+    if [[ -f "${HOME}/opt/bin/kubectl-oidc-login" ]]; then
+      rm -f "${HOME}/opt/bin/kubectl-oidc-login"
+    fi
+
+    # Activate version
+    ln -Fs "${HOME}/opt/kubectl/kubectl-oidc-login-${KUBELOGIN_VERSION}" "${HOME}/opt/bin/kubectl-oidc-login"
   fi
 }
