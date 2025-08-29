@@ -132,6 +132,17 @@ b3t(){
         cat /dev/null > "${B3T_KNOWN_HOSTS_FILE}"
 
         for entry in $(yq .instances "${B3T_CACHE_FILE_DEVICES}" "${B3T_CACHE_FILE_VM}" | yq '.[] | select(.status == "active") | .name'); do
+
+            if [[ "${entry}" == *"-wn-"* ]]; then
+                echo "Skipping ${entry} as it is a worker node"
+                continue
+            fi
+
+            if [[ "${entry}" == *"-cp-"* ]]; then
+                echo "Skipping ${entry} as it is a control plane node"
+                continue
+            fi
+
             echo "Processing device: ${entry}:${_B3T_SSH_PORT}"
             ssh-keyscan -p "${_B3T_SSH_PORT}" "${entry}" >> "${B3T_KNOWN_HOSTS_FILE}"
         done
