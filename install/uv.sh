@@ -17,7 +17,7 @@ clean() {
 
 install() {
   # renovate: datasource=github-tags depName=astral-sh/uv
-  local APP_VERSION_TAG="0.9.0"
+  local APP_VERSION_TAG="0.9.1"
   local APP_VERSION="${APP_VERSION_TAG/v/}"
   local APP_BIN_VERSION_PATH="${APP_BASE_PATH}/${APP_BIN_NAME}_${APP_VERSION}"
 
