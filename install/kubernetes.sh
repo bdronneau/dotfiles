@@ -38,9 +38,6 @@ install() {
   local KUBE_SCORE_VERSION="${KUBE_SCORE_VERSION_TAG/v/}"
   # renovate: datasource=github-releases depName=derailed/popeye
   local POPEYE_VERSION_TAG="v0.22.1"
-  # renovate: datasource=github-releases depName=int128/kubelogin
-  local KUBELOGIN_VERSION_TAG="v1.34.1"
-  local KUBELOGIN_VERSION="${KUBELOGIN_VERSION_TAG/v/}"
 
   local OS
   OS=$(uname -s | tr '[:upper:]' '[:lower:]')
