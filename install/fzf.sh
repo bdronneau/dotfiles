@@ -17,7 +17,7 @@ clean() {
 
 install() {
   # renovate: datasource=github-tags depName=junegunn/fzf
-  local APP_VERSION_TAG="v0.66.0"
+  local APP_VERSION_TAG="v0.66.1"
   local APP_VERSION="${APP_VERSION_TAG/v/}"
   local APP_BIN_VERSION_PATH="${APP_BASE_PATH}/${APP_BIN_NAME}_${APP_VERSION}"
 
