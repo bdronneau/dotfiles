@@ -23,7 +23,7 @@ install() {
   # renovate: datasource=github-tags depName=bergerx/kubectl-status
   local KUBECTL_STATUS_VERSION="v0.7.13"
   # renovate: datasource=github-tags depName=ahmetb/kubectl-tree
-  local KUBECTL_TREE_VERSION="v0.4.5"
+  local KUBECTL_TREE_VERSION="v0.4.6"
   # renovate: datasource=github-tags depName=davidB/kubectl-view-allocations
   local KUBECTL_ALLOCATIONS_VERSION="1.0.0"
   # renovate: datasource=github-releases depName=ahmetb/kubectx
