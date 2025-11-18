@@ -38,6 +38,8 @@ install() {
   local KUBE_SCORE_VERSION="${KUBE_SCORE_VERSION_TAG/v/}"
   # renovate: datasource=github-releases depName=derailed/popeye
   local POPEYE_VERSION_TAG="v0.22.1"
+  # renovenate: datasource=github-releases depName=pehlicd/crd-wizard
+  local CRD_WIZARD_VERSION_TAG="v0.1.4"
 
   local OS
   OS=$(uname -s | tr '[:upper:]' '[:lower:]')
@@ -189,5 +191,16 @@ install() {
     ln -snf "${HOME}/opt/kubectl/popeye-${POPEYE_VERSION_TAG}" "${HOME}/opt/bin/popeye"
     popd
     rm -Rf "${HOME}/opt/tmp/popeye_${POPEYE_VERSION_TAG}"
+  fi
+
+  if [[ ! -f "${HOME}/opt/kubectl/kubectl-crd-wizard-${CRD_WIZARD_VERSION_TAG}" ]]; then
+    mkdir "${HOME}/opt/tmp/crd-wizard_${CRD_WIZARD_VERSION_TAG}"
+    download "https://github.com/pehlicd/crd-wizard/releases/download/${CRD_WIZARD_VERSION_TAG}/crd-wizard_${CRD_WIZARD_VERSION_TAG}_${OS}_${ARCH}.tar.gz" "${HOME}/opt/tmp/crd-wizard_${CRD_WIZARD_VERSION_TAG}/crd-wizard.tar.gz"
+    pushd "${HOME}/opt/tmp/crd-wizard_${CRD_WIZARD_VERSION_TAG}"
+    tar xf "crd-wizard.tar.gz"
+    mv "crd-wizard" "${HOME}/opt/kubectl/kubectl-crd-wizard-${CRD_WIZARD_VERSION_TAG}"
+    ln -snf "${HOME}/opt/kubectl/kubectl-crd-wizard-${CRD_WIZARD_VERSION_TAG}" "${HOME}/opt/bin/kubectl-crd-wizard"
+    popd
+    rm -Rf "${HOME}/opt/tmp/crd-wizard_${CRD_WIZARD_VERSION_TAG}"
   fi
 }
