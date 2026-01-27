@@ -9,4 +9,25 @@ if command -v docker > /dev/null 2>&1; then
         docker images --quiet | xargs docker rmi
         docker images --format '{{ .Repository }}:{{ .Tag}}' | xargs docker rmi
     }
+
+    docker_sidecars_up() {
+        printf "==> Start sidecars\n"
+
+        docker run --name postgres -p 127.0.0.1:5432:5432 -e POSTGRES_PASSWORD=pwd -d postgres:18-alpine
+        docker run --name redis -p 127.0.0.1:6379:6379 -d redis:7-alpine
+    }
+
+    docker_sidecars_start() {
+        printf "==> Start sidecars\n"
+
+        docker start postgres
+        docker start redis
+    }
+
+    docker_sidecars_destroy() {
+        printf "==> Shutdown sidecars\n"
+
+        docker stop postgres && docker rm postgres
+        docker stop redis && docker rm redis
+    }
 fi
