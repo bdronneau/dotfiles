@@ -22,16 +22,21 @@ usage() {
 }
 
 create_symlinks() {
-  for file in "${CURRENT_DIR}/symlinks"/*; do
-    local BASENAME_FILE
+  while IFS= read -r file; do
+    local REL_PATH BASENAME_FILE TARGET TARGET_DIR
+    REL_PATH="${file#${CURRENT_DIR}/symlinks/}"
     BASENAME_FILE="$(basename "${file}")"
 
     if [[ -n ${FILE_LIMIT} ]] && [[ ${BASENAME_FILE} != "${FILE_LIMIT}" ]]; then
       continue
     fi
 
-    [[ -r ${file} ]] && [[ -e ${file} ]] && rm -f "${HOME}/.${BASENAME_FILE}" && ln -s "${file}" "${HOME}/.${BASENAME_FILE}"
-  done
+    TARGET="${HOME}/.${REL_PATH}"
+    TARGET_DIR="$(dirname "${TARGET}")"
+
+    mkdir -p "${TARGET_DIR}"
+    [[ -r ${file} ]] && [[ -e ${file} ]] && rm -f "${TARGET}" && ln -s "${file}" "${TARGET}"
+  done < <(find "${CURRENT_DIR}/symlinks" -type f)
 }
 
 browse_install() {
