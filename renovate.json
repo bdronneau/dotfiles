@@ -15,7 +15,8 @@
       "fileMatch": ["^install/golang.sh$"],
       "matchStrings": ["GO_VERSION=\"(?<currentValue>.*)\"\\s"],
       "depNameTemplate": "golang/go",
-      "datasourceTemplate": "github-tags"
+      "datasourceTemplate": "github-tags",
+      "versioningTemplate": "regex:^go(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)?$"
     }
   ],
   "packageRules": [
