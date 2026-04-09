@@ -15,7 +15,9 @@
       "Bash(npm run test*)",
       "Bash(npm test*)",
       "Bash(pytest*)",
-      "Bash(tee*)"
+      "Bash(tee*)",
+      "mcp__notion__notion-fetch",
+      "mcp__shortcut__stories-get-by-id"
     ],
     "deny": [
       "Bash(gh*)",
@@ -35,6 +37,10 @@
       "Bash(npm install*)",
       "Bash(pip install*)"
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash /Users/bdronneau/.claude/statusline-command.sh"
   },
   "enabledPlugins": {
     "gopls-lsp@claude-plugins-official": true,
@@ -94,7 +100,9 @@
       "Statistically guessing the next token",
       "Thinking in YAML",
       "Writing code that future-me will hate",
-      "Yolo-driven development"
+      "Yolo-driven development",
+      "Je code avec le c**, et alors ?"
     ]
-  }
+  },
+  "teammateMode": "tmux"
 }
