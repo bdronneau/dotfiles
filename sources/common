@@ -22,6 +22,10 @@ fcd() {
   ccd $(find . -maxdepth ${1:-1} | fzf)
 }
 
+facd() {
+  ccd $(find . -type d | fzf)
+}
+
 ccd() {
   if [[ ! -f $1 && ! -d $1 ]]
   then
