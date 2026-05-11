@@ -37,4 +37,6 @@ install() {
   if command -v gcloud > /dev/null 2>&1; then
     gcloud components update --quiet
   fi
+
+  gcloud components install gke-gcloud-auth-plugin
 }
