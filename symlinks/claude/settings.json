@@ -104,5 +104,7 @@
       "Je code avec le c**, et alors ?"
     ]
   },
-  "teammateMode": "tmux"
+  "showThinkingSummaries": true,
+  "teammateMode": "tmux",
+  "theme": "dark-daltonized"
 }
