@@ -6,8 +6,8 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
     && . "../bin/utils.sh"
 
 clean() {
-  rm -rf "${HOME}/opt/bin/yq*"
-  rm -rf "${HOME}/opt/yq*"
+  rm -f "${HOME}/opt/bin/yq"
+  rm -rf "${HOME}/opt/yq"
 }
 
 install() {

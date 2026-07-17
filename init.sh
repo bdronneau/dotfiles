@@ -105,6 +105,16 @@ load_config() {
 
 main() {
   local FILE_LIMIT=""
+
+  for arg in "${@}"; do
+    case "${arg}" in
+      -h|--help|help)
+        usage
+        return 0
+        ;;
+    esac
+  done
+
   while getopts ":l:" options; do
     case "${options}" in
       l)

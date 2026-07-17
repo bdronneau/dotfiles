@@ -6,7 +6,8 @@ cd "$(dirname "${BASH_SOURCE[0]}")" \
     && . "../bin/utils.sh"
 
 clean() {
-  rm -rf "${HOME}/opt/helm*"
+  rm -rf "${HOME}/opt/helm"
+  rm -f "${HOME}/opt/bin/helm"
 }
 
 install() {
