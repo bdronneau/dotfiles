@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# minio-client (mc) shell completion. `mc` acts as its own completion provider
+# via `complete -C`, so no completion file is generated.
+if command -v mc > /dev/null 2>&1; then
+  complete -C "$(command -v mc)" mc
+fi
