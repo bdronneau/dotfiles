@@ -1,0 +1,135 @@
+#!/usr/bin/env bash
+
+# Granted shell integration: `assume` must be sourced so the AWS_* env vars it
+# exports land in the current shell. This is the alias Granted would otherwise
+# prompt to add to ~/.bash_profile — we manage it here instead.
+# shellcheck disable=SC2139
+alias assume=". assume"
+
+assume_service() {
+    local aws_profile="${1:-}"
+    local browser_profile="${2:-Batch}"
+    local service
+    local services=(
+        access-analyzer
+        account
+        acm
+        amplify
+        apigateway
+        appconfig
+        appflow
+        appstream
+        appsync
+        athena
+        autoscaling
+        backup
+        batch
+        billing
+        budgets
+        cloudformation
+        cloudfront
+        cloudtrail
+        cloudwatch
+        codeartifact
+        codebuild
+        codecommit
+        codedeploy
+        codepipeline
+        cognito
+        config
+        costexplorer
+        detective
+        directconnect
+        directoryservice
+        documentdb
+        dynamodb
+        ec2
+        ecr
+        ecs
+        efs
+        eks
+        elasticache
+        elasticbeanstalk
+        emr
+        eventbridge
+        firehose
+        fsx
+        glue
+        grafana
+        guardduty
+        iam
+        inspector
+        iot
+        kinesis
+        kms
+        lakeformation
+        lambda
+        lightsail
+        macie
+        mq
+        msk
+        neptune
+        network-firewall
+        opensearch
+        organizations
+        quicksight
+        ram
+        rds
+        redshift
+        resource-groups
+        route53
+        route53resolver
+        s3
+        secretsmanager
+        securityhub
+        servicecatalog
+        ses
+        sns
+        sqs
+        ssm
+        stepfunctions
+        storagegateway
+        support
+        transfer
+        trusted-advisor
+        vpc
+        waf
+        wafv2
+        workspaces
+        xray
+    )
+
+    if command -v fzf >/dev/null 2>&1; then
+        service="$(
+            printf '%s\n' "${services[@]}" |
+                fzf \
+                    --prompt="AWS service > " \
+                    --height=60% \
+                    --reverse \
+                    --border
+        )"
+    else
+        printf 'AWS service, for example iam, ec2, or s3: '
+        read -r service
+    fi
+
+    [[ -n "$service" ]] || return 0
+
+    local args=(
+        --service "$service"
+        --browser-profile "$browser_profile"
+    )
+
+    # Add an AWS profile only when explicitly supplied.
+    if [[ -n "$aws_profile" ]]; then
+        args+=( "$aws_profile" )
+    fi
+
+    # `assume` is a shell script that must be sourced so the AWS_* env vars it
+    # sets are exported into the current shell. The interactive `assume` alias
+    # (`. assume`) is NOT expanded inside a function body, so source it here
+    # explicitly — running it as a plain command spawns a subshell and the
+    # credentials are lost (and Granted nags to install the alias).
+    # shellcheck disable=SC1090
+    source assume "${args[@]}"
+}

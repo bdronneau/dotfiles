@@ -2,6 +2,7 @@
 
 export DOTFILES__PACKAGES=true
 export DOTFILES__FIRST=true
+export DOTFILES_AWS=true
 export DOTFILES_CILIUM=true
 export DOTFILES_COLIMA=true
 export DOTFILES_CURLIE=true
