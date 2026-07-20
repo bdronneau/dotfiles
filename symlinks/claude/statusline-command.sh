@@ -17,7 +17,24 @@ seven_day_resets_at=$(echo "$input" | jq -r '.rate_limits.seven_day.resets_at //
 # --- Model ---
 model=$(echo "$input" | jq -r '.model.display_name // empty')
 
+# --- Current folder + git branch (mirrors the interactive PS1) ---
+cwd=$(echo "$input" | jq -r '.workspace.current_dir // .cwd // empty')
+[ -z "$cwd" ] && cwd="$PWD"
+folder=$(basename "$cwd")
+
+branch=""
+if git -C "$cwd" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  branch=$(git -C "$cwd" rev-parse --abbrev-ref HEAD 2>/dev/null)
+fi
+
 parts=()
+
+# Current folder (and branch, if in a git repo)
+if [ -n "$branch" ]; then
+  parts+=("$folder ($branch)")
+else
+  parts+=("$folder")
+fi
 
 # Model name
 [ -n "$model" ] && parts+=("$model")
