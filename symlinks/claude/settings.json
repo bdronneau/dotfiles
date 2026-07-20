@@ -105,6 +105,6 @@
     ]
   },
   "showThinkingSummaries": true,
-  "teammateMode": "tmux",
-  "theme": "dark-daltonized"
+  "theme": "dark-daltonized",
+  "teammateMode": "tmux"
 }
