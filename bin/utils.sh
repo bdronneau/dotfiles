@@ -6,27 +6,23 @@ download() {
 
     if command -v "curl" &> /dev/null; then
 
-        cmd="curl --max-time 300 -LsSo \"$output\" \"$url\" &> /dev/null"
-        #                         │││└─ write output to file
-        #                         ││└─ show error messages
-        #                         │└─ don't show the progress meter
-        #                         └─ follow redirects
+        print_debug "Download with: curl --max-time 300 -LsSo ${output} ${url}"
 
-        print_debug "Download with: ${cmd}"
-
-        eval "${cmd}"
+        curl --max-time 300 -LsSo "$output" "$url"
+        #                     │││└─ write output to file
+        #                     ││└─ show error messages
+        #                     │└─ don't show the progress meter
+        #                     └─ follow redirects
 
         return $?
 
     elif command -v "wget" &> /dev/null; then
 
-        cmd="wget -qO \"$output\" \"$url\" &> /dev/null"
-        #     │└─ write output to file
-        #     └─ don't show output
+        print_debug "Download with: wget -qO ${output} ${url}"
 
-        print_debug "Download with: ${cmd}"
-
-        eval "${cmd}"
+        wget -qO "$output" "$url"
+        #    │└─ write output to file
+        #    └─ don't show output
 
         return $?
     fi
@@ -45,7 +41,7 @@ url_tar() {
     local tmp_dir="${HOME}/opt/tmp/${name}"
 
     if [[ -d "${tmp_dir}" ]]; then
-        rm -rdi "${tmp_dir}"
+        rm -rf "${tmp_dir}"
     fi
 
     mkdir "${tmp_dir}"

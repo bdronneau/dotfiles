@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 set -o nounset -o pipefail -o errexit
-readonly CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly CURRENT_DIR
 
 source "./bin/utils.sh"
 
@@ -24,7 +25,7 @@ usage() {
 create_symlinks() {
   while IFS= read -r file; do
     local REL_PATH BASENAME_FILE TARGET TARGET_DIR
-    REL_PATH="${file#${CURRENT_DIR}/symlinks/}"
+    REL_PATH="${file#"${CURRENT_DIR}"/symlinks/}"
     BASENAME_FILE="$(basename "${file}")"
 
     if [[ -n ${FILE_LIMIT} ]] && [[ ${BASENAME_FILE} != "${FILE_LIMIT}" ]]; then
@@ -89,14 +90,19 @@ clean_packages() {
 load_config() {
   if [[ -n "${DOTFILES_CONFIG-}" ]]; then
     print_debug "Load configuration ${DOTFILES_CONFIG}"
+    # shellcheck source=/dev/null
     source "${DOTFILES_CONFIG}"
   else
-    configs=( $( ls "${CURRENT_DIR}/config" ) )
+    local configs=()
+    while IFS= read -r config_file; do
+      configs+=("$(basename "${config_file}")")
+    done < <(find "${CURRENT_DIR}/config" -mindepth 1 -maxdepth 1 -type f | sort)
 
     PS3="Select configuration: "
 
     select opt in "${configs[@]}"; do
       print_debug "Load configuration ${CURRENT_DIR}/config/${opt}"
+      # shellcheck source=/dev/null
       source "${CURRENT_DIR}/config/${opt}"
       break
     done
