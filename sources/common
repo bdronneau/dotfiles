@@ -18,9 +18,19 @@ gcd() {
   cd $(git root)
 }
 
+# fcd [depth] - depth is the number of sub-levels to descend (default 0, -1 for all)
 fcd() {
-  ccd $(find . -maxdepth ${1:-1} | fzf)
+  local depth="${1:-0}"
+
+  if [[ "${depth}" == "-1" ]]
+  then
+    ccd $(find . | fzf)
+  else
+    ccd $(find . -maxdepth $((depth + 1)) | fzf)
+  fi
 }
+
+alias ffcd="fcd -1"
 
 facd() {
   ccd $(find . -type d | fzf)
