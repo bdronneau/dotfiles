@@ -45,7 +45,7 @@ install() {
     [[ "${GRANTED_ARCH}" == "aarch64" ]] && GRANTED_ARCH="arm64"
 
     mkdir -p "${HOME}/opt/granted/granted_${GRANTED_VERSION}"
-    download "https://github.com/common-fate/granted/releases/download/${GRANTED_VERSION_TAG}/granted_${GRANTED_VERSION}_${OS}_${GRANTED_ARCH}.tar.gz" "${HOME}/opt/tmp/granted.tar.gz"
+    download "https://github.com/common-fate/granted/releases/download/${GRANTED_VERSION_TAG}/granted_${GRANTED_VERSION}_${OS}_${GRANTED_ARCH}.tar.gz" "${HOME}/opt/tmp/granted.tar.gz" "https://github.com/common-fate/granted/releases/download/${GRANTED_VERSION_TAG}/checksums.txt"
     tar -C "${HOME}/opt/granted/granted_${GRANTED_VERSION}" -xzf "${HOME}/opt/tmp/granted.tar.gz"
     rm -f "${HOME}/opt/tmp/granted.tar.gz"
 

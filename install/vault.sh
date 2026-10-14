@@ -22,7 +22,7 @@ install() {
     local ARCH
     ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
 
-    download "https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_${OS}_${ARCH}.zip" "vault_${VAULT_VERSION}_${OS}_${ARCH}.zip"
+    download "https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_${OS}_${ARCH}.zip" "vault_${VAULT_VERSION}_${OS}_${ARCH}.zip" "https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_SHA256SUMS"
     unzip "vault_${VAULT_VERSION}_${OS}_${ARCH}.zip"
     rm "vault_${VAULT_VERSION}_${OS}_${ARCH}.zip"
     mv "vault" "${HOME}/opt/vault/vault_${VAULT_VERSION}"

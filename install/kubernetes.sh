@@ -51,7 +51,7 @@ install() {
     mkdir -p "${HOME}/opt/bash-completion.d"
 
 
-    download "https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/${OS}/${ARCH}/kubectl" "${HOME}/opt/kubectl/kubectl_${KUBECTL_VERSION}"
+    download "https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/${OS}/${ARCH}/kubectl" "${HOME}/opt/kubectl/kubectl_${KUBECTL_VERSION}" "https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/${OS}/${ARCH}/kubectl.sha256"
     chmod u+x "${HOME}/opt/kubectl/kubectl_${KUBECTL_VERSION}"
 
     [[ -f "${KUBECTL_BIN}" ]] && rm -f "${KUBECTL_BIN}"
@@ -71,7 +71,7 @@ install() {
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
     local kubectx_ARCHIVE="kubectx_${KUBETOOLS_VERSION}_${OS}_${ARCH}.tar.gz"
-    url_tar "https://github.com/ahmetb/kubectx/releases/download/${KUBETOOLS_VERSION}/${kubectx_ARCHIVE}" "kubectx" "${HOME}/opt/kubectl/kubectx_${KUBETOOLS_VERSION}"
+    url_tar "https://github.com/ahmetb/kubectx/releases/download/${KUBETOOLS_VERSION}/${kubectx_ARCHIVE}" "kubectx" "${HOME}/opt/kubectl/kubectx_${KUBETOOLS_VERSION}" "https://github.com/ahmetb/kubectx/releases/download/${KUBETOOLS_VERSION}/checksums.txt"
 
     # Activate version
     [ -f "${KUBECTX_BIN}" ] && rm -f "${KUBECTX_BIN}"
@@ -86,7 +86,7 @@ install() {
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
     local KUBENS_ARCHIVE="kubens_${KUBETOOLS_VERSION}_${OS}_${ARCH}.tar.gz"
-    url_tar "https://github.com/ahmetb/kubectx/releases/download/${KUBETOOLS_VERSION}/${KUBENS_ARCHIVE}" "kubens" "${HOME}/opt/kubectl/kubens_${KUBETOOLS_VERSION}"
+    url_tar "https://github.com/ahmetb/kubectx/releases/download/${KUBETOOLS_VERSION}/${KUBENS_ARCHIVE}" "kubens" "${HOME}/opt/kubectl/kubens_${KUBETOOLS_VERSION}" "https://github.com/ahmetb/kubectx/releases/download/${KUBETOOLS_VERSION}/checksums.txt"
 
     # Activate version
     [ -f "${KUBENS_BIN}" ] && rm -f "${KUBENS_BIN}"
@@ -95,17 +95,17 @@ install() {
 
   if command -v kubectl > /dev/null 2>&1; then
     if [[ ! -f "${HOME}/opt/kubectl/kubectl-view_secret-${KUBECTL_VIEW_SECRET_VERSION}" ]]; then
-      url_tar "https://github.com/elsesiy/kubectl-view-secret/releases/download/${KUBECTL_VIEW_SECRET_VERSION}/kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}_${OS}_${ARCH}.tar.gz" "kubectl-view-secret" "${HOME}/opt/kubectl/kubectl-view_secret-${KUBECTL_VIEW_SECRET_VERSION}"
+      url_tar "https://github.com/elsesiy/kubectl-view-secret/releases/download/${KUBECTL_VIEW_SECRET_VERSION}/kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION}_${OS}_${ARCH}.tar.gz" "kubectl-view-secret" "${HOME}/opt/kubectl/kubectl-view_secret-${KUBECTL_VIEW_SECRET_VERSION}" "https://github.com/elsesiy/kubectl-view-secret/releases/download/${KUBECTL_VIEW_SECRET_VERSION}/kubectl-view-secret_${KUBECTL_VIEW_SECRET_VERSION/v/}_checksums.txt"
       ln -snf "${HOME}/opt/kubectl/kubectl-view_secret-${KUBECTL_VIEW_SECRET_VERSION}" "${HOME}/opt/bin/kubectl-view_secret"
     fi
 
     if [[ ! -f "${HOME}/opt/kubectl/kubectl-status-${KUBECTL_STATUS_VERSION}" ]]; then
-      url_tar "https://github.com/bergerx/kubectl-status/releases/download/${KUBECTL_STATUS_VERSION}/status_${OS}_${ARCH}.tar.gz" "status" "${HOME}/opt/kubectl/kubectl-status-${KUBECTL_STATUS_VERSION}"
+      url_tar "https://github.com/bergerx/kubectl-status/releases/download/${KUBECTL_STATUS_VERSION}/status_${OS}_${ARCH}.tar.gz" "status" "${HOME}/opt/kubectl/kubectl-status-${KUBECTL_STATUS_VERSION}" "https://github.com/bergerx/kubectl-status/releases/download/${KUBECTL_STATUS_VERSION}/status_${KUBECTL_STATUS_VERSION/v/}_checksums.txt"
       ln -snf "${HOME}/opt/kubectl/kubectl-status-${KUBECTL_STATUS_VERSION}" "${HOME}/opt/bin/kubectl-status"
     fi
 
     if [[ ! -f "${HOME}/opt/kubectl/kubectl-tree-${KUBECTL_TREE_VERSION}" ]]; then
-      url_tar "https://github.com/ahmetb/kubectl-tree/releases/download/${KUBECTL_TREE_VERSION}/kubectl-tree_${KUBECTL_TREE_VERSION}_${OS}_${ARCH}.tar.gz" "kubectl-tree" "${HOME}/opt/kubectl/kubectl-tree-${KUBECTL_TREE_VERSION}"
+      url_tar "https://github.com/ahmetb/kubectl-tree/releases/download/${KUBECTL_TREE_VERSION}/kubectl-tree_${KUBECTL_TREE_VERSION}_${OS}_${ARCH}.tar.gz" "kubectl-tree" "${HOME}/opt/kubectl/kubectl-tree-${KUBECTL_TREE_VERSION}" "https://github.com/ahmetb/kubectl-tree/releases/download/${KUBECTL_TREE_VERSION}/kubectl-tree_${KUBECTL_TREE_VERSION/v/}_checksums.txt"
       ln -snf "${HOME}/opt/kubectl/kubectl-tree-${KUBECTL_TREE_VERSION}" "${HOME}/opt/bin/kubectl-tree"
     fi
 
@@ -126,7 +126,7 @@ install() {
     mkdir -p "${HOME}/opt/kubectl"
 
     local KUBEMUX_ARCHIVE="kmux_${OS}_${ARCH}.tar.gz"
-    url_tar "https://github.com/ViBiOh/kmux/releases/download/${KUBEMUX_VERSION}/${KUBEMUX_ARCHIVE}" "kmux" "${HOME}/opt/kubectl/kubemux_${KUBEMUX_VERSION}"
+    url_tar "https://github.com/ViBiOh/kmux/releases/download/${KUBEMUX_VERSION}/${KUBEMUX_ARCHIVE}" "kmux" "${HOME}/opt/kubectl/kubemux_${KUBEMUX_VERSION}" "https://github.com/ViBiOh/kmux/releases/download/${KUBEMUX_VERSION}/checksums.txt"
 
     # Activate version
     [ -f "${HOME}/opt/bin/kubemux" ] && rm -f "${HOME}/opt/bin/kubemux"
@@ -137,22 +137,22 @@ install() {
   fi
 
   if [[ ! -f "${HOME}/opt/kubectl/pluto-${PLUTO_VERSION}" ]]; then
-    url_tar "https://github.com/FairwindsOps/pluto/releases/download/${PLUTO_VERSION_TAG}/pluto_${PLUTO_VERSION}_${OS}_${ARCH}.tar.gz" "pluto" "${HOME}/opt/kubectl/pluto-${PLUTO_VERSION}"
+    url_tar "https://github.com/FairwindsOps/pluto/releases/download/${PLUTO_VERSION_TAG}/pluto_${PLUTO_VERSION}_${OS}_${ARCH}.tar.gz" "pluto" "${HOME}/opt/kubectl/pluto-${PLUTO_VERSION}" "https://github.com/FairwindsOps/pluto/releases/download/${PLUTO_VERSION_TAG}/checksums.txt"
     ln -snf "${HOME}/opt/kubectl/pluto-${PLUTO_VERSION}" "${HOME}/opt/bin/pluto"
   fi
 
   if [[ ! -f "${HOME}/opt/kubectl/kube-score-${KUBE_SCORE_VERSION}" ]]; then
-    url_tar "https://github.com/zegl/kube-score/releases/download/${KUBE_SCORE_VERSION_TAG}/kube-score_${KUBE_SCORE_VERSION}_${OS}_${ARCH}.tar.gz" "kube-score" "${HOME}/opt/kubectl/kube-score-${KUBE_SCORE_VERSION}"
+    url_tar "https://github.com/zegl/kube-score/releases/download/${KUBE_SCORE_VERSION_TAG}/kube-score_${KUBE_SCORE_VERSION}_${OS}_${ARCH}.tar.gz" "kube-score" "${HOME}/opt/kubectl/kube-score-${KUBE_SCORE_VERSION}" "https://github.com/zegl/kube-score/releases/download/${KUBE_SCORE_VERSION_TAG}/checksums.txt"
     ln -snf "${HOME}/opt/kubectl/kube-score-${KUBE_SCORE_VERSION}" "${HOME}/opt/bin/kube-score"
   fi
 
   if [[ ! -f "${HOME}/opt/kubectl/popeye-${POPEYE_VERSION_TAG}" ]]; then
-    url_tar "https://github.com/derailed/popeye/releases/download/${POPEYE_VERSION_TAG}/popeye_${OS}_${ARCH}.tar.gz" "popeye" "${HOME}/opt/kubectl/popeye-${POPEYE_VERSION_TAG}"
+    url_tar "https://github.com/derailed/popeye/releases/download/${POPEYE_VERSION_TAG}/popeye_${OS}_${ARCH}.tar.gz" "popeye" "${HOME}/opt/kubectl/popeye-${POPEYE_VERSION_TAG}" "https://github.com/derailed/popeye/releases/download/${POPEYE_VERSION_TAG}/checksums.sha256"
     ln -snf "${HOME}/opt/kubectl/popeye-${POPEYE_VERSION_TAG}" "${HOME}/opt/bin/popeye"
   fi
 
   if [[ ! -f "${HOME}/opt/kubectl/kubectl-crd-wizard-${CRD_WIZARD_VERSION_TAG}" ]]; then
-    url_tar "https://github.com/pehlicd/crd-wizard/releases/download/${CRD_WIZARD_VERSION_TAG}/crd-wizard_${CRD_WIZARD_VERSION_TAG}_${OS}_${ARCH}.tar.gz" "crd-wizard" "${HOME}/opt/kubectl/kubectl-crd-wizard-${CRD_WIZARD_VERSION_TAG}"
+    url_tar "https://github.com/pehlicd/crd-wizard/releases/download/${CRD_WIZARD_VERSION_TAG}/crd-wizard_${CRD_WIZARD_VERSION_TAG}_${OS}_${ARCH}.tar.gz" "crd-wizard" "${HOME}/opt/kubectl/kubectl-crd-wizard-${CRD_WIZARD_VERSION_TAG}" "https://github.com/pehlicd/crd-wizard/releases/download/${CRD_WIZARD_VERSION_TAG}/crd-wizard_${CRD_WIZARD_VERSION_TAG/v/}_checksums.txt"
     ln -snf "${HOME}/opt/kubectl/kubectl-crd-wizard-${CRD_WIZARD_VERSION_TAG}" "${HOME}/opt/bin/kubectl-crd-wizard"
   fi
 }

@@ -25,7 +25,7 @@ install() {
     mkdir -p "${APP_BASE_PATH}"
     mkdir -p "${HOME}/opt/bash-completion.d"
 
-    url_tar "https://github.com/astral-sh/uv/releases/download/${APP_VERSION_TAG}/${APP_NAME}-$(get_arch amd64 aarch64)-$(get_os_name)-$(get_os).tar.gz" "${APP_BIN_NAME}-$(get_arch amd64 aarch64)-$(get_os_name)-$(get_os)/${APP_BIN_NAME}" "${APP_BIN_VERSION_PATH}"
+    url_tar "https://github.com/astral-sh/uv/releases/download/${APP_VERSION_TAG}/${APP_NAME}-$(get_arch amd64 aarch64)-$(get_os_name)-$(get_os).tar.gz" "${APP_BIN_NAME}-$(get_arch amd64 aarch64)-$(get_os_name)-$(get_os)/${APP_BIN_NAME}" "${APP_BIN_VERSION_PATH}" "https://github.com/astral-sh/uv/releases/download/${APP_VERSION_TAG}/${APP_NAME}-$(get_arch amd64 aarch64)-$(get_os_name)-$(get_os).tar.gz.sha256"
     chmod u+x "${APP_BIN_VERSION_PATH}"
 
     [[ -f "${APP_BIN_PATH}" ]] && rm -f "${APP_BIN_PATH}"

@@ -23,7 +23,7 @@ install() {
   if [[ ! -f "${HOME}/opt/tfswitch/tfswitch_${TFSWITCH_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/tfswitch"
 
-    url_tar "https://github.com/warrensbox/terraform-switcher/releases/download/${TFSWITCH_VERSION}/terraform-switcher_${TFSWITCH_VERSION}_${OS}_${ARCH}.tar.gz" "tfswitch" "${HOME}/opt/tfswitch/tfswitch_${TFSWITCH_VERSION}"
+    url_tar "https://github.com/warrensbox/terraform-switcher/releases/download/${TFSWITCH_VERSION}/terraform-switcher_${TFSWITCH_VERSION}_${OS}_${ARCH}.tar.gz" "tfswitch" "${HOME}/opt/tfswitch/tfswitch_${TFSWITCH_VERSION}" "https://github.com/warrensbox/terraform-switcher/releases/download/${TFSWITCH_VERSION}/terraform-switcher_${TFSWITCH_VERSION}_checksums.txt"
 
     if [[ -f "${TFSWITCH_BIN}" ]]; then
       rm -f "${TFSWITCH_BIN}"

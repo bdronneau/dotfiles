@@ -26,7 +26,7 @@ install() {
   local FLUX_VERSION="${FLUX_VERSION_TAG/v/}"
   if [[ ! -f "${HOME}/opt/flux/flux_${FLUX_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/flux"
-    url_tar "https://github.com/fluxcd/flux2/releases/download/${FLUX_VERSION_TAG}/flux_${FLUX_VERSION}_${OS}_${ARCH}.tar.gz" "flux" "${HOME}/opt/flux/flux_${FLUX_VERSION}"
+    url_tar "https://github.com/fluxcd/flux2/releases/download/${FLUX_VERSION_TAG}/flux_${FLUX_VERSION}_${OS}_${ARCH}.tar.gz" "flux" "${HOME}/opt/flux/flux_${FLUX_VERSION}" "https://github.com/fluxcd/flux2/releases/download/${FLUX_VERSION_TAG}/flux_${FLUX_VERSION}_checksums.txt"
 
     if [[ -f "${FLUX_BIN}" ]]; then
       rm -f "${FLUX_BIN}"
@@ -42,7 +42,7 @@ install() {
   local KUBESEAL_VERSION="v0.33.1"
   if [[ ! -f "${HOME}/opt/kubeseal/kubeseal_${KUBESEAL_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/kubeseal"
-    url_tar "https://github.com/bitnami-labs/sealed-secrets/releases/download/${KUBESEAL_VERSION}/kubeseal-${KUBESEAL_VERSION/v/}-${OS}-${ARCH}.tar.gz" "kubeseal" "${HOME}/opt/kubeseal/kubeseal_${KUBESEAL_VERSION}"
+    url_tar "https://github.com/bitnami-labs/sealed-secrets/releases/download/${KUBESEAL_VERSION}/kubeseal-${KUBESEAL_VERSION/v/}-${OS}-${ARCH}.tar.gz" "kubeseal" "${HOME}/opt/kubeseal/kubeseal_${KUBESEAL_VERSION}" "https://github.com/bitnami-labs/sealed-secrets/releases/download/${KUBESEAL_VERSION}/sealed-secrets_${KUBESEAL_VERSION/v/}_checksums.txt"
 
     if [[ -f "${KUBESEAL_BIN}" ]]; then
       rm -f "${KUBESEAL_BIN}"

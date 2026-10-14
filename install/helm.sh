@@ -24,7 +24,7 @@ install() {
     local ARCH
     ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
 
-    download "https://get.helm.sh/helm-${HELM_VERSION}-${OS}-${ARCH}.tar.gz" "helm-${HELM_VERSION}-${OS}-${ARCH}.tar.gz"
+    download "https://get.helm.sh/helm-${HELM_VERSION}-${OS}-${ARCH}.tar.gz" "helm-${HELM_VERSION}-${OS}-${ARCH}.tar.gz" "https://get.helm.sh/helm-${HELM_VERSION}-${OS}-${ARCH}.tar.gz.sha256sum"
 
     # Temp directory for extraction
     if [[ ! -d "helm-${HELM_VERSION}" ]]; then

@@ -27,7 +27,7 @@ install() {
     fi
 
     local CURLIE_ARCHIVE="curlie_${CURLIE_VERSION/v/}_${OS}_${ARCH}.tar.gz"
-    download "https://github.com/rs/curlie/releases/download/${CURLIE_VERSION}/${CURLIE_ARCHIVE}" "${CURLIE_ARCHIVE}"
+    download "https://github.com/rs/curlie/releases/download/${CURLIE_VERSION}/${CURLIE_ARCHIVE}" "${CURLIE_ARCHIVE}" "https://github.com/rs/curlie/releases/download/${CURLIE_VERSION}/curlie_${CURLIE_VERSION/v/}_checksums.txt"
 
     tar -C "/tmp" -xzf "${CURLIE_ARCHIVE}"
     rm "${CURLIE_ARCHIVE}"

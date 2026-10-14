@@ -28,7 +28,7 @@ install() {
     local ARCH
     ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
 
-    url_tar "https://github.com/knqyf263/pet/releases/download/${APP_VERSION_TAG}/${APP_NAME}_${APP_VERSION}_${OS}_${ARCH}.tar.gz" "${APP_BIN_NAME}" "${APP_BIN_VERSION_PATH}"
+    url_tar "https://github.com/knqyf263/pet/releases/download/${APP_VERSION_TAG}/${APP_NAME}_${APP_VERSION}_${OS}_${ARCH}.tar.gz" "${APP_BIN_NAME}" "${APP_BIN_VERSION_PATH}" "https://github.com/knqyf263/pet/releases/download/${APP_VERSION_TAG}/pet_${APP_VERSION}_checksums.txt"
     chmod u+x "${APP_BIN_VERSION_PATH}"
 
     [[ -f "${APP_BIN_PATH}" ]] && rm -f "${APP_BIN_PATH}"

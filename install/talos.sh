@@ -27,7 +27,7 @@ install() {
     mkdir -p "${HOME}/opt/bash-completion.d"
 
 
-    download "https://github.com/siderolabs/talos/releases/download/${TALOSCTL_VERSION}/talosctl-${OS}-${ARCH}" "${HOME}/opt/talos/talosctl_${TALOSCTL_VERSION}"
+    download "https://github.com/siderolabs/talos/releases/download/${TALOSCTL_VERSION}/talosctl-${OS}-${ARCH}" "${HOME}/opt/talos/talosctl_${TALOSCTL_VERSION}" "https://github.com/siderolabs/talos/releases/download/${TALOSCTL_VERSION}/sha256sum.txt"
     chmod u+x "${HOME}/opt/talos/talosctl_${TALOSCTL_VERSION}"
 
     [[ -f "${TALOSCTL_BIN}" ]] && rm -f "${TALOSCTL_BIN}"

@@ -20,7 +20,6 @@
       "mcp__shortcut__stories-get-by-id"
     ],
     "deny": [
-      "Bash(gh*)",
       "Bash(git add*)",
       "Bash(git checkout*)",
       "Bash(git clone*)",
@@ -47,7 +46,15 @@
     "batch-skills@company-tools": true,
     "bims@company-tools": true,
     "engineering-management@company-tools": true,
-    "readme-generator@company-tools": true
+    "readme-generator@company-tools": true,
+    "batch-common@batch-company-agent-plugins": true,
+    "marketing@batch-company-agent-plugins": true,
+    "product-management@batch-company-agent-plugins": true,
+    "self-review@batch-company-agent-plugins": true,
+    "team-reviews@batch-company-agent-plugins": true,
+    "engineering@company-tools": true,
+    "skill-creator@claude-plugins-official": true,
+    "engineering-knowledge@company-tools": true
   },
   "spinnerVerbs": {
     "mode": "replace",

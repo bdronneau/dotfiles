@@ -29,7 +29,7 @@ install() {
     mkdir -p "${HOME}/opt/${CILIUM_CLI_BIN_NAME}"
     mkdir -p "${HOME}/opt/bash-completion.d"
 
-    url_tar "https://github.com/cilium/cilium-cli/releases/download/${CILIUM_CLI_VERSION}/cilium-${OS}-${ARCH}.tar.gz" "${CILIUM_CLI_BIN_NAME}" "${CILIUM_CLI_BIN_VERSION_PATH}"
+    url_tar "https://github.com/cilium/cilium-cli/releases/download/${CILIUM_CLI_VERSION}/cilium-${OS}-${ARCH}.tar.gz" "${CILIUM_CLI_BIN_NAME}" "${CILIUM_CLI_BIN_VERSION_PATH}" "https://github.com/cilium/cilium-cli/releases/download/${CILIUM_CLI_VERSION}/cilium-${OS}-${ARCH}.tar.gz.sha256sum"
     chmod u+x "${CILIUM_CLI_BIN_VERSION_PATH}"
 
     [[ -f "${CILIUM_CLI_BIN_PATH}" ]] && rm -f "${CILIUM_CLI_BIN_PATH}"

@@ -23,7 +23,7 @@ install() {
     ARCH=$(uname -m | tr '[:upper:]' '[:lower:]')
 
     local GOPASS_ARCHIVE="gopass-${GOPASS_VERSION/v/}-${OS}-${ARCH}.tar.gz"
-    url_tar "https://github.com/gopasspw/gopass/releases/download/${GOPASS_VERSION}/${GOPASS_ARCHIVE}" "gopass" "${HOME}/opt/gopass/gopass_${GOPASS_VERSION}"
+    url_tar "https://github.com/gopasspw/gopass/releases/download/${GOPASS_VERSION}/${GOPASS_ARCHIVE}" "gopass" "${HOME}/opt/gopass/gopass_${GOPASS_VERSION}" "https://github.com/gopasspw/gopass/releases/download/${GOPASS_VERSION}/gopass_${GOPASS_VERSION/v/}_SHA256SUMS"
 
     # Activate version
     [ -f "${GOPASS_BIN}" ] && rm -f "${GOPASS_BIN}"

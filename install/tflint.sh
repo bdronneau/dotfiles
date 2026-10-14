@@ -25,7 +25,7 @@ install() {
     mkdir -p "${HOME}/opt/tflint"
     mkdir -p "${HOME}/opt/tmp/tflint_${TFLINT_VERSION}"
 
-    download "https://github.com/terraform-linters/tflint/releases/download/${TFLINT_VERSION}/tflint_${OS}_${ARCH}.zip" "${HOME}/opt/tmp/tflint_${TFLINT_VERSION}/tflint.zip"
+    download "https://github.com/terraform-linters/tflint/releases/download/${TFLINT_VERSION}/tflint_${OS}_${ARCH}.zip" "${HOME}/opt/tmp/tflint_${TFLINT_VERSION}/tflint.zip" "https://github.com/terraform-linters/tflint/releases/download/${TFLINT_VERSION}/checksums.txt"
 
     pushd "${HOME}/opt/tmp/tflint_${TFLINT_VERSION}"
     unzip "tflint.zip"
