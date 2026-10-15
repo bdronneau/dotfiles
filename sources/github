@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+if [[ -f "${HOME}/opt/bash-completion.d/gh" ]]; then
+  source "${HOME}/opt/bash-completion.d/gh"
+fi
+
+# usage: pick_repos <org> [dest_dir]
+pick_repos() (
+  set -o pipefail
+
+  if [[ ${#} -lt 1 ]]; then
+    echo "usage: pick_repos <org> [dest_dir]" >&2
+    return 1
+  fi
+
+  local org="${1}"
+  local dest="${2:-${HOME}/code/${org}}"
+  mkdir -p "${dest}"
+
+  gh repo list "${org}" --limit 1000 --no-archived \
+    --json name,description,pushedAt \
+    -q '.[] | [.name, (.pushedAt[:10]), (.description // "")] | @tsv' |
+  sort -t$'\t' -k2,2r |
+  fzf --multi --delimiter=$'\t' --with-nth=1,2,3 \
+      --header 'TAB: select · ENTER: clone · CTRL-A: select all' \
+      --bind 'ctrl-a:select-all' \
+      --preview "gh repo view ${org}/{1} | head -50" \
+      --preview-window=right:50%:wrap |
+  cut -f1 |
+  while read -r repo; do
+    if [[ -d "${dest}/${repo}/.git" ]]; then
+      echo "skip ${repo} (already cloned)"
+    else
+      gh repo clone "${org}/${repo}" "${dest}/${repo}" -- --quiet && echo "cloned ${repo}"
+    fi
+  done
+)
