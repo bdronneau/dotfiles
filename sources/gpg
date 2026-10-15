@@ -2,6 +2,10 @@
 
 if command -v gpg > /dev/null 2>&1; then
     export GPG_TTY=$(tty)
+    # SSH auth through the YubiKey [A] subkey (gpg-agent enable-ssh-support)
+    export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+    gpgconf --launch gpg-agent
+    gpg-connect-agent updatestartuptty /bye >/dev/null
 
     cipher_for() {
         if [[ ${#} -lt 2 ]]; then

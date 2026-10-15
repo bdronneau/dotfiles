@@ -1,7 +1,7 @@
 [user]
         name = bdronneau
         email = basti1.dr@gmail.com
-        signingkey = 657EE8DE5A187DD88D5F3EB36EB801B27AAB8AC9
+        signingkey = FA4674F6CC666412528B5C263311FC67EBF0A4ED
 
 [includeIf "gitdir:~/code/BatchLabs/"]
         path = ~/.gitconfig_work
@@ -33,6 +33,9 @@
 
 [commit]
        gpgsign = true
+
+[tag]
+        gpgsign = true
 
 [color]
         branch = auto
