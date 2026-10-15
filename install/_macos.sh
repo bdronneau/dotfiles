@@ -55,7 +55,7 @@ END_OF_KEYBOARD
 
   # Screen lock: screensaver after 2 minutes, password required 5 seconds after
   defaults -currentHost write com.apple.screensaver idleTime -int 120
-  if ! sysadminctl -screenLock status 2>&1 | grep --quiet "delay is 5 seconds"; then
+  if ! grep --quiet "delay is 5 seconds" < <(sysadminctl -screenLock status 2>&1); then
     sysadminctl -screenLock 5 -password -
   fi
 

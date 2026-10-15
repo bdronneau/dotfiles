@@ -48,8 +48,8 @@ install() {
   fi
 
   # Helm plugins
-  if ! "${HOME}/opt/bin/helm" plugin list | grep -qE "^gcs\s+${HELM_PLUGIN_GCS_VERSION}\b"; then
-    if "${HOME}/opt/bin/helm" plugin list | grep -qE "^gcs\s"; then
+  if ! grep -qE "^gcs\s+${HELM_PLUGIN_GCS_VERSION}\b" < <("${HOME}/opt/bin/helm" plugin list); then
+    if grep -qE "^gcs\s" < <("${HOME}/opt/bin/helm" plugin list); then
       "${HOME}/opt/bin/helm" plugin uninstall gcs
     fi
     # Helm 4 verifies plugins by default, git sources don't support it

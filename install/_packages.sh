@@ -20,7 +20,7 @@ END_OF_BASH_PROFILE
     SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
     if ! command -v brew > /dev/null 2>&1; then
-      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+      /bin/bash -c "$(curl --proto "=https" --tlsv1.2 -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
       # shellcheck source=/dev/null
       source "${SCRIPT_DIR}/../sources/_homebrew"
     fi
