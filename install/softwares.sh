@@ -15,17 +15,35 @@ install() {
     sudo pacman -S --noconfirm --needed firefox code flatpak
   elif command -v brew > /dev/null 2>&1; then
     brew install --quiet keepassxc
+    brew install --quiet --cask ghostty visual-studio-code claude-code claude
+    HOMEBREW_CASK_OPTS="" brew install --quiet --cask google-chrome
   fi
 
   if command -v code > /dev/null 2>&1; then
-    code --install-extension tamasfe.even-better-toml
-    code --install-extension EditorConfig.EditorConfig
-    code --install-extension esbenp.prettier-vscode
-    code --install-extension golang.go
-    code --install-extension hashicorp.terraform
-    code --install-extension wholroyd.jinja
-    code --install-extension waderyan.gitblame
-    code --install-extension 4ops.terraform
+    local extensions=(
+      4ops.terraform
+      a-h.templ
+      anthropic.claude-code
+      continue.continue
+      editorconfig.editorconfig
+      esbenp.prettier-vscode
+      golang.go
+      hashicorp.terraform
+      mohsen1.prettify-json
+      ms-python.debugpy
+      ms-python.python
+      ms-python.vscode-pylance
+      ms-python.vscode-python-envs
+      redhat.ansible
+      redhat.vscode-yaml
+      tamasfe.even-better-toml
+      waderyan.gitblame
+      wholroyd.jinja
+    )
+    local extension
+    for extension in "${extensions[@]}"; do
+      code --install-extension "${extension}"
+    done
   fi
 
   if command -v flatpak > /dev/null 2>&1; then
