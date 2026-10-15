@@ -40,6 +40,8 @@ install() {
   local POPEYE_VERSION_TAG="v0.22.1"
   # renovenate: datasource=github-releases depName=pehlicd/crd-wizard
   local CRD_WIZARD_VERSION_TAG="v0.1.4"
+  # renovate: datasource=github-releases depName=int128/kubelogin
+  local KUBELOGIN_VERSION_TAG="v1.36.4"
 
   local OS
   OS=$(uname -s | tr '[:upper:]' '[:lower:]')
@@ -154,5 +156,21 @@ install() {
   if [[ ! -f "${HOME}/opt/kubectl/kubectl-crd-wizard-${CRD_WIZARD_VERSION_TAG}" ]]; then
     url_tar "https://github.com/pehlicd/crd-wizard/releases/download/${CRD_WIZARD_VERSION_TAG}/crd-wizard_${CRD_WIZARD_VERSION_TAG}_${OS}_${ARCH}.tar.gz" "crd-wizard" "${HOME}/opt/kubectl/kubectl-crd-wizard-${CRD_WIZARD_VERSION_TAG}" "https://github.com/pehlicd/crd-wizard/releases/download/${CRD_WIZARD_VERSION_TAG}/crd-wizard_${CRD_WIZARD_VERSION_TAG/v/}_checksums.txt"
     ln -snf "${HOME}/opt/kubectl/kubectl-crd-wizard-${CRD_WIZARD_VERSION_TAG}" "${HOME}/opt/bin/kubectl-crd-wizard"
+  fi
+
+  # kubectl maps `kubectl oidc-login` to the `kubectl-oidc_login` binary
+  if [[ ! -f "${HOME}/opt/kubectl/kubectl-oidc_login-${KUBELOGIN_VERSION_TAG}" ]]; then
+    local KUBELOGIN_ARCHIVE="kubelogin_${OS}_${ARCH}.zip"
+    local KUBELOGIN_TMP="${HOME}/opt/tmp/kubelogin_${KUBELOGIN_VERSION_TAG}"
+
+    rm -rf "${KUBELOGIN_TMP}"
+    mkdir -p "${KUBELOGIN_TMP}"
+
+    download "https://github.com/int128/kubelogin/releases/download/${KUBELOGIN_VERSION_TAG}/${KUBELOGIN_ARCHIVE}" "${KUBELOGIN_TMP}/${KUBELOGIN_ARCHIVE}" "https://github.com/int128/kubelogin/releases/download/${KUBELOGIN_VERSION_TAG}/${KUBELOGIN_ARCHIVE}.sha256"
+    unzip -q -o "${KUBELOGIN_TMP}/${KUBELOGIN_ARCHIVE}" kubelogin -d "${KUBELOGIN_TMP}"
+    mv "${KUBELOGIN_TMP}/kubelogin" "${HOME}/opt/kubectl/kubectl-oidc_login-${KUBELOGIN_VERSION_TAG}"
+    rm -rf "${KUBELOGIN_TMP}"
+
+    ln -snf "${HOME}/opt/kubectl/kubectl-oidc_login-${KUBELOGIN_VERSION_TAG}" "${HOME}/opt/bin/kubectl-oidc_login"
   fi
 }
