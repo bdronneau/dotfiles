@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+# gcloud requires Python 3.14 on macOS
+if [[ -z "${CLOUDSDK_PYTHON:-}" ]] && command -v uv > /dev/null 2>&1; then
+  if CLOUDSDK_PYTHON="$(uv python find --no-python-downloads 3.14 2> /dev/null)"; then
+    export CLOUDSDK_PYTHON
+  else
+    unset CLOUDSDK_PYTHON
+  fi
+fi
+
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f "${HOME}/opt/google-cloud-sdk/path.bash.inc" ]; then . "${HOME}/opt/google-cloud-sdk/path.bash.inc"; fi
 

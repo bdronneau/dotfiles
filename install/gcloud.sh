@@ -11,8 +11,18 @@ clean() {
 }
 
 install() {
+  # gcloud wants Python 3.14 on macOS (else it runs a sudo installer), managed by uv (see _uv.sh)
+  if ! command -v uv > /dev/null 2>&1; then
+    printf "uv is required to install gcloud, set DOTFILES__UV=true\n" >&2
+    return 1
+  fi
+
+  uv python install 3.14
+  CLOUDSDK_PYTHON="$(uv python find 3.14)"
+  export CLOUDSDK_PYTHON
+
   if [[ ! -d "${HOME}/opt/google-cloud-sdk" ]]; then
-    local GCLOUD_VERSION="468.0.0"
+    local GCLOUD_VERSION="589.0.0"
     local OS
     OS=$(uname -s | tr '[:upper:]' '[:lower:]')
     local ARCH

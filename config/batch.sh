@@ -30,6 +30,6 @@ export DOTFILES_TALOS=true
 export DOTFILES_TFLINT=true
 export DOTFILES_TFSWITCH=true
 export DOTFILES_TMUX=true
-export DOTFILES_UV=true
+export DOTFILES__UV=true
 export DOTFILES_YQ=true
 export DOTFILES_Z=true
