@@ -28,6 +28,11 @@
       "automerge": true,
       "automergeType": "pr",
       "platformAutomerge": true
+    },
+    {
+      "description": "helm-gcs v0.7.0 install hook downloads from a wrong tag (0.7.0 instead of v0.7.0)",
+      "matchDepNames": ["hayorov/helm-gcs"],
+      "allowedVersions": "<0.7.0"
     }
   ]
 }
