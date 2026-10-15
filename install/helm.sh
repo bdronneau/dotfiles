@@ -14,7 +14,7 @@ install() {
   # renovate: datasource=github-tags depName=helm/helm
   local HELM_VERSION="v4.0.4"
   # renovate: datasource=github-tags depName=hayorov/helm-gcs
-  local HELM_PLUGIN_GCS_VERSION="0.4.3"
+  local HELM_PLUGIN_GCS_VERSION="0.6.3"
 
   if [[ ! -f "${HOME}/opt/helm/helm_${HELM_VERSION}" ]]; then
     mkdir -p "${HOME}/opt/helm"
@@ -45,9 +45,14 @@ install() {
 
     # Generate bash completion
     "${HOME}/opt/bin/helm" completion bash > "${HOME}/opt/bash-completion.d/helm"
+  fi
 
-    # Helm plugins
-    helm plugin uninstall gcs || true
-    helm plugin install https://github.com/hayorov/helm-gcs --version ${HELM_PLUGIN_GCS_VERSION}
+  # Helm plugins
+  if ! "${HOME}/opt/bin/helm" plugin list | grep -qE "^gcs\s+${HELM_PLUGIN_GCS_VERSION}\b"; then
+    if "${HOME}/opt/bin/helm" plugin list | grep -qE "^gcs\s"; then
+      "${HOME}/opt/bin/helm" plugin uninstall gcs
+    fi
+    # Helm 4 verifies plugins by default, git sources don't support it
+    "${HOME}/opt/bin/helm" plugin install https://github.com/hayorov/helm-gcs --version "${HELM_PLUGIN_GCS_VERSION}" --verify=false
   fi
 }
