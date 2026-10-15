@@ -74,13 +74,6 @@ sudo apt update && sudo apt install -y git
 sudo pacman -S vim gcc
 ```
 
-in `.localrc`
-
-```bash
-export WORKON_HOME=~/.virtualenvs
-source /usr/bin/virtualenvwrapper.sh
-```
-
 ## Testing
 
 Using [shellcheck](https://www.shellcheck.net/).
