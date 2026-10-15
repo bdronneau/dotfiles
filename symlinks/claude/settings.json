@@ -113,5 +113,6 @@
   },
   "showThinkingSummaries": true,
   "theme": "dark-daltonized",
-  "teammateMode": "tmux"
+  "teammateMode": "tmux",
+  "tui": "fullscreen"
 }
