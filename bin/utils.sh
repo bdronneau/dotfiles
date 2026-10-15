@@ -45,14 +45,12 @@ download() {
         return "${status}"
     fi
 
-    if [[ -n ${integrity} ]]; then
-        # basename of the url is the upstream asset name, which is what the
-        # checksums file is keyed on.
-        if ! verify_integrity "${output}" "${integrity}" "$(basename "${url}")"; then
-            rm -f "${output}"
+    # basename of the url is the upstream asset name, which is what the
+    # checksums file is keyed on.
+    if [[ -n ${integrity} ]] && ! verify_integrity "${output}" "${integrity}" "$(basename "${url}")"; then
+        rm -f "${output}"
 
-            return 1
-        fi
+        return 1
     fi
 
     return 0

@@ -19,7 +19,7 @@ model=$(echo "$input" | jq -r '.model.display_name // empty')
 
 # --- Current folder + git branch (mirrors the interactive PS1) ---
 cwd=$(echo "$input" | jq -r '.workspace.current_dir // .cwd // empty')
-[ -z "$cwd" ] && cwd="$PWD"
+[[ -z "$cwd" ]] && cwd="$PWD"
 folder=$(basename "$cwd")
 
 branch=""
@@ -30,31 +30,31 @@ fi
 parts=()
 
 # Current folder (and branch, if in a git repo)
-if [ -n "$branch" ]; then
+if [[ -n "$branch" ]]; then
   parts+=("$folder ($branch)")
 else
   parts+=("$folder")
 fi
 
 # Model name
-[ -n "$model" ] && parts+=("$model")
+[[ -n "$model" ]] && parts+=("$model")
 
 # Context window usage
-if [ -n "$used_pct" ] && [ -n "$ctx_size" ]; then
+if [[ -n "$used_pct" ]] && [[ -n "$ctx_size" ]]; then
   ctx_k=$(echo "$ctx_size" | awk '{printf "%dk", $1/1000}')
   parts+=("ctx: $(printf '%.0f' "$used_pct")% of $ctx_k")
-elif [ -n "$used_pct" ]; then
+elif [[ -n "$used_pct" ]]; then
   parts+=("ctx: $(printf '%.0f' "$used_pct")%")
 fi
 
 # Rate limits (only shown when present, i.e. claude.ai subscribers)
 rate_parts=()
-if [ -n "$five_hr" ]; then
+if [[ -n "$five_hr" ]]; then
   five_hr_label="5h: $(printf '%.0f' "$five_hr")%"
-  if [ -n "$five_hr_resets_at" ]; then
+  if [[ -n "$five_hr_resets_at" ]]; then
     now=$(date +%s)
     ttl=$(( five_hr_resets_at - now ))
-    if [ "$ttl" -gt 0 ]; then
+    if [[ "$ttl" -gt 0 ]]; then
       ttl_h=$(( ttl / 3600 ))
       ttl_m=$(( (ttl % 3600) / 60 ))
       five_hr_label="$five_hr_label (${ttl_h}h ${ttl_m}m)"
@@ -62,12 +62,12 @@ if [ -n "$five_hr" ]; then
   fi
   rate_parts+=("$five_hr_label")
 fi
-if [ -n "$seven_day" ]; then
+if [[ -n "$seven_day" ]]; then
   seven_day_label="7d: $(printf '%.0f' "$seven_day")%"
-  if [ -n "$seven_day_resets_at" ]; then
+  if [[ -n "$seven_day_resets_at" ]]; then
     now=$(date +%s)
     ttl=$(( seven_day_resets_at - now ))
-    if [ "$ttl" -gt 0 ]; then
+    if [[ "$ttl" -gt 0 ]]; then
       ttl_d=$(( ttl / 86400 ))
       ttl_h=$(( (ttl % 86400) / 3600 ))
       seven_day_label="$seven_day_label (${ttl_d}d ${ttl_h}h)"
@@ -75,12 +75,12 @@ if [ -n "$seven_day" ]; then
   fi
   rate_parts+=("$seven_day_label")
 fi
-[ ${#rate_parts[@]} -gt 0 ] && parts+=("$(IFS=' '; echo "${rate_parts[*]}")")
+[[ ${#rate_parts[@]} -gt 0 ]] && parts+=("$(IFS=' '; echo "${rate_parts[*]}")")
 
 # Join with separator
 result=""
 for part in "${parts[@]}"; do
-  [ -n "$result" ] && result="$result | "
+  [[ -n "$result" ]] && result="$result | "
   result="$result$part"
 done
 printf '%s' "$result"

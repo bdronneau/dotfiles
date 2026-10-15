@@ -76,7 +76,7 @@ install() {
     url_tar "https://github.com/ahmetb/kubectx/releases/download/${KUBETOOLS_VERSION}/${kubectx_ARCHIVE}" "kubectx" "${HOME}/opt/kubectl/kubectx_${KUBETOOLS_VERSION}" "https://github.com/ahmetb/kubectx/releases/download/${KUBETOOLS_VERSION}/checksums.txt"
 
     # Activate version
-    [ -f "${KUBECTX_BIN}" ] && rm -f "${KUBECTX_BIN}"
+    [[ -f "${KUBECTX_BIN}" ]] && rm -f "${KUBECTX_BIN}"
     ln -Fs "${HOME}/opt/kubectl/kubectx_${KUBETOOLS_VERSION}" "${KUBECTX_BIN}"
   fi
 
@@ -91,7 +91,7 @@ install() {
     url_tar "https://github.com/ahmetb/kubectx/releases/download/${KUBETOOLS_VERSION}/${KUBENS_ARCHIVE}" "kubens" "${HOME}/opt/kubectl/kubens_${KUBETOOLS_VERSION}" "https://github.com/ahmetb/kubectx/releases/download/${KUBETOOLS_VERSION}/checksums.txt"
 
     # Activate version
-    [ -f "${KUBENS_BIN}" ] && rm -f "${KUBENS_BIN}"
+    [[ -f "${KUBENS_BIN}" ]] && rm -f "${KUBENS_BIN}"
     ln -Fs "${HOME}/opt/kubectl/kubens_${KUBETOOLS_VERSION}" "${KUBENS_BIN}"
   fi
 
@@ -131,7 +131,7 @@ install() {
     url_tar "https://github.com/ViBiOh/kmux/releases/download/${KUBEMUX_VERSION}/${KUBEMUX_ARCHIVE}" "kmux" "${HOME}/opt/kubectl/kubemux_${KUBEMUX_VERSION}" "https://github.com/ViBiOh/kmux/releases/download/${KUBEMUX_VERSION}/checksums.txt"
 
     # Activate version
-    [ -f "${HOME}/opt/bin/kubemux" ] && rm -f "${HOME}/opt/bin/kubemux"
+    [[ -f "${HOME}/opt/bin/kubemux" ]] && rm -f "${HOME}/opt/bin/kubemux"
     ln -Fs "${HOME}/opt/kubectl/kubemux_${KUBEMUX_VERSION}" "${HOME}/opt/bin/kubemux"
     chmod u+x "${HOME}/opt/kubectl/kubemux_${KUBEMUX_VERSION}"
 

@@ -118,6 +118,8 @@ main() {
         usage
         return 0
         ;;
+      *)
+        ;;
     esac
   done
 
@@ -130,6 +132,8 @@ main() {
       \?)
         echo "Unknow option -$OPTARG"
         exit 1
+        ;;
+      *)
         ;;
     esac
   done

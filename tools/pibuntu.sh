@@ -3,11 +3,11 @@
 set -o nounset -o pipefail -o errexit
 
 if [[ $# -eq 0 ]] ; then
-    echo "Error: Usage ./pibuntu.sh hostname"
+    echo "Error: Usage ./pibuntu.sh hostname" >&2
     exit 1
 fi
 
-if [ `whoami` != root ]; then
+if [[ $(whoami) != root ]]; then
     echo "Please run this script as root or using sudo"
     exit
 fi

@@ -27,7 +27,7 @@ install() {
     download "https://github.com/scaleway/scaleway-cli/releases/download/${SCW_VERSION_TAG}/${SCW_ARCHIVE}" "${HOME}/opt/scaleway/scaleway_${SCW_VERSION}" "https://github.com/scaleway/scaleway-cli/releases/download/${SCW_VERSION_TAG}/SHA256SUMS"
 
     # Activate version
-    [ -f "${SCW_BIN}" ] && rm -f "${SCW_BIN}"
+    [[ -f "${SCW_BIN}" ]] && rm -f "${SCW_BIN}"
     ln -Fs "${HOME}/opt/scaleway/scaleway_${SCW_VERSION}" "${SCW_BIN}"
 
     chmod u+x "${SCW_BIN}"

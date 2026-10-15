@@ -34,7 +34,7 @@ install() {
     mv "/tmp/curlie" "${HOME}/opt/curlie/curlie_${CURLIE_VERSION}"
 
     # Activate version
-    [ -f "${CURLIE_BIN}" ] && rm -f "${CURLIE_BIN}"
+    [[ -f "${CURLIE_BIN}" ]] && rm -f "${CURLIE_BIN}"
     ln -Fs "${HOME}/opt/curlie/curlie_${CURLIE_VERSION}" "${CURLIE_BIN}"
   fi
 }
