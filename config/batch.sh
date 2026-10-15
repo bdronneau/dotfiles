@@ -24,6 +24,7 @@ export DOTFILES_PULUMI=true
 export DOTFILES_SHELLCHECK=true
 export DOTFILES_SOFTWARES=true
 export DOTFILES_SCALEWAY=false
+export DOTFILES_TAILSCALE=true
 export DOTFILES_TALOS=true
 export DOTFILES_TFLINT=true
 export DOTFILES_TFSWITCH=true
