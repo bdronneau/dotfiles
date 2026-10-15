@@ -40,10 +40,14 @@ install() {
       waderyan.gitblame
       wholroyd.jinja
     )
+    local install_args=()
     local extension
     for extension in "${extensions[@]}"; do
-      code --install-extension "${extension}"
+      install_args+=(--install-extension "${extension}")
     done
+
+    # Single invocation, and drop Electron's noisy url.parse() deprecation warning
+    code "${install_args[@]}" 2>&1 | { grep -vE 'DeprecationWarning|--trace-deprecation' || true; }
   fi
 
   if command -v flatpak > /dev/null 2>&1; then
