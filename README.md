@@ -10,6 +10,18 @@ Yet another `.dotfiles` repository
 
 ## Installation
 
+### Prerequisites
+
+On a fresh macOS, `git` is only a stub until the Xcode Command Line Tools are installed: the `git clone` below fails and prompts for them. Install them first (they also provide `make` and the compilers Homebrew needs):
+
+```bash
+xcode-select --install
+```
+
+Wait for the installer to finish, then check with `xcode-select -p`.
+
+### Run
+
 _debug_: `DOTFILES_DEBUG=true`
 
 ```bash
