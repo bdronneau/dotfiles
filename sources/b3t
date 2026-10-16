@@ -54,19 +54,50 @@ b3t(){
         mkdir -p ${B3T_CONFIG_DIR}
     fi
 
+    # download a netbox b3t export to a temp file, validate it, then swap it in
+    # so a failed fetch never leaves a broken or missing cache file behind
+    _b3t_cache_fetch(){
+        local URL
+        URL=$1
+        local DEST
+        DEST=$2
+        local TMP
+        TMP=$(mktemp "${DEST}.XXXXXX") || return 1
+
+        if ! curl --fail --silent --show-error -L -o "${TMP}" -H "Authorization: Token ${NETBOX_API_TOKEN}" "${URL}"; then
+            echo "Failed to fetch ${URL}" >&2
+            rm -f "${TMP}"
+            return 1
+        fi
+
+        if ! yq -e 'has("instances")' "${TMP}" > /dev/null 2>&1; then
+            echo "Invalid export from ${URL} (missing 'instances', check the b3t export template)" >&2
+            rm -f "${TMP}"
+            return 1
+        fi
+
+        mv "${TMP}" "${DEST}"
+    }
+
     _b3t_cache(){
-        if [ ! -d "$B3T_CACHE_DIR" ]; then
+        if [ ! -d "${B3T_CACHE_DIR}" ]; then
             echo "First run create b3t cache => ${B3T_CACHE_DIR}"
-            mkdir -p ${B3T_CACHE_DIR}
+            mkdir -p "${B3T_CACHE_DIR}"
         fi
 
-        if [ ! -f "${B3T_CACHE_FILE_VM}" ] || [ ! -f "${B3T_CACHE_FILE_DEVICES}" ]; then
-            echo "Populate cache"
-
-            mkdir -p ${B3T_CACHE_DIR}
-            curl -o "${B3T_CACHE_DIR}/devices.yaml" --silent -H "Content-Type: application/json" -H "Authorization: Token $NETBOX_API_TOKEN" -L "https://${NETBOX_URL}/api/dcim/devices/?export=b3t"
-            curl -o "${B3T_CACHE_DIR}/vms.yaml" --silent -H "Content-Type: application/json" -H "Authorization: Token $NETBOX_API_TOKEN" -L "https://${NETBOX_URL}/api/virtualization/virtual-machines/?export=b3t"
+        if [ -f "${B3T_CACHE_FILE_VM}" ] && [ -f "${B3T_CACHE_FILE_DEVICES}" ]; then
+            return 0
         fi
+
+        if [ -z "${NETBOX_URL}" ] || [ -z "${NETBOX_API_TOKEN}" ]; then
+            echo "NETBOX_URL and NETBOX_API_TOKEN must be set to populate cache" >&2
+            return 1
+        fi
+
+        echo "Populate cache"
+
+        _b3t_cache_fetch "https://${NETBOX_URL}/api/dcim/devices/?export=b3t" "${B3T_CACHE_FILE_DEVICES}" || return 1
+        _b3t_cache_fetch "https://${NETBOX_URL}/api/virtualization/virtual-machines/?export=b3t" "${B3T_CACHE_FILE_VM}" || return 1
     }
 
     _b3t_open(){
@@ -121,13 +152,14 @@ b3t(){
         echo "    k8s|kubernetes   Helpers to dialog with k8s"
         echo "    talos            Helpers to dialog with talos"
         echo "    ovh              Helpers to dialog with ovh"
+        echo "    netbox           Helpers to dialog with netbox"
         echo "    monitoring       Helpers to dialog with monitoring tooling: vmagent,..."
     }
 
     command_ssh_scan(){
         echo "Running 'ssh/scan' command."
 
-        _b3t_cache
+        _b3t_cache || return 1
 
         cat /dev/null > "${B3T_KNOWN_HOSTS_FILE}"
 
@@ -287,7 +319,7 @@ b3t(){
     command_ovh_manager(){
         echo "Running 'ovh/manager' command."
 
-        _b3t_cache
+        _b3t_cache || return 1
 
         TARGET=$(yq  '.instances[] | select(.status == "active")  | .name + " | " + .asset_tag' "${B3T_CACHE_FILE_DEVICES}" "${B3T_CACHE_FILE_VM}" | uniq | fzf --height=20 --ansi --reverse --select-1)
         if [ -z "${TARGET}" ]
@@ -635,8 +667,19 @@ b3t(){
 
     command_netbox_cache_reload(){
         echo "Running 'netbox/cache_reload' command."
-        rm "${B3T_CACHE_FILE_VM}" "${B3T_CACHE_FILE_DEVICES}" || true
-        _b3t_cache
+
+        if [ -z "${NETBOX_URL}" ] || [ -z "${NETBOX_API_TOKEN}" ]; then
+            echo "NETBOX_URL and NETBOX_API_TOKEN must be set to reload cache" >&2
+            return 1
+        fi
+
+        mkdir -p "${B3T_CACHE_DIR}"
+
+        # fetch over existing files: on failure the previous cache stays usable
+        _b3t_cache_fetch "https://${NETBOX_URL}/api/dcim/devices/?export=b3t" "${B3T_CACHE_FILE_DEVICES}" || return 1
+        _b3t_cache_fetch "https://${NETBOX_URL}/api/virtualization/virtual-machines/?export=b3t" "${B3T_CACHE_FILE_VM}" || return 1
+
+        echo "Cache reloaded: $(yq '.instances | length' "${B3T_CACHE_FILE_DEVICES}") devices, $(yq '.instances | length' "${B3T_CACHE_FILE_VM}") vms"
     }
 
     command_netbox_help(){
@@ -651,7 +694,7 @@ b3t(){
     command_monitoring_vmagent(){
         echo "Running 'monitoring/vmagent' command."
 
-        _b3t_cache
+        _b3t_cache || return 1
 
         TARGET=$(yq  '.instances[] | select(.status == "active")  | .name + " | " + .asset_tag' "${B3T_CACHE_FILE_DEVICES}" | uniq | fzf --height=20 --ansi --reverse --select-1)
         if [ -z "${TARGET}" ]
