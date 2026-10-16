@@ -15,7 +15,7 @@ install() {
     sudo pacman -S --noconfirm --needed firefox code flatpak
   elif command -v brew > /dev/null 2>&1; then
     brew install --quiet keepassxc
-    brew install --quiet --cask ghostty visual-studio-code claude-code claude
+    brew install --quiet --cask ghostty visual-studio-code claude-code claude docker-desktop
     HOMEBREW_CASK_OPTS="" brew install --quiet --cask google-chrome
   fi
 

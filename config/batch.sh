@@ -16,6 +16,7 @@ export DOTFILES_GOPASS=false
 export DOTFILES_GPG=true
 export DOTFILES_HELM=true
 export DOTFILES_JQ=true
+export DOTFILES_JUST=true
 export DOTFILES_KAFKA=true
 export DOTFILES_KUBERNETES=true
 export DOTFILES_NODE=true
