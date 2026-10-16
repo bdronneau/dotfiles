@@ -50,6 +50,12 @@ function run(argv) {
 }
 END_OF_KEYBOARD
 
+  # Free Ctrl+Up / Ctrl+Down for tmux pane resize: disable Mission Control (32, 34)
+  # and Application windows (33, 35) symbolic hotkeys
+  for hotkey in 32 33 34 35; do
+    defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add "${hotkey}" "<dict><key>enabled</key><false/></dict>"
+  done
+
   # Push mouse prefs to the running HID system without logout
   /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
 
