@@ -37,7 +37,7 @@ create_symlinks() {
 
     mkdir -p "${TARGET_DIR}"
     [[ -r ${file} ]] && [[ -e ${file} ]] && rm -f "${TARGET}" && ln -s "${file}" "${TARGET}"
-  done < <(find "${CURRENT_DIR}/symlinks" -type f)
+  done < <(find "${CURRENT_DIR}/symlinks" \( -type f -o -type l \))
 }
 
 browse_install() {
